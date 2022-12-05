@@ -4,6 +4,28 @@ import { Provider } from "react-redux";
 import { store } from "./store/index";
 import App from "./App";
 import "./index.css";
+import HttpApi from "i18next-http-backend";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
+i18n
+  .use(LanguageDetector)
+  .use(HttpApi)
+  .use(initReactI18next)
+  .init({
+    supportedLngs: ["en", "ge"],
+    load: "languageOnly",
+    fallbackLng: "en",
+    detection: {
+      order: ["cookie", "htmlTag", "localStorage", "path", "subdomain"],
+      caches: ["cookie", "localStorage"],
+    },
+    react: { useSuspense: false },
+    backend: {
+      loadPath: "/assets/locales/{{lng}}/translation.json",
+    },
+  });
 
 const container = document.getElementById("root");
 const root = createRoot(container);

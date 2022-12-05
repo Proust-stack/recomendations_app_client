@@ -1,11 +1,11 @@
-import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "./components/Navbar";
-import { useState } from "react";
-import LeftBar from "./components/LeftBar";
-import RightBar from "./components/RightBar";
-import Feed from "./components/Feed";
-import { theme } from "./theme";
+import { createTheme, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Layout from "./components/Layout";
+import AdminPage from "./pages/AdminPage";
+import Notfoundpage from "./pages/NotFoundPage";
+import PersonalPage from "./pages/PersonalPage";
 import HomePage from "./pages/HomePage";
 
 function App() {
@@ -19,7 +19,16 @@ function App() {
 
   return (
     <ThemeProvider theme={themeWithMode}>
-      <HomePage />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="personal" element={<PersonalPage />} />
+            <Route path="dashboard" element={<AdminPage />} />
+            <Route path="*" element={<Notfoundpage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

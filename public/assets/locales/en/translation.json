@@ -1,0 +1,7 @@
+{
+    "nav_title": "what ever",
+    "nav_avatar": "User",
+    "language": "Language",
+    "welcome_message": "Welcome",
+    "days_since_release": "it's been {{number_of_days}} days since this video was released"
+  }

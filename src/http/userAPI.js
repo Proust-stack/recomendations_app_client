@@ -9,6 +9,5 @@ export const signInGoogle = async (name, email, img) => {
       img,
     }
   );
-  console.log(data);
   return data;
 };

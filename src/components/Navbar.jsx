@@ -1,22 +1,25 @@
-import {
-  AppBar,
-  Avatar,
-  InputBase,
-  Menu,
-  MenuItem,
-  styled,
-  Toolbar,
-  Typography,
-  Box,
-  IconButton,
-  ListItemIcon,
-} from "@mui/material";
-import React, { useState } from "react";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import InputBase from "@mui/material/InputBase";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import Logout from "@mui/icons-material/LogoutOutlined";
+
+import { useTranslation } from "react-i18next";
+
 import { auth, provider } from "../utils/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { Logout } from "@mui/icons-material";
-import { loginSuccess } from "../slices/userSlice";
+
+import { loginSuccess, logout } from "../slices/userSlice";
 import { signInGoogle } from "../http/userAPI";
 
 const StyledToolbar = styled(Toolbar)({
@@ -41,6 +44,8 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -57,20 +62,25 @@ export default function Navbar() {
     const {
       user: { displayName, email, photoURL },
     } = await signInWithPopup(auth, provider);
-
     const user = await signInGoogle(displayName, email, photoURL);
-    console.log(user);
     dispatch(loginSuccess(user));
   };
+
+  const getLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <AppBar>
       <StyledToolbar>
         <Typography
           variant="h6"
-          sx={{ display: { xs: "none", sm: "block" } }}
+          sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
           color={"text.primary"}
+          onClick={() => navigate("/")}
         >
-          What ever
+          {t("nav_title")}
         </Typography>
         <Search>
           <InputBase placeholder="search..." color={"text.primary"} />
@@ -86,10 +96,8 @@ export default function Navbar() {
           <Avatar
             sx={{ width: 32, height: 32, marginRight: 1 }}
             src={currentUser ? currentUser.img : ""}
-          >
-            M
-          </Avatar>
-          {currentUser ? currentUser.name : "User"}
+          ></Avatar>
+          {currentUser ? currentUser.name : `${t("nav_avatar")}`}
         </IconButton>
       </StyledToolbar>
       <Menu
@@ -134,7 +142,7 @@ export default function Navbar() {
         }}
       >
         {currentUser ? (
-          <MenuItem>
+          <MenuItem onClick={() => navigate("/mypage")}>
             <Avatar /> My page
           </MenuItem>
         ) : null}
@@ -145,7 +153,7 @@ export default function Navbar() {
           <MenuItem onClick={() => {}}>sign in with twitter</MenuItem>
         )}
         {currentUser ? (
-          <MenuItem>
+          <MenuItem onClick={getLogout}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
