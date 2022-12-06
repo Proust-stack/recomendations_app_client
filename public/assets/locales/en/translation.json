@@ -2,6 +2,12 @@
     "nav_title": "what ever",
     "nav_avatar": "User",
     "language": "Language",
-    "welcome_message": "Welcome",
+    "nav_home": "Home",
+    "nav_movies": "Movies",
+    "nav_books": "Books",
+    "nav_games": "Games",
+    "nav_search": "Search...",
+    "nav_google": "Sign in with google",
+    "nav_twitter": "Sign in with twitter",
     "days_since_release": "it's been {{number_of_days}} days since this video was released"
   }

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 export default function Layout() {
@@ -13,7 +14,7 @@ export default function Layout() {
         sx={{ height: "100vh" }}
       >
         <Outlet />
-        <footer className="container">2021</footer>
+        <Footer />
       </Box>
     </>
   );

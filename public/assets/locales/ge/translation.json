@@ -2,5 +2,12 @@
     "nav_title": "რა ოდესმე",
     "nav_avatar": "მომხმარებელი",
     "welcome_message": "Welcome",
+    "nav_home": "მთავარი",
+    "nav_movies": "ფილმები",
+    "nav_books": "წიგნები",
+    "nav_games": "თამაშები",
+    "nav_search": "ძიება...",
+    "nav_google": "შესვლა google-ით",
+    "nav_twitter": "შედით twitter-ით",
     "days_since_release": "it's been {{number_of_days}} days since this video was released"
   }
