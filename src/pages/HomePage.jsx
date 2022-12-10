@@ -15,7 +15,6 @@ export default function HomePage() {
       sx={{
         display: "flex",
         alignItems: "center",
-        flexDirection: "column",
         minHeight: "100vh",
       }}
     >

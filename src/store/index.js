@@ -6,6 +6,8 @@ import groupReducer from "../slices/groupSlice";
 import bookReducer from "../slices/booksSlice";
 import gameReducer from "../slices/gamesSlice";
 import movieReducer from "../slices/moviesSlice";
+import reviewReducer from "../slices/reviewSlice";
+import compositionReducer from "../slices/compositionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +18,7 @@ export const store = configureStore({
     book: bookReducer,
     game: gameReducer,
     movie: movieReducer,
+    review: reviewReducer,
+    composition: compositionReducer,
   },
 });

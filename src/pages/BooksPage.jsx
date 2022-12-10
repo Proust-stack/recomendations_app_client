@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Stack, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBooks } from "../slices/booksSlice";
+import CompositionCard from "../components/CompositionCard";
 
 export default function BooksPAge() {
+  const [userRating, setUserRating] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,10 +19,16 @@ export default function BooksPAge() {
       p={{ xs: 0, md: 2 }}
       sx={{
         display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        flexDirection: "row",
         minHeight: "100vh",
+        flexWrap: "wrap",
+        gap: 5,
       }}
-    ></Box>
+    >
+      {books &&
+        books.map((book) => <CompositionCard {...book} key={book._id} />)}
+    </Box>
   );
 }

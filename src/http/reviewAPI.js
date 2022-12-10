@@ -6,9 +6,3 @@ export const addReview = async (review) => {
   });
   return data;
 };
-export const getReviews = async (userId) => {
-  const { data } = await axios.get(
-    "http://localhost:5000/api/review/all/" + userId
-  );
-  return data;
-};

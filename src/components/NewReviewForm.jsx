@@ -12,60 +12,43 @@ import Rating from "@mui/material/Rating";
 import { useSelector } from "react-redux";
 import { addReview } from "../http/reviewAPI";
 
-export default function NewReviewForm() {
+export default function NewReviewForm({ id }) {
   const [file, setFile] = useState([]);
   const [formData, setFormData] = useState(null);
-  const { groups } = useSelector((state) => state.group);
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       title: "",
       markdown: "",
       img: "",
       tags: "",
-      composition: "",
       reviewRating: 0,
     },
   });
   const onSubmit = async (data) => {
     const tags = data.tags.split(",");
-    const fullData = { ...data, tags, user: currentUser.id };
-    const review = await addReview(fullData);
-    console.log(review);
+    const fullData = { ...data, tags, user: currentUser.id, composition: id };
+    console.log(fullData);
+    // const review = await addReview(fullData);
+    // console.log(review);
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        marginTop: 20,
-        width: "80%",
+        width: "100%",
+        paddingTop: 20,
+        paddingBottom: 20,
       }}
     >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          marginBottom: 2,
           gap: 1,
         }}
       >
-        <InputLabel>Composition</InputLabel>
-        <Controller
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Select {...field}>
-              {groups.map((group) => (
-                <MenuItem value={`${group._id}`} key={group.title}>
-                  {group.title}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-          name="composition"
-          control={control}
-        />
         <InputLabel>Rate </InputLabel>
         <Controller
           name="reviewRating"

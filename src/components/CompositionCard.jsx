@@ -5,29 +5,57 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import UserRating from "./ui/UserRating";
+import { useSelector } from "react-redux";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
+import BasicModal from "./ui/Modal";
 
-export default function CompositionCard() {
+export default function CompositionCard(props) {
+  const { img, title, tags, reviewsRating, usersRating, _id } = props;
+  const { currentUser } = useSelector((state) => state.user);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
-        alt="green iguana"
-      />
+    <Card sx={{ maxWidth: 345, position: "relative" }}>
+      {currentUser._id ? <UserRating /> : null}
+      <CardMedia component="img" height="140" image={img} alt="composition" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {tags}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {reviewsRating}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          {usersRating}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small">View reviews</Button>
       </CardActions>
+      <Fab
+        color="secondary"
+        size="small"
+        sx={{
+          position: "absolute",
+          bottom: (theme) => theme.spacing(2),
+          right: (theme) => theme.spacing(2),
+        }}
+        onClick={handleOpen}
+      >
+        <Tooltip title="New review">
+          <AddIcon />
+        </Tooltip>
+      </Fab>
+      <BasicModal open={open} handleClose={handleClose} id={_id} />
     </Card>
   );
 }

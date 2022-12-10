@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Stack, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllGames } from "../slices/gamesSlice";
+import CompositionCard from "../components/CompositionCard";
 
 export default function GamesPage() {
   const dispatch = useDispatch();
@@ -17,10 +18,17 @@ export default function GamesPage() {
       p={{ xs: 0, md: 2 }}
       sx={{
         display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        flexDirection: "row",
         minHeight: "100vh",
+        flexWrap: "wrap",
+        gap: 5,
       }}
-    ></Box>
+    >
+      {games.map((game) => (
+        <CompositionCard {...game} key={game._id} />
+      ))}
+    </Box>
   );
 }
