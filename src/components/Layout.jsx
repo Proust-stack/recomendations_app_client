@@ -8,11 +8,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <Box
-        bgcolor={"background.default"}
-        color={"text.primary"}
-        sx={{ height: "100vh" }}
-      >
+      <Box bgcolor={"background.default"} color={"text.primary"}>
         <Outlet />
         <Footer />
       </Box>

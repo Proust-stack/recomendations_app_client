@@ -65,7 +65,6 @@ export default function SmallMenu() {
         {pages.map((page, i, array) => (
           <MenuItem
             key={page.genre}
-            selected={array[0].genre === t(page.genre)}
             onClick={handleClose}
             component={Link}
             to={page.path}

@@ -1,47 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { auth, provider } from "../utils/firebase";
+import { signInWithPopup } from "firebase/auth";
 
-const initialState = {
-  currentUser: null,
-  loading: false,
-  error: false,
+export const signInGoogle = createAsyncThunk(
+  "user/signInGoogle",
+  async function (_, { rejectWithValue, dispatch }) {
+    const data = await signInWithPopup(auth, provider);
+    const { displayName: name, email, photoURL: img } = data.user;
+    console.log(name, email, img);
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "post",
+        url: "http://localhost:5000/api/user/auth/google",
+        data: {
+          name,
+          email,
+          img,
+        },
+      });
+      dispatch(setUser(data));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const setError = (state, action) => {
+  state.status = "rejected";
+  state.error = action.payload;
 };
 
 export const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: {
+    currentUser: null,
+  },
   reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-    },
-    loginSuccess: (state, action) => {
+    setUser: (state, action) => {
       state.loading = false;
       state.currentUser = action.payload;
-    },
-    loginFailure: (state) => {
-      state.loading = false;
-      state.error = true;
     },
     logout: (state) => {
       state.currentUser = null;
       state.loading = false;
       state.error = false;
     },
-    subscription: (state, action) => {
-      if (state.currentUser.subscribedUsers.includes(action.payload)) {
-        state.currentUser.subscribedUsers.splice(
-          state.currentUser.subscribedUsers.findIndex(
-            (channelId) => channelId === action.payload
-          ),
-          1
-        );
-      } else {
-        state.currentUser.subscribedUsers.push(action.payload);
-      }
+  },
+  extraReducers: {
+    [signInGoogle.pending]: (state) => {
+      state.status = "loading";
+      state.error = null;
     },
+    [signInGoogle.fulfilled]: (state) => {
+      state.status = "resolved";
+    },
+    [signInGoogle.rejected]: setError,
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, subscription } =
-  userSlice.actions;
+export const { setUser, logout } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getAllGroups } from "../slices/groupSlice";
 
 const pages = [
   { genre: "nav_home", path: "/" },
@@ -25,10 +28,16 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export default function NavLinks() {
   const [tabValue, setTabValue] = React.useState(0);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const tabHandleChange = (e, value) => {
     setTabValue(value);
   };
+
+  useEffect(() => {
+    dispatch(getAllGroups());
+  }, []);
+
   return (
     <StyledBox>
       <Tabs

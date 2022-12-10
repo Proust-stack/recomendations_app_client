@@ -10,10 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
 
-import { auth, provider } from "../../utils/firebase";
-import { signInWithPopup } from "firebase/auth";
-import { loginSuccess, logout } from "../../slices/userSlice";
-import { signInGoogle } from "../../http/userAPI";
+import { logout } from "../../slices/userSlice";
+import { signInGoogle } from "../../slices/userSlice";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,11 +28,7 @@ export default function ProfileMenu() {
   const dispatch = useDispatch();
 
   const signInWithGoogle = async () => {
-    const {
-      user: { displayName, email, photoURL },
-    } = await signInWithPopup(auth, provider);
-    const user = await signInGoogle(displayName, email, photoURL);
-    dispatch(loginSuccess(user));
+    dispatch(signInGoogle());
   };
 
   const getLogout = () => {

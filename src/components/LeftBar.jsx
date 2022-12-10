@@ -1,11 +1,5 @@
-import {
-  AccountBox,
-  Article,
-  Group,
-  Home,
-  ModeNight,
-  Settings,
-} from "@mui/icons-material";
+import { Article, Group, Home, Settings } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 import {
   Box,
@@ -14,60 +8,38 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Switch,
 } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeMode } from "../slices/themeSlice";
 
 export default function LeftBar() {
-  const dispatch = useDispatch();
-  const { mode } = useSelector((state) => state.theme);
-  const handleSwitch = () => {
-    dispatch(changeMode(mode === "light" ? "dark" : "light"));
-  };
   return (
-    <Box flex={1} p={2} sx={{ display: { xs: "none", lg: "block" } }}>
+    <Box flex={1} p={2} sx={{ display: "flex", flexDirection: "column" }}>
       <Box position="fixed">
         <List>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
+            <ListItemButton component={Link} to={"users"}>
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary="Homepage" />
+              <ListItemText primary="Users" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component={Link} to={"group"}>
               <ListItemIcon>
                 <Article />
               </ListItemIcon>
-              <ListItemText primary="admin dashboard" />
+              <ListItemText primary="Add group" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component={Link} to={"composition"}>
               <ListItemIcon>
                 <Group />
               </ListItemIcon>
-              <ListItemText primary="My Page" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <ModeNight />
-              </ListItemIcon>
-              <Switch onChange={handleSwitch} />
+              <ListItemText primary="Add composition" />
             </ListItemButton>
           </ListItem>
         </List>

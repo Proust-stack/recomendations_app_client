@@ -10,6 +10,7 @@ import NavLinks from "./NavLinks";
 import SearchComponent from "./ui/SearchComponent";
 import AppNameTitle from "./ui/AppNameTitle";
 import SmallMenu from "./ui/SmallMenu";
+import ModeButton from "./ui/ModeButton";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -31,7 +32,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 export default function Navbar() {
   return (
-    <AppBar color="primary" position="sticky">
+    <AppBar color="primary" position="relative">
       <StyledToolbar>
         <AppNameTitle />
         <SearchComponent />
@@ -39,6 +40,7 @@ export default function Navbar() {
           <NavLinks />
           <SmallMenu />
           <SelectSmall />
+          <ModeButton />
           <ProfileMenu />
         </Box>
       </StyledToolbar>
