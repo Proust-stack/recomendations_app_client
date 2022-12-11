@@ -8,7 +8,7 @@ export const getOneComposition = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/all" + id,
+        url: "http://localhost:5000/api/composition/" + id,
       });
       dispatch(setComposition(data));
     } catch (error) {
@@ -25,7 +25,7 @@ const setError = (state, action) => {
 export const compositionSlice = createSlice({
   name: "composition",
   initialState: {
-    currentComposition: [],
+    currentComposition: {},
   },
   reducers: {
     setComposition: (state, action) => {

@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import UsersTable from "./components/admin/UsersTable";
 import AddGroupForm from "./components/admin/AddGroupForm";
 import AddCompositionForm from "./components/admin/AddCompositionForm";
+import CompositionPage from "./pages/CompositionPage";
+import Reviewpage from "./pages/ReviewPage";
 
 function App() {
   const { t } = useTranslation();
@@ -56,6 +58,8 @@ function App() {
             <Route path="movies" element={<MoviesPage />} />
             <Route path="books" element={<BooksPage />} />
             <Route path="games" element={<GamesPage />} />
+            <Route path="composition/:id" element={<CompositionPage />} />
+            <Route path="review/:id" element={<Reviewpage />} />
             <Route path="mypage" element={<PersonalPage />} />
             <Route path="dashboard/*" element={<AdminPage />}>
               <Route path="users" element={<UsersTable />} />

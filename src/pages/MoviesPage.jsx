@@ -3,6 +3,9 @@ import { Box, Stack, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMovies } from "../slices/moviesSlice";
 import CompositionCard from "../components/CompositionCard";
+import Grid from "@mui/material/Grid";
+import RightBar from "../components/RightBar";
+import TagsCloud from "../components/TagsCloud";
 
 export default function MoviesPage() {
   const dispatch = useDispatch();
@@ -11,24 +14,35 @@ export default function MoviesPage() {
     dispatch(getAllMovies());
   }, []);
 
-  const { movies } = useSelector((state) => state.movie);
+  const { movies, loading, error } = useSelector((state) => state.movie);
   return (
-    <Box
-      flex={4}
-      p={{ xs: 0, md: 2 }}
-      sx={{
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        flexDirection: "row",
-        minHeight: "100vh",
-        flexWrap: "wrap",
-        gap: 5,
-      }}
-    >
-      {movies.map((movie) => (
-        <CompositionCard {...movie} key={movie._id} />
-      ))}
-    </Box>
+    <Grid container spacing={2}>
+      <Grid item xs={8}>
+        <Box
+          flex={4}
+          p={{ xs: 0, md: 2 }}
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            flexDirection: "row",
+            minHeight: "100vh",
+            flexWrap: "wrap",
+            gap: 5,
+          }}
+        >
+          {!loading &&
+            !error &&
+            movies.map((movie) => (
+              <CompositionCard {...movie} key={movie._id} />
+            ))}
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <RightBar>
+          <TagsCloud />
+        </RightBar>
+      </Grid>
+    </Grid>
   );
 }

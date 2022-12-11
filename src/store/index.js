@@ -8,6 +8,8 @@ import gameReducer from "../slices/gamesSlice";
 import movieReducer from "../slices/moviesSlice";
 import reviewReducer from "../slices/reviewSlice";
 import compositionReducer from "../slices/compositionSlice";
+import tagReducer from "../slices/tagSlice";
+import commentReducer from "../slices/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
     movie: movieReducer,
     review: reviewReducer,
     composition: compositionReducer,
+    tag: tagReducer,
+    comment: commentReducer,
   },
 });

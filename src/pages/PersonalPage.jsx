@@ -6,7 +6,6 @@ import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 
 import NewReviewForm from "../components/NewReviewForm";
-import { addReview } from "../http/reviewAPI";
 import ReviewCard from "../components/ReviewCard";
 import { getAllReviewsByUser } from "../slices/reviewSlice";
 import BasicModal from "../components/ui/Modal";

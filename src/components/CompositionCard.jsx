@@ -11,6 +11,8 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import BasicModal from "./ui/Modal";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function CompositionCard(props) {
   const { img, title, tags, reviewsRating, usersRating, _id } = props;
@@ -18,11 +20,17 @@ export default function CompositionCard(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ maxWidth: 345, position: "relative" }}>
       {currentUser._id ? <UserRating /> : null}
-      <CardMedia component="img" height="140" image={img} alt="composition" />
+      <CardMedia
+        component="img"
+        height="140"
+        image={img[0]}
+        alt="composition"
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -39,7 +47,9 @@ export default function CompositionCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">View reviews</Button>
+        <Button size="small" onClick={() => navigate(`/composition/${_id}`)}>
+          View reviews
+        </Button>
       </CardActions>
       <Fab
         color="secondary"
