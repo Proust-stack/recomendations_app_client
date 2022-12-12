@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
+import { signInWithRedirect, getAuth, getRedirectResult } from "firebase/auth";
+import { auth, provider } from "../../utils/firebase";
 
 import { logout } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
@@ -25,11 +27,23 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
   const { currentUser } = useSelector((state) => state.user);
+  const { locale } = useSelector((state) => state.locale);
   const dispatch = useDispatch();
+  console.log(locale);
 
-  const signInWithGoogle = async () => {
-    dispatch(signInGoogle());
+  const signInWithGoogle = () => {
+    auth.languageCode = locale;
+    signInWithRedirect(auth, provider);
   };
+
+  const getUserFromGoogle = async () => {
+    const { user } = await getRedirectResult(auth);
+    dispatch(signInGoogle(user));
+  };
+
+  useEffect(() => {
+    getUserFromGoogle();
+  }, []);
 
   const getLogout = () => {
     dispatch(logout());

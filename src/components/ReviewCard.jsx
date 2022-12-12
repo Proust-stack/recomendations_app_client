@@ -61,8 +61,8 @@ export default function ReviewCard({
         title={title}
         subheader={createdAt}
       />
-      {img[0] && (
-        <CardMedia component="img" height="194" image={img} alt="picture" />
+      {img[1] && (
+        <CardMedia component="img" height="194" image={img[1]} alt="picture" />
       )}
       <Typography paragraph>{tags[0]}</Typography>
       <CardContent>{text}</CardContent>

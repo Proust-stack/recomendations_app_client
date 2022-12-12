@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { auth, provider } from "../utils/firebase";
-import { signInWithPopup } from "firebase/auth";
 
 export const signInGoogle = createAsyncThunk(
   "user/signInGoogle",
-  async function (_, { rejectWithValue, dispatch }) {
-    const data = await signInWithPopup(auth, provider);
-    const { displayName: name, email, photoURL: img } = data.user;
+  async function (user, { rejectWithValue, dispatch, state }) {
+    console.log(user);
+    const { displayName: name, email, photoURL: img } = user;
     try {
       const { data } = await axios({
         withCredentials: true,

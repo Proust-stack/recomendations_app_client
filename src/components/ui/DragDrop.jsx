@@ -6,7 +6,8 @@ const fileTypes = ["JPG", "PNG"];
 
 function DragDrop({ setFile }) {
   const imageHandleChange = (file) => {
-    setFile((prevState) => file);
+    console.log(file);
+    setFile((prev) => [...file]);
   };
   return (
     <Box
@@ -18,6 +19,7 @@ function DragDrop({ setFile }) {
         name="file"
         types={fileTypes}
         handleChange={imageHandleChange}
+        multiple
       />
     </Box>
   );

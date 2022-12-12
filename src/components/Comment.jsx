@@ -8,7 +8,7 @@ import { sendComment } from "../slices/commentSlice";
 
 export default function Comment({ reviewId }) {
   const dispatch = useDispatch();
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       text: "",
     },
