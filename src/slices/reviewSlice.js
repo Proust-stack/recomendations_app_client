@@ -65,7 +65,7 @@ export const addReview = createAsyncThunk(
 
 export const getOneReview = createAsyncThunk(
   "reviews/getOneReview",
-  async function (id, { rejectWithValue, dispatch }) {
+  async function (id, { rejectWithValue, dispatch, state }) {
     try {
       const { data } = await axios({
         withCredentials: true,
@@ -74,6 +74,38 @@ export const getOneReview = createAsyncThunk(
       });
       console.log(data);
       dispatch(setReview(data));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const likeReview = createAsyncThunk(
+  "reviews/likeReview",
+  async function (id, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "patch",
+        url: "http://localhost:5000/api/review/like/" + id,
+      });
+      console.log("like", data);
+      dispatch(changeReview(data));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const unLikeReview = createAsyncThunk(
+  "reviews/unLikeReview",
+  async function (id, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "patch",
+        url: "http://localhost:5000/api/review/unlike/" + id,
+      });
+      console.log("unlike", data);
+      dispatch(changeReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -105,6 +137,15 @@ export const reviewSlice = createSlice({
     },
     setReviewsAll: (state, action) => {
       state.reviewsAll = action.payload;
+    },
+    changeReview: (state, action) => {
+      console.log(action.payload);
+      state.reviewsAll.map((item) => {
+        if (item._id === action.payload._id) {
+          return action.payload;
+        }
+        return item;
+      });
     },
   },
   extraReducers: {
@@ -143,10 +184,23 @@ export const reviewSlice = createSlice({
       state.status = "resolved";
     },
     [getAllReviewsForHomePage.rejected]: setError,
+    [likeReview.pending]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [likeReview.fulfilled]: (state) => {
+      state.status = "resolved";
+    },
+    [likeReview.rejected]: setError,
   },
 });
 
-export const { setReviews, setReview, setReviewsByComposition, setReviewsAll } =
-  reviewSlice.actions;
+export const {
+  setReviews,
+  setReview,
+  setReviewsByComposition,
+  setReviewsAll,
+  changeReview,
+} = reviewSlice.actions;
 
 export default reviewSlice.reducer;

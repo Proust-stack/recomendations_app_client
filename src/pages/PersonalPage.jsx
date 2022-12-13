@@ -9,6 +9,7 @@ import NewReviewForm from "../components/NewReviewForm";
 import ReviewCard from "../components/ReviewCard";
 import { getAllReviewsByUser } from "../slices/reviewSlice";
 import BasicModal from "../components/ui/Modal";
+import { useParams } from "react-router-dom";
 
 export default function PersonalPage() {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,9 +18,9 @@ export default function PersonalPage() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
-
+  let { id } = useParams();
   useEffect(() => {
-    dispatch(getAllReviewsByUser(currentUser._id));
+    dispatch(getAllReviewsByUser(id));
   }, []);
 
   return (

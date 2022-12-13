@@ -13,11 +13,13 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
-import AddGroupForm from "./admin/AddGroupForm";
-import Comment from "./Comment";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllComments } from "../slices/commentSlice";
 import Box from "@mui/material/Box";
+import moment from "moment";
+import { Markup } from "interweave";
+import CommentsSection from "./CommentsSection";
+import { getOneReview, likeReview, unLikeReview } from "../slices/reviewSlice";
+import { useEffect } from "react";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,52 +32,102 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+const Styled = styled(FavoriteIcon)(({ theme }) => ({
+  display: "none",
+  justifyContent: "space-between",
+  [theme.breakpoints.up("md")]: {
+    display: "flex",
+    ml: 2,
+  },
+}));
+
 export default function ReviewCard({
   user,
-  title,
   createdAt,
   img,
   tags,
   text,
   _id,
+  fullText,
 }) {
   const [expanded, setExpanded] = React.useState(false);
+  const [liked, setLiked] = React.useState(false);
+  const { reviewsAll } = useSelector((state) => state.review);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { comments, loading, error } = useSelector((state) => state.comment);
+
+  const shortText = text.slice(0, 200) + "...";
+
+  useEffect(() => {
+    const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
+    setLiked(reviewLikes.includes(currentUser._id));
+  }, []);
+
+  const handleLike = () => {
+    if (liked) {
+      dispatch(unLikeReview(_id));
+      setLiked((prev) => !prev);
+    } else {
+      dispatch(likeReview(_id));
+      setLiked((prev) => !prev);
+    }
+  };
 
   const handleExpandClick = () => {
-    if (!expanded) {
-      dispatch(getAllComments(_id));
-    }
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ width: "90%" }}>
+    <Card sx={{ padding: 1, flexGrow: 1 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-            {user.img}
-          </Avatar>
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            aria-label="avatar"
+            src={user.img}
+          />
         }
-        title={title}
-        subheader={createdAt}
+        title={user.name}
+        subheader={moment(createdAt).fromNow()}
       />
-      {img[1] && (
-        <CardMedia component="img" height="194" image={img[1]} alt="picture" />
-      )}
-      <Typography paragraph>{tags[0]}</Typography>
-      <CardContent>{text}</CardContent>
-      <CardContent>
-        <Link to={`/review/${_id}`}>
-          <Typography paragraph color="text.primary">
-            read more
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+        {img.length &&
+          img.map((item) =>
+            item ? (
+              <CardMedia
+                component="img"
+                height="150"
+                sx={{ width: 150 }}
+                image={item}
+                alt="picture"
+                key={item}
+              />
+            ) : null
+          )}
+      </Box>
+      <Box sx={{ display: "flex", gap: 1 }}>
+        {tags.map((tag) => (
+          <Typography paragraph key={tag}>
+            {tag}
           </Typography>
-        </Link>
+        ))}
+      </Box>
+
+      <CardContent>
+        <Markup content={fullText ? text : shortText} />
       </CardContent>
+      {!fullText ? (
+        <CardContent>
+          <Link to={`/review/${_id}`}>
+            <Typography paragraph color="text.primary">
+              read more
+            </Typography>
+          </Link>
+        </CardContent>
+      ) : null}
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={handleLike}>
+          {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -87,15 +139,7 @@ export default function ReviewCard({
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Comments:</Typography>
-          {comments.map((comment) => (
-            <Typography paragraph key={comment._id}>
-              {comment.text}
-            </Typography>
-          ))}
-          <Comment reviewId={_id} />
-        </CardContent>
+        <CommentsSection expanded={expanded} id={_id} />
       </Collapse>
     </Card>
   );

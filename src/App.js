@@ -60,7 +60,7 @@ function App() {
             <Route path="games" element={<GamesPage />} />
             <Route path="composition/:id" element={<CompositionPage />} />
             <Route path="review/:id" element={<Reviewpage />} />
-            <Route path="mypage" element={<PersonalPage />} />
+            <Route path="mypage/:id" element={<PersonalPage />} />
             <Route path="dashboard/*" element={<AdminPage />}>
               <Route path="users" element={<UsersTable />} />
               <Route path="group" element={<AddGroupForm />} />

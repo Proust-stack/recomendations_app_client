@@ -109,8 +109,13 @@ export default function ProfileMenu() {
         }}
       >
         {currentUser ? (
-          <MenuItem onClick={() => navigate("/mypage")}>
+          <MenuItem onClick={() => navigate(`/mypage/${currentUser._id}`)}>
             <Avatar /> My page
+          </MenuItem>
+        ) : null}
+        {currentUser?.isAdmin ? (
+          <MenuItem onClick={() => navigate("/dashboard")}>
+            <Avatar /> Dashboard
           </MenuItem>
         ) : null}
         {currentUser ? null : (

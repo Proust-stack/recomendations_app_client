@@ -14,7 +14,6 @@ export default function TagsCloud() {
   const { tags, loading, error } = useSelector((state) => state.tag);
   return (
     <Box
-      flex={4}
       p={{ xs: 0, md: 2 }}
       sx={{
         display: "flex",
@@ -28,7 +27,7 @@ export default function TagsCloud() {
     >
       {!loading &&
         tags.map((tag) => (
-          <Typography variant="subtitle1" key={tag}>
+          <Typography variant="subtitle1" key={tag} sx={{ cursor: "pointer" }}>
             {tag}
           </Typography>
         ))}

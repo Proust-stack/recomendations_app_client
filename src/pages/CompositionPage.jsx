@@ -23,29 +23,44 @@ export default function CompositionPage() {
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={4}>
-        {currentComposition._id && <CompositionCard {...currentComposition} />}
-      </Grid>
-      <Grid item xs={8}>
-        <Box
-          flex={4}
-          p={{ xs: 0, md: 2 }}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            minHeight: "100vh",
-            flexWrap: "wrap",
-            gap: 5,
-          }}
-        >
-          {reviewsByComposition.map((review) => (
-            <ReviewCard {...review} key={review._id} />
-          ))}
-        </Box>
-      </Grid>
-    </Grid>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      <Box
+        flex={3}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          flexWrap: "wrap",
+          gap: 5,
+        }}
+      >
+        {currentComposition._id && (
+          <CompositionCard {...currentComposition} noLink={true} />
+        )}
+      </Box>
+      <Box
+        flex={10}
+        p={{ xs: 0, md: 2 }}
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        {reviewsByComposition.map((review) => (
+          <ReviewCard {...review} key={review._id} />
+        ))}
+      </Box>
+    </Box>
   );
 }

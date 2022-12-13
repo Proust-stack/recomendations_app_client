@@ -15,15 +15,17 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function CompositionCard(props) {
-  const { img, title, tags, reviewsRating, usersRating, _id } = props;
+  const { img, title, tags, reviewsRating, usersRating, _id, noLink } = props;
   const { currentUser } = useSelector((state) => state.user);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-
+  console.log(noLink);
   return (
-    <Card sx={{ maxWidth: 345, position: "relative" }}>
+    <Card
+      sx={{ maxWidth: 345, position: "relative", flexShrink: 1, padding: 2 }}
+    >
       {currentUser._id ? <UserRating /> : null}
       <CardMedia
         component="img"
@@ -47,9 +49,11 @@ export default function CompositionCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => navigate(`/composition/${_id}`)}>
-          View reviews
-        </Button>
+        {!noLink ? (
+          <Button size="small" onClick={() => navigate(`/composition/${_id}`)}>
+            View reviews
+          </Button>
+        ) : null}
       </CardActions>
       <Fab
         color="secondary"

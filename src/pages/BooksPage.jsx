@@ -20,12 +20,11 @@ export default function BooksPAge() {
     <Grid container spacing={2}>
       <Grid item xs={8}>
         <Box
-          flex={4}
           p={{ xs: 0, md: 2 }}
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             flexDirection: "row",
             minHeight: "100vh",
             flexWrap: "wrap",

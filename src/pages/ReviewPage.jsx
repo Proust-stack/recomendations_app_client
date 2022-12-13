@@ -31,14 +31,14 @@ export default function Reviewpage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "column",
+        flexDirection: "row",
         minHeight: "100vh",
         flexWrap: "wrap",
         gap: 5,
       }}
     >
       {!loading && !error && currentReview._id && (
-        <ReviewCard {...currentReview} />
+        <ReviewCard {...currentReview} fullText />
       )}
     </Box>
   );

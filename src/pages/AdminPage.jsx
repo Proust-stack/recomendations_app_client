@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import LeftBar from "../components/LeftBar";
 import RightBar from "../components/RightBar";
@@ -7,6 +7,8 @@ import AddGroupForm from "../components/admin/AddGroupForm";
 import { Outlet, Route, Routes } from "react-router-dom";
 import AddCompositionForm from "../components/admin/AddCompositionForm";
 import UsersTable from "../components/admin/UsersTable";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../slices/userSlice";
 
 export default function AdminPage() {
   return (

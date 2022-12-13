@@ -19,21 +19,20 @@ export default function HomePage() {
     <Grid container spacing={2}>
       <Grid item xs={8}>
         <Box
-          flex={4}
-          p={{ xs: 0, md: 2 }}
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             flexDirection: "row",
             minHeight: "100vh",
             flexWrap: "wrap",
             gap: 5,
+            padding: 1,
           }}
         >
           {!loading &&
-            reviewsAll.map((review) => (
-              <ReviewCard {...review} key={review._id} />
+            reviewsAll.map((review, idx) => (
+              <ReviewCard {...review} idx={idx} key={review._id} />
             ))}
         </Box>
       </Grid>

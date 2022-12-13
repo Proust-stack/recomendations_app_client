@@ -14,8 +14,3 @@ export const addComposition = async (composition) => {
   );
   return data;
 };
-
-export const getAllUsers = async () => {
-  const { data } = await axios.get("http://localhost:5000/api/user/all");
-  return data;
-};
