@@ -20,6 +20,7 @@ import { Markup } from "interweave";
 import CommentsSection from "./CommentsSection";
 import { getOneReview, likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
+import Chip from "@mui/material/Chip";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -56,7 +57,7 @@ export default function ReviewCard({
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const shortText = text.slice(0, 200) + "...";
+  const shortText = text.slice(0, 200);
 
   useEffect(() => {
     const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
@@ -107,24 +108,28 @@ export default function ReviewCard({
       </Box>
       <Box sx={{ display: "flex", gap: 1 }}>
         {tags.map((tag) => (
-          <Typography paragraph key={tag}>
-            {tag}
-          </Typography>
+          <Chip
+            variant="outlined"
+            key={tag}
+            label={tag}
+            color="primary"
+            size="small"
+          />
         ))}
       </Box>
 
       <CardContent>
-        <Markup content={fullText ? text : shortText} />
-      </CardContent>
-      {!fullText ? (
-        <CardContent>
+        <Typography color="text.primary">
+          <Markup content={fullText ? text : shortText} />
+        </Typography>
+        {!fullText ? (
           <Link to={`/review/${_id}`}>
             <Typography paragraph color="text.primary">
               read more
             </Typography>
           </Link>
-        </CardContent>
-      ) : null}
+        ) : null}
+      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={handleLike}>
           {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}

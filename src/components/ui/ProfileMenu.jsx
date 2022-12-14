@@ -37,8 +37,10 @@ export default function ProfileMenu() {
   };
 
   const getUserFromGoogle = async () => {
-    const { user } = await getRedirectResult(auth);
-    dispatch(signInGoogle(user));
+    const response = await getRedirectResult(auth);
+    if (response?.user) {
+      dispatch(signInGoogle(response.user));
+    }
   };
 
   useEffect(() => {

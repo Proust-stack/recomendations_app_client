@@ -3,17 +3,26 @@ import RightBar from "../components/RightBar";
 import { Box, Stack, Skeleton } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllReviewsForHomePage } from "../slices/reviewSlice";
+import {
+  getAllReviewsByTags,
+  getAllReviewsForHomePage,
+} from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
 import TagsCloud from "../components/TagsCloud";
+import { useLocation } from "react-router-dom";
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const { reviewsAll, loading, error } = useSelector((state) => state.review);
+  const { reviewsAll, loading: reviewsLoading } = useSelector(
+    (state) => state.review
+  );
+  const { selectedTags, loading: selectedTagsLoading } = useSelector(
+    (state) => state.tag
+  );
 
   useEffect(() => {
-    dispatch(getAllReviewsForHomePage());
-  }, []);
+    dispatch(getAllReviewsByTags(selectedTags));
+  }, [selectedTags]);
 
   return (
     <Grid container spacing={2}>
@@ -24,22 +33,19 @@ export default function HomePage() {
             alignItems: "flex-start",
             justifyContent: "flex-start",
             flexDirection: "row",
-            minHeight: "100vh",
             flexWrap: "wrap",
             gap: 5,
-            padding: 1,
+            padding: 3,
           }}
         >
-          {!loading &&
+          {!reviewsLoading &&
             reviewsAll.map((review, idx) => (
               <ReviewCard {...review} idx={idx} key={review._id} />
             ))}
         </Box>
       </Grid>
       <Grid item xs={4}>
-        <RightBar>
-          <TagsCloud />
-        </RightBar>
+        <TagsCloud />
       </Grid>
     </Grid>
   );

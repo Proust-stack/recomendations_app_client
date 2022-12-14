@@ -21,7 +21,6 @@ export default function CompositionCard(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-  console.log(noLink);
   return (
     <Card
       sx={{ maxWidth: 345, position: "relative", flexShrink: 1, padding: 2 }}

@@ -1,35 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTags } from "../slices/tagSlice";
+import { getAllTags, setSelectedTags } from "../slices/tagSlice";
 import { Box, Stack, Skeleton } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import { useLocation } from "react-router-dom";
+import { getAllReviewsByTags } from "../slices/reviewSlice";
 
 export default function TagsCloud() {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  console.log(search);
 
   useEffect(() => {
     dispatch(getAllTags());
   }, []);
 
+  const handleClick = (tag) => {
+    dispatch(setSelectedTags(tag));
+  };
+
   const { tags, loading, error } = useSelector((state) => state.tag);
+  const { selectedTags } = useSelector((state) => state.tag);
   return (
     <Box
-      p={{ xs: 0, md: 2 }}
       sx={{
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        minHeight: "100vh",
         flexWrap: "wrap",
-        gap: 5,
+        gap: 3,
+        padding: 3,
       }}
     >
       {!loading &&
         tags.map((tag) => (
-          <Typography variant="subtitle1" key={tag} sx={{ cursor: "pointer" }}>
-            {tag}
-          </Typography>
+          <Chip
+            variant={selectedTags?.includes(tag) ? "filled" : "outlined"}
+            key={tag}
+            label={tag}
+            onClick={() => handleClick(tag)}
+            sx={{ cursor: "pointer" }}
+            color="primary"
+          />
         ))}
     </Box>
   );

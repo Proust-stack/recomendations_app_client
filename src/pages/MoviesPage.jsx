@@ -25,7 +25,6 @@ export default function MoviesPage() {
             alignItems: "flex-start",
             justifyContent: "flex-start",
             flexDirection: "row",
-            minHeight: "100vh",
             flexWrap: "wrap",
             gap: 5,
           }}

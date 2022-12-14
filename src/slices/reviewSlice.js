@@ -16,16 +16,39 @@ export const getAllReviewsByUser = createAsyncThunk(
     }
   }
 );
-export const getAllReviewsForHomePage = createAsyncThunk(
-  "reviews/getAllReviewsForHomePage",
-  async function (_, { rejectWithValue, dispatch }) {
+
+export const getAllReviewsByTags = createAsyncThunk(
+  "reviews/getAllReviewsByTags",
+  async function (tags, { rejectWithValue, dispatch }) {
     try {
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/review",
+        url: "http://localhost:5000/api/review/all/reviews/bytags",
+        params: {
+          tags,
+        },
       });
       dispatch(setReviewsAll(data));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const search = createAsyncThunk(
+  "reviews/search",
+  async function (q, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "get",
+        url: "http://localhost:5000/api/review/all/search",
+        params: {
+          q,
+        },
+      });
+      console.log(data);
+      dispatch(setSearchResults(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -124,6 +147,7 @@ export const reviewSlice = createSlice({
     currentReview: {},
     reviewsByComposition: [],
     reviewsAll: [],
+    searchResults: [],
   },
   reducers: {
     setReviews: (state, action) => {
@@ -134,6 +158,9 @@ export const reviewSlice = createSlice({
     },
     setReviewsByComposition: (state, action) => {
       state.reviewsByComposition = action.payload;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
     },
     setReviewsAll: (state, action) => {
       state.reviewsAll = action.payload;
@@ -176,14 +203,6 @@ export const reviewSlice = createSlice({
     },
     [getOneReview.rejected]: setError,
 
-    [getAllReviewsForHomePage.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllReviewsForHomePage.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
-    [getAllReviewsForHomePage.rejected]: setError,
     [likeReview.pending]: (state) => {
       state.status = "loading";
       state.error = null;
@@ -192,6 +211,24 @@ export const reviewSlice = createSlice({
       state.status = "resolved";
     },
     [likeReview.rejected]: setError,
+
+    [getAllReviewsByTags.pending]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [getAllReviewsByTags.fulfilled]: (state) => {
+      state.status = "resolved";
+    },
+    [getAllReviewsByTags.rejected]: setError,
+
+    [search.pending]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [search.fulfilled]: (state) => {
+      state.status = "resolved";
+    },
+    [search.rejected]: setError,
   },
 });
 
@@ -201,6 +238,7 @@ export const {
   setReviewsByComposition,
   setReviewsAll,
   changeReview,
+  setSearchResults,
 } = reviewSlice.actions;
 
 export default reviewSlice.reducer;

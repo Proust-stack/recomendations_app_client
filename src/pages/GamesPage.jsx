@@ -25,7 +25,6 @@ export default function GamesPage() {
             alignItems: "flex-start",
             justifyContent: "flex-start",
             flexDirection: "row",
-            minHeight: "100vh",
             flexWrap: "wrap",
             gap: 5,
           }}

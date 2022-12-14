@@ -164,7 +164,7 @@ export default function NewReviewForm({ id }) {
             <TextField minRows={10} {...field} multiline />
           )}
         />
-        <p>{errors.markdown?.message}</p>
+        <div>{errors.markdown?.message}</div>
         <InputLabel>Tags</InputLabel>
         <Controller
           name="tags"
@@ -173,7 +173,7 @@ export default function NewReviewForm({ id }) {
           rules={{ required: true }}
         />
       </Box>
-      <p>{errors.tags?.message}</p>
+      <div>{errors.tags?.message}</div>
       <InputLabel>Images</InputLabel>
       <DragDrop setFile={setFile} />
       <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
