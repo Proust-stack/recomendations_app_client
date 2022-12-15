@@ -17,7 +17,7 @@ const style = {
   maxHeight: "100%",
 };
 
-export default function BasicModal({ open, handleClose, id }) {
+export default function BasicModal({ open, handleClose, compositionId }) {
   return (
     <Modal
       open={open}
@@ -26,7 +26,7 @@ export default function BasicModal({ open, handleClose, id }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <NewReviewForm id={id} />
+        <NewReviewForm compositionId={compositionId} />
       </Box>
     </Modal>
   );

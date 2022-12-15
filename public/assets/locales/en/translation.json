@@ -9,5 +9,7 @@
     "nav_search": "Search...",
     "nav_google": "Sign in with google",
     "nav_twitter": "Sign in with twitter",
-    "days_since_release": "it's been {{number_of_days}} days since this video was released"
+
+    "footer_withlove": "Made with Love",
+    "footer_address": "Georgia, Tbilisi, 2022"
   }

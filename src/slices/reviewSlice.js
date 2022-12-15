@@ -102,6 +102,24 @@ export const getOneReview = createAsyncThunk(
     }
   }
 );
+export const deleteReviews = createAsyncThunk(
+  "reviews/deleteReviews",
+  async function (reviews, { rejectWithValue, dispatch, state }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "delete",
+        url: "http://localhost:5000/api/review/remove",
+        data: {
+          reviews,
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const likeReview = createAsyncThunk(
   "reviews/likeReview",
   async function (id, { rejectWithValue, dispatch }) {
@@ -229,6 +247,15 @@ export const reviewSlice = createSlice({
       state.status = "resolved";
     },
     [search.rejected]: setError,
+
+    [search.deleteReviews]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [search.deleteReviews]: (state) => {
+      state.status = "resolved";
+    },
+    [search.deleteReviews]: setError,
   },
 });
 

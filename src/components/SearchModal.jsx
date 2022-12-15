@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useSelector } from "react-redux";
 import ReviewCard from "./ReviewCard";
+import ShortReviewCard from "./ShortReviewCard";
 
 const style = {
   position: "absolute",
@@ -36,7 +37,11 @@ export default function SearchModal({ open, handleClose }) {
         {!loading &&
           (searchResults.length
             ? searchResults.map((review) => (
-                <ReviewCard {...review} key={review._id} />
+                <ShortReviewCard
+                  {...review}
+                  key={review._id}
+                  handleClose={handleClose}
+                />
               ))
             : "no results")}
       </Box>

@@ -21,6 +21,11 @@ import CommentsSection from "./CommentsSection";
 import { getOneReview, likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
+import Tooltip from "@mui/material/Tooltip";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import BasicModal from "./ui/Modal";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -50,17 +55,22 @@ export default function ReviewCard({
   text,
   _id,
   fullText,
+  composition,
 }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const [liked, setLiked] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
   const { reviewsAll } = useSelector((state) => state.review);
+  const { locale } = useSelector((state) => state.locale);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const shortText = text.slice(0, 200);
 
   useEffect(() => {
-    const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
+    const reviewLikes =
+      reviewsAll.find((item) => item._id === _id)?.likes || [];
     setLiked(reviewLikes.includes(currentUser._id));
   }, []);
 
@@ -78,8 +88,26 @@ export default function ReviewCard({
     setExpanded(!expanded);
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
-    <Card sx={{ padding: 1, flexGrow: 1 }}>
+    <Card sx={{ padding: 1, flexGrow: 1, position: "relative" }}>
+      {user === currentUser._id || currentUser.isAdmin ? (
+        <Fab
+          color="secondary"
+          sx={{
+            position: "absolute",
+            top: (theme) => theme.spacing(2),
+            right: (theme) => theme.spacing(2),
+          }}
+          onClick={handleOpen}
+        >
+          <Tooltip title="Edit review">
+            <ModeEditIcon />
+          </Tooltip>
+        </Fab>
+      ) : null}
       <CardHeader
         avatar={
           <Avatar
@@ -140,12 +168,19 @@ export default function ReviewCard({
           aria-expanded={expanded}
           aria-label="show comments"
         >
-          <ExpandMoreIcon />
+          <Tooltip title={expanded ? "Hide comments" : "Show comments"}>
+            <ExpandMoreIcon />
+          </Tooltip>
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CommentsSection expanded={expanded} id={_id} />
       </Collapse>
+      <BasicModal
+        open={open}
+        handleClose={handleClose}
+        compositionId={composition}
+      />
     </Card>
   );
 }

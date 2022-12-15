@@ -6,6 +6,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import RedditIcon from "@mui/icons-material/Reddit";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -20,11 +21,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <StyledBox>
       <Box>
-        <Typography>Made with Love ❤️</Typography>
-        <Typography>Georgia, Tbilisi, 2022</Typography>
+        <Typography>{t("footer_withlove")} ❤️</Typography>
+        <Typography>{t("footer_address")}</Typography>
       </Box>
       <Stack direction="row" spacing={2} sx={{ cursor: "pointer" }}>
         <TwitterIcon />

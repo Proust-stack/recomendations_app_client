@@ -10,6 +10,7 @@ import {
 import ReviewCard from "../components/ReviewCard";
 import TagsCloud from "../components/TagsCloud";
 import { useLocation } from "react-router-dom";
+import ShortReviewCard from "../components/ShortReviewCard";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export default function HomePage() {
         >
           {!reviewsLoading &&
             reviewsAll.map((review, idx) => (
-              <ReviewCard {...review} idx={idx} key={review._id} />
+              <ShortReviewCard {...review} idx={idx} key={review._id} />
             ))}
         </Box>
       </Grid>

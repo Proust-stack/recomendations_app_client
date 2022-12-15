@@ -10,10 +10,12 @@ import ReviewCard from "../components/ReviewCard";
 import { getAllReviewsByUser } from "../slices/reviewSlice";
 import BasicModal from "../components/ui/Modal";
 import { useParams } from "react-router-dom";
+import ShortReviewCard from "../components/ShortReviewCard";
+import ReviewsTable from "../components/ReviewsTable";
 
 export default function PersonalPage() {
   const { currentUser } = useSelector((state) => state.user);
-  const { reviews } = useSelector((state) => state.review);
+  const { reviews, loading } = useSelector((state) => state.review);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,9 +35,9 @@ export default function PersonalPage() {
         alignItems: "flex-start",
         padding: 6,
         position: "relative",
+        gap: 2,
       }}
     >
-      <BasicModal open={open} handleClose={handleClose} />
       <Fab
         color="secondary"
         sx={{
@@ -49,8 +51,11 @@ export default function PersonalPage() {
           <AddIcon />
         </Tooltip>
       </Fab>
-      {reviews &&
-        reviews.map((review) => <ReviewCard {...review} key={review._id} />)}
+      {!loading && <ReviewsTable reviews={reviews} />}
+      {/* {reviews &&
+        reviews.map((review) => (
+          <ShortReviewCard {...review} key={review._id} />
+        ))} */}
     </Box>
   );
 }

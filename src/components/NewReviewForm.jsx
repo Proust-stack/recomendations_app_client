@@ -22,7 +22,7 @@ import {
 } from "firebase/storage";
 import app from "../utils/firebase";
 
-export default function NewReviewForm({ id }) {
+export default function NewReviewForm({ compositionId }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
@@ -61,7 +61,7 @@ export default function NewReviewForm({ id }) {
       ...data,
       tags,
       user: currentUser._id,
-      composition: id,
+      composition: compositionId,
       img,
     };
     console.log(fullData);

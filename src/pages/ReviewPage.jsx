@@ -1,15 +1,9 @@
 import React from "react";
-import { Box, Stack, Skeleton } from "@mui/material";
-import CompositionCard from "../components/CompositionCard";
-import Grid from "@mui/material/Grid";
+import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllReviewsByComposition,
-  getOneReview,
-} from "../slices/reviewSlice";
-import { getOneComposition } from "../slices/compositionSlice";
+import { getOneReview } from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
 
 export default function Reviewpage() {

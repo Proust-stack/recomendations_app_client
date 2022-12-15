@@ -9,5 +9,6 @@
     "nav_search": "ძიება...",
     "nav_google": "შესვლა google-ით",
     "nav_twitter": "შედით twitter-ით",
-    "days_since_release": "it's been {{number_of_days}} days since this video was released"
+    "footer_withlove": "დამზადებულია სიყვარულით",
+    "footer_address": "საქართველო, თბილისი, 2022"
   }

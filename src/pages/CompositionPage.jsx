@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllReviewsByComposition } from "../slices/reviewSlice";
 import { getOneComposition } from "../slices/compositionSlice";
 import ReviewCard from "../components/ReviewCard";
+import ShortReviewCard from "../components/ShortReviewCard";
 
 export default function CompositionPage() {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ export default function CompositionPage() {
         }}
       >
         {reviewsByComposition.map((review) => (
-          <ReviewCard {...review} key={review._id} />
+          <ShortReviewCard {...review} key={review._id} />
         ))}
       </Box>
     </Box>
