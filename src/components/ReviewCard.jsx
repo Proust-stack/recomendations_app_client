@@ -26,6 +26,7 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import BasicModal from "./ui/Modal";
+import EditReviewForm from "./EditReviewForm";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -180,7 +181,9 @@ export default function ReviewCard({
         open={open}
         handleClose={handleClose}
         compositionId={composition}
-      />
+      >
+        <EditReviewForm currentReviewId={_id} />
+      </BasicModal>
     </Card>
   );
 }

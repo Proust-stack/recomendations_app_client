@@ -24,7 +24,7 @@ import {
 import app from "../utils/firebase";
 import { getAllByGroup } from "../slices/compositionSlice";
 
-export default function NewReviewForm() {
+export default function EditReviewForm({ compositionId }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
@@ -36,6 +36,9 @@ export default function NewReviewForm() {
   const { allCompositions } = useSelector((state) => state.composition);
   const { reviewsAll } = useSelector((state) => state.review);
   const { tags } = useSelector((state) => state.tag);
+  const { currentReview, loading, error } = useSelector(
+    (state) => state.review
+  );
   let uploadTask;
 
   const schema = yup
@@ -59,10 +62,10 @@ export default function NewReviewForm() {
     defaultValues: {
       group: "",
       composition: "",
-      title: "",
-      markdown: "",
+      title: currentReview.title,
+      markdown: currentReview.markdown,
       tags: [],
-      reviewRating: 0,
+      reviewRating: currentReview.reviewRating,
     },
   });
 
@@ -252,7 +255,7 @@ export default function NewReviewForm() {
       <InputLabel>Images</InputLabel>
       <DragDrop setFile={setFile} />
       <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
-        Create review
+        Submit changes
       </Button>
     </form>
   );

@@ -1,13 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "./store/index";
-import App from "./App";
-import "./index.css";
 import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { PersistGate } from "redux-persist/integration/react";
+
+import store, { persistor } from "./store/index";
+import App from "./App";
+import "./index.css";
 
 i18n
   .use(LanguageDetector)
@@ -31,6 +33,8 @@ const root = createRoot(container);
 
 root.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );

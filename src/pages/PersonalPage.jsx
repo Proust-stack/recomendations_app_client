@@ -51,11 +51,10 @@ export default function PersonalPage() {
           <AddIcon />
         </Tooltip>
       </Fab>
+      <BasicModal open={open} handleClose={handleClose}>
+        <NewReviewForm />
+      </BasicModal>
       {!loading && <ReviewsTable reviews={reviews} />}
-      {/* {reviews &&
-        reviews.map((review) => (
-          <ShortReviewCard {...review} key={review._id} />
-        ))} */}
     </Box>
   );
 }

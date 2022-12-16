@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneReview } from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
+import { getAllCompositions } from "../slices/compositionSlice";
 
 export default function Reviewpage() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function Reviewpage() {
 
   useEffect(() => {
     dispatch(getOneReview(id));
+    dispatch(getAllCompositions());
   }, []);
 
   return (

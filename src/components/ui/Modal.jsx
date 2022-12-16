@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import NewReviewForm from "../NewReviewForm";
+import EditReviewForm from "../EditReviewForm";
 
 const style = {
   position: "absolute",
@@ -17,7 +18,7 @@ const style = {
   maxHeight: "100%",
 };
 
-export default function BasicModal({ open, handleClose, compositionId }) {
+export default function BasicModal({ open, handleClose, children }) {
   return (
     <Modal
       open={open}
@@ -25,9 +26,7 @@ export default function BasicModal({ open, handleClose, compositionId }) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
-        <NewReviewForm compositionId={compositionId} />
-      </Box>
+      <Box sx={style}>{children}</Box>
     </Modal>
   );
 }
