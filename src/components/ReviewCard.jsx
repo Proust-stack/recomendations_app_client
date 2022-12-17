@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { Suspense } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -27,6 +27,8 @@ import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import BasicModal from "./ui/Modal";
 import EditReviewForm from "./EditReviewForm";
+import Loader from "./ui/Loader";
+import { getOneComposition } from "../slices/compositionSlice";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -55,7 +57,6 @@ export default function ReviewCard({
   tags,
   text,
   _id,
-  fullText,
   composition,
 }) {
   const [expanded, setExpanded] = React.useState(true);
@@ -67,12 +68,14 @@ export default function ReviewCard({
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const shortText = text.slice(0, 200);
-
   useEffect(() => {
     const reviewLikes =
       reviewsAll.find((item) => item._id === _id)?.likes || [];
     setLiked(reviewLikes.includes(currentUser._id));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getOneComposition(composition._id));
   }, []);
 
   const handleLike = () => {
@@ -149,15 +152,8 @@ export default function ReviewCard({
 
       <CardContent>
         <Typography color="text.primary">
-          <Markup content={fullText ? text : shortText} />
+          <Markup content={text} />
         </Typography>
-        {!fullText ? (
-          <Link to={`/review/${_id}`}>
-            <Typography paragraph color="text.primary">
-              read more
-            </Typography>
-          </Link>
-        ) : null}
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={handleLike}>
@@ -175,13 +171,11 @@ export default function ReviewCard({
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CommentsSection expanded={expanded} id={_id} />
+        <Suspense fallback={<Loader />}>
+          <CommentsSection expanded={expanded} id={_id} />
+        </Suspense>
       </Collapse>
-      <BasicModal
-        open={open}
-        handleClose={handleClose}
-        compositionId={composition}
-      >
+      <BasicModal open={open} handleClose={handleClose}>
         <EditReviewForm currentReviewId={_id} />
       </BasicModal>
     </Card>

@@ -85,6 +85,22 @@ export const addReview = createAsyncThunk(
     }
   }
 );
+export const updateReview = createAsyncThunk(
+  "reviews/updateReview",
+  async function (review, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "patch",
+        data: review.data,
+        url: "http://localhost:5000/api/review/" + review.id,
+      });
+      dispatch(setReview(data));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const getOneReview = createAsyncThunk(
   "reviews/getOneReview",
@@ -95,7 +111,6 @@ export const getOneReview = createAsyncThunk(
         method: "get",
         url: "http://localhost:5000/api/review/" + id,
       });
-      console.log(data);
       dispatch(setReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -129,7 +144,6 @@ export const likeReview = createAsyncThunk(
         method: "patch",
         url: "http://localhost:5000/api/review/like/" + id,
       });
-      console.log("like", data);
       dispatch(changeReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -145,7 +159,6 @@ export const unLikeReview = createAsyncThunk(
         method: "patch",
         url: "http://localhost:5000/api/review/unlike/" + id,
       });
-      console.log("unlike", data);
       dispatch(changeReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -166,10 +179,14 @@ export const reviewSlice = createSlice({
     reviewsByComposition: [],
     reviewsAll: [],
     searchResults: [],
+    likesFromUserReviews: 0,
   },
   reducers: {
     setReviews: (state, action) => {
       state.reviews = action.payload;
+    },
+    setLikes: (state, action) => {
+      state.likesFromUserReviews = action.payload;
     },
     setReview: (state, action) => {
       state.currentReview = action.payload;
@@ -184,7 +201,6 @@ export const reviewSlice = createSlice({
       state.reviewsAll = action.payload;
     },
     changeReview: (state, action) => {
-      console.log(action.payload);
       state.reviewsAll.map((item) => {
         if (item._id === action.payload._id) {
           return action.payload;
@@ -256,6 +272,15 @@ export const reviewSlice = createSlice({
       state.status = "resolved";
     },
     [search.deleteReviews]: setError,
+
+    [search.updateReview]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [search.updateReview]: (state) => {
+      state.status = "resolved";
+    },
+    [search.updateReview]: setError,
   },
 });
 
@@ -266,6 +291,7 @@ export const {
   setReviewsAll,
   changeReview,
   setSearchResults,
+  setLikes,
 } = reviewSlice.actions;
 
 export default reviewSlice.reducer;

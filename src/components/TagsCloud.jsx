@@ -9,8 +9,6 @@ import { getAllReviewsByTags } from "../slices/reviewSlice";
 
 export default function TagsCloud() {
   const dispatch = useDispatch();
-  const { search } = useLocation();
-  console.log(search);
 
   useEffect(() => {
     dispatch(getAllTags());

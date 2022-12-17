@@ -10,7 +10,7 @@ import DragDrop from "./ui/DragDrop";
 import { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { addReview } from "../slices/reviewSlice";
+import { addReview, updateReview } from "../slices/reviewSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
@@ -22,33 +22,33 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "../utils/firebase";
-import { getAllByGroup } from "../slices/compositionSlice";
+import { getAllByGroup, getOneComposition } from "../slices/compositionSlice";
+import { getAllTags } from "../slices/tagSlice";
 
 export default function EditReviewForm({ compositionId }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
+
   const [imgPerc, setImgPerc] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
   const { groups } = useSelector((state) => state.group);
   const { compositionsByGroup } = useSelector((state) => state.composition);
   const { allCompositions } = useSelector((state) => state.composition);
-  const { reviewsAll } = useSelector((state) => state.review);
+  const { currentComposition } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
   const { currentReview, loading, error } = useSelector(
     (state) => state.review
   );
+  const [tagsValue, setTagsValue] = useState(currentReview.tags || []);
   let uploadTask;
 
   const schema = yup
     .object({
-      group: yup.string().required(),
       title: yup.string().required(),
-      composition: yup.string().required(),
       markdown: yup.string().required(),
       img: yup.string(),
-      tags: yup.array(),
       reviewRating: yup.number().positive().integer(),
     })
     .required();
@@ -60,11 +60,8 @@ export default function EditReviewForm({ compositionId }) {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      group: "",
-      composition: "",
       title: currentReview.title,
       markdown: currentReview.markdown,
-      tags: [],
       reviewRating: currentReview.reviewRating,
     },
   });
@@ -74,18 +71,25 @@ export default function EditReviewForm({ compositionId }) {
     if (img.length) {
       fullData = {
         ...data,
-        user: currentUser._id,
         img,
+        tags: tagsValue,
+        user: currentReview.user,
+        composition: currentReview.composition._id,
       };
     } else {
       fullData = {
         ...data,
-        tags,
-        user: currentUser._id,
+        tags: tagsValue,
+        user: currentReview.user,
+        composition: currentReview.composition._id,
       };
     }
     console.log(fullData);
-    //dispatch(addReview(fullData));
+    const objectForDispatch = {
+      data: fullData,
+      id: currentReview._id,
+    };
+    dispatch(updateReview(objectForDispatch));
   };
 
   const uploadFile = (file) => {
@@ -126,6 +130,10 @@ export default function EditReviewForm({ compositionId }) {
     file.length && uploadFile(file);
   }, [file]);
 
+  useEffect(() => {
+    dispatch(getAllTags());
+  }, []);
+
   const handleChange = (event) => {
     console.log(event.target.value);
     dispatch(getAllByGroup(event.target.value));
@@ -148,49 +156,10 @@ export default function EditReviewForm({ compositionId }) {
         }}
       >
         <InputLabel>Group</InputLabel>
-        <Controller
-          name="group"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Select {...field}>
-              {groups.map((group) => (
-                <MenuItem value={`${group._id}`} key={group.title}>
-                  {group.title}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-          control={control}
-        />
-        <Typography variant="paragraph" color="text.primary">
-          {errors.group?.message}
-        </Typography>
-
+        <TextField disabled defaultValue={currentComposition.group.title} />
         <InputLabel>Composition</InputLabel>
-        <Controller
-          name="composition"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={allCompositions}
-              getOptionLabel={(option) => option.title}
-              onChange={(event, item) => {
-                field.onChange(item._id);
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Composition" />
-              )}
-            />
-          )}
-          control={control}
-        />
-        <Typography variant="paragraph" color="text.primary">
-          {errors.composition?.message}
-        </Typography>
-
-        <InputLabel>Rate </InputLabel>
+        <TextField disabled defaultValue={currentReview.composition.title} />
+        <InputLabel>Rating </InputLabel>
         <Controller
           name="reviewRating"
           control={control}
@@ -231,24 +200,19 @@ export default function EditReviewForm({ compositionId }) {
         />
         <Typography color="text.primary">{errors.markdown?.message}</Typography>
         <InputLabel>Tags</InputLabel>
-        <Controller
-          name="tags"
-          control={control}
-          render={({ field }) => (
-            <Autocomplete
-              disablePortal
-              multiple
-              limitTags={5}
-              id="multiple-limit-tags"
-              options={tags}
-              getOptionLabel={(option) => option}
-              onChange={(event, item) => {
-                field.onChange(item);
-              }}
-              renderInput={(params) => <TextField {...params} label="tags" />}
-            />
-          )}
-          rules={{ required: true }}
+        <Autocomplete
+          defaultValue={currentReview.tags}
+          disablePortal
+          multiple
+          limitTags={5}
+          id="multiple-limit-tags"
+          options={tags}
+          getOptionLabel={(option) => option}
+          value={tagsValue}
+          onChange={(event, newValue) => {
+            setTagsValue(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} />}
         />
       </Box>
       <div>{errors.tags?.message}</div>

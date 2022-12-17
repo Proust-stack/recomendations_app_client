@@ -1,15 +1,9 @@
 import React, { useEffect } from "react";
-import RightBar from "../components/RightBar";
-import { Box, Stack, Skeleton } from "@mui/material";
+import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllReviewsByTags,
-  getAllReviewsForHomePage,
-} from "../slices/reviewSlice";
-import ReviewCard from "../components/ReviewCard";
+import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
-import { useLocation } from "react-router-dom";
 import ShortReviewCard from "../components/ShortReviewCard";
 
 export default function HomePage() {

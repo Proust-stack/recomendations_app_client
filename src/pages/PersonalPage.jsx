@@ -21,10 +21,6 @@ export default function PersonalPage() {
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
   let { id } = useParams();
-  useEffect(() => {
-    dispatch(getAllReviewsByUser(id));
-  }, []);
-
   return (
     <Box
       flex={4}

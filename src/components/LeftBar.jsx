@@ -1,4 +1,4 @@
-import { Article, Group, Home, Settings } from "@mui/icons-material";
+import { Article, Group, Home } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 import {
@@ -10,8 +10,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changeMode } from "../slices/themeSlice";
 
 export default function LeftBar() {
   return (

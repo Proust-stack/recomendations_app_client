@@ -1,19 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
-import { signInWithRedirect, getAuth, getRedirectResult } from "firebase/auth";
-import { auth, provider } from "../../utils/firebase";
+import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
+import { auth, provider } from "../../utils/firebase";
 import { logout } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
+import { getAllReviewsByUser } from "../../slices/reviewSlice";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,9 +29,9 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
   const { currentUser } = useSelector((state) => state.user);
+  const { reviews, loading } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const dispatch = useDispatch();
-  console.log(locale);
 
   const signInWithGoogle = () => {
     auth.languageCode = locale;
@@ -47,28 +49,48 @@ export default function ProfileMenu() {
     getUserFromGoogle();
   }, []);
 
+  useEffect(() => {
+    currentUser._id && dispatch(getAllReviewsByUser(currentUser._id));
+  }, [currentUser]);
+
   const getLogout = () => {
     dispatch(logout());
     navigate("/");
   };
   return (
     <>
-      <IconButton
-        onClick={handleClick}
-        size="small"
-        sx={{ ml: 2, mr: 6 }}
-        aria-controls={open ? "account-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
       >
-        <Avatar
-          sx={{ width: 32, height: 32, marginRight: 1 }}
-          src={currentUser ? currentUser.img : ""}
-        ></Avatar>
-        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ ml: 2, mr: 1 }}
+          aria-controls={open ? "account-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          <Avatar
+            sx={{ width: 32, height: 32 }}
+            src={currentUser ? currentUser.img : ""}
+          >
+            P
+          </Avatar>
+        </IconButton>
+        <Typography color={"text.primary"} sx={{ mr: 1 }}>
+          {reviews && reviews.map((rewiew) => rewiew.likes.length).length}❤️
+        </Typography>
+        <Typography
+          sx={{ display: { xs: "none", md: "flex" } }}
+          color={"text.primary"}
+        >
           {currentUser ? currentUser.name : `${t("nav_avatar")}`}
-        </Box>
-      </IconButton>
+        </Typography>
+      </Box>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

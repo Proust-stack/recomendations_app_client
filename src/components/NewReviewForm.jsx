@@ -23,11 +23,13 @@ import {
 } from "firebase/storage";
 import app from "../utils/firebase";
 import { getAllByGroup } from "../slices/compositionSlice";
+import { getAllTags } from "../slices/tagSlice";
 
 export default function NewReviewForm() {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
+  const [tagsValue, setTagsValue] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [imgPerc, setImgPerc] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
@@ -45,7 +47,6 @@ export default function NewReviewForm() {
       composition: yup.string().required(),
       markdown: yup.string().required(),
       img: yup.string(),
-      tags: yup.array(),
       reviewRating: yup.number().positive().integer(),
     })
     .required();
@@ -61,7 +62,6 @@ export default function NewReviewForm() {
       composition: "",
       title: "",
       markdown: "",
-      tags: [],
       reviewRating: 0,
     },
   });
@@ -73,12 +73,13 @@ export default function NewReviewForm() {
         ...data,
         user: currentUser._id,
         img,
+        tags: tagsValue,
       };
     } else {
       fullData = {
         ...data,
-        tags,
         user: currentUser._id,
+        tags: tagsValue,
       };
     }
     console.log(fullData);
@@ -122,6 +123,10 @@ export default function NewReviewForm() {
   useEffect(() => {
     file.length && uploadFile(file);
   }, [file]);
+
+  useEffect(() => {
+    dispatch(getAllTags());
+  }, []);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -228,27 +233,20 @@ export default function NewReviewForm() {
         />
         <Typography color="text.primary">{errors.markdown?.message}</Typography>
         <InputLabel>Tags</InputLabel>
-        <Controller
-          name="tags"
-          control={control}
-          render={({ field }) => (
-            <Autocomplete
-              disablePortal
-              multiple
-              limitTags={5}
-              id="multiple-limit-tags"
-              options={tags}
-              getOptionLabel={(option) => option}
-              onChange={(event, item) => {
-                field.onChange(item);
-              }}
-              renderInput={(params) => <TextField {...params} label="tags" />}
-            />
-          )}
-          rules={{ required: true }}
+        <Autocomplete
+          disablePortal
+          multiple
+          limitTags={5}
+          id="multiple-limit-tags"
+          options={tags}
+          getOptionLabel={(option) => option}
+          value={tagsValue}
+          onChange={(event, newValue) => {
+            setTagsValue(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} label="tags" />}
         />
       </Box>
-      <div>{errors.tags?.message}</div>
       <InputLabel>Images</InputLabel>
       <DragDrop setFile={setFile} />
       <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>

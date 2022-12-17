@@ -23,36 +23,49 @@ import compositionReducer from "../slices/compositionSlice";
 import tagReducer from "../slices/tagSlice";
 import commentReducer from "../slices/commentSlice";
 
-const rootReducer = combineReducers({
-  user: userReducer,
-  theme: themeReducer,
-  locale: localeReducer,
-  group: groupReducer,
-  book: bookReducer,
-  game: gameReducer,
-  movie: movieReducer,
-  review: reviewReducer,
-  composition: compositionReducer,
-  tag: tagReducer,
-  comment: commentReducer,
+// const rootReducer = combineReducers({
+//   user: userReducer,
+//   theme: themeReducer,
+//   locale: localeReducer,
+//   group: groupReducer,
+//   book: bookReducer,
+//   game: gameReducer,
+//   movie: movieReducer,
+//   review: reviewReducer,
+//   composition: compositionReducer,
+//   tag: tagReducer,
+//   comment: commentReducer,
+// });
+
+// const persistConfig = {
+//   key: "root",
+//   storage,
+// };
+
+//const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+    theme: themeReducer,
+    locale: localeReducer,
+    group: groupReducer,
+    book: bookReducer,
+    game: gameReducer,
+    movie: movieReducer,
+    review: reviewReducer,
+    composition: compositionReducer,
+    tag: tagReducer,
+    comment: commentReducer,
+  },
+  // reducer: rootReducer,
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: {
+  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+  //     },
+  //   }),
 });
 
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-});
-
-export const persistor = persistStore(store);
-export default store;
+//export const persistor = persistStore(store);
+//export default store;

@@ -16,6 +16,23 @@ export const getOneComposition = createAsyncThunk(
     }
   }
 );
+export const setUserRating = createAsyncThunk(
+  "composition/setUserRating",
+  async function (userRatingData, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "patch",
+        data: userRatingData.userRating,
+        url:
+          "http://localhost:5000/api/composition/userrating/" +
+          userRatingData.compositionId,
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const getAllByGroup = createAsyncThunk(
   "composition/getAllByGroup",
@@ -98,6 +115,15 @@ export const compositionSlice = createSlice({
       state.status = "resolved";
     },
     [getAllCompositions.rejected]: setError,
+
+    [setUserRating.pending]: (state) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [setUserRating.fulfilled]: (state) => {
+      state.status = "resolved";
+    },
+    [setUserRating.rejected]: setError,
   },
 });
 

@@ -2,9 +2,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { setUserRating } from "../../slices/compositionSlice";
 
-export default function UserRating() {
-  const [value, setValue] = React.useState(2);
+export default function UserRating({ compositionId, setRated }) {
+  const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
 
   return (
     <Box
@@ -20,7 +23,9 @@ export default function UserRating() {
         size="small"
         value={value}
         onChange={(event, newValue) => {
+          dispatch(setUserRating({ userRating: newValue, compositionId }));
           setValue(newValue);
+          setRated(true);
         }}
       />
     </Box>

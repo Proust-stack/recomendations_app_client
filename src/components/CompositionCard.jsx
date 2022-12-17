@@ -25,7 +25,6 @@ export default function CompositionCard(props) {
     <Card
       sx={{ maxWidth: 345, position: "relative", flexShrink: 1, padding: 2 }}
     >
-      {currentUser._id ? <UserRating /> : null}
       <CardMedia
         component="img"
         height="140"
@@ -48,11 +47,11 @@ export default function CompositionCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        {!noLink ? (
+        {noLink ? null : (
           <Button size="small" onClick={() => navigate(`/composition/${_id}`)}>
             View reviews
           </Button>
-        ) : null}
+        )}
       </CardActions>
       <Fab
         color="secondary"

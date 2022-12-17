@@ -13,15 +13,21 @@ import ShortReviewCard from "../components/ShortReviewCard";
 export default function CompositionPage() {
   const dispatch = useDispatch();
   let { id } = useParams();
-  const { currentComposition } = useSelector((state) => state.composition);
-  const { reviewsByComposition } = useSelector((state) => state.review);
+  const { currentComposition, loading: compositionLoading } = useSelector(
+    (state) => state.composition
+  );
+  const { reviewsByComposition, loading: reviewsLoading } = useSelector(
+    (state) => state.review
+  );
+
+  console.log(currentComposition);
 
   useEffect(() => {
     dispatch(getAllReviewsByComposition(id));
   }, []);
   useEffect(() => {
     dispatch(getOneComposition(id));
-  }, []);
+  }, [currentComposition]);
 
   return (
     <Box
@@ -43,7 +49,7 @@ export default function CompositionPage() {
           gap: 5,
         }}
       >
-        {currentComposition._id && (
+        {!compositionLoading && currentComposition._id && (
           <CompositionCard {...currentComposition} noLink={true} />
         )}
       </Box>
@@ -58,9 +64,10 @@ export default function CompositionPage() {
           gap: 2,
         }}
       >
-        {reviewsByComposition.map((review) => (
-          <ShortReviewCard {...review} key={review._id} />
-        ))}
+        {!reviewsLoading &&
+          reviewsByComposition.map((review) => (
+            <ShortReviewCard {...review} key={review._id} />
+          ))}
       </Box>
     </Box>
   );
