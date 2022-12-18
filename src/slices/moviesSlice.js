@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getAllMovies = createAsyncThunk(
   "games/getAllMovies",
-  async function (i_, { rejectWithValue, dispatch, state }) {
+  async function (_, { rejectWithValue, dispatch, state }) {
     try {
       const { data } = await axios({
         withCredentials: true,
@@ -25,7 +25,7 @@ const setError = (state, action) => {
 export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
-    movies: [],
+    movies: null,
   },
   reducers: {
     setMovies: (state, action) => {
@@ -33,13 +33,6 @@ export const moviesSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllMovies.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllMovies.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllMovies.rejected]: setError,
   },
 });

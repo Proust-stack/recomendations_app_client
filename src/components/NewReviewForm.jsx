@@ -68,7 +68,7 @@ export default function NewReviewForm() {
 
   const onSubmit = async (data) => {
     let fullData;
-    if (img.length) {
+    if (img?.length) {
       fullData = {
         ...data,
         user: currentUser._id,
@@ -121,7 +121,7 @@ export default function NewReviewForm() {
   };
 
   useEffect(() => {
-    file.length && uploadFile(file);
+    file?.length && uploadFile(file);
   }, [file]);
 
   useEffect(() => {

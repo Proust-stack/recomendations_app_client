@@ -1,16 +1,13 @@
-import Select from "@mui/material/Select";
-import { useForm, Controller, useFormState } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import DragDrop from "./ui/DragDrop";
 import { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { addReview, updateReview } from "../slices/reviewSlice";
+import { updateReview } from "../slices/reviewSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
@@ -22,25 +19,17 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "../utils/firebase";
-import { getAllByGroup, getOneComposition } from "../slices/compositionSlice";
+import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 
 export default function EditReviewForm({ compositionId }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState("");
-
   const [imgPerc, setImgPerc] = useState(0);
-  const { currentUser } = useSelector((state) => state.user);
-  const { groups } = useSelector((state) => state.group);
-  const { compositionsByGroup } = useSelector((state) => state.composition);
-  const { allCompositions } = useSelector((state) => state.composition);
   const { currentComposition } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
-  const { currentReview, loading, error } = useSelector(
-    (state) => state.review
-  );
+  const { currentReview } = useSelector((state) => state.review);
   const [tagsValue, setTagsValue] = useState(currentReview.tags || []);
   let uploadTask;
 

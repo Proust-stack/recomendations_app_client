@@ -25,7 +25,7 @@ const setError = (state, action) => {
 export const gamesSlice = createSlice({
   name: "games",
   initialState: {
-    games: [],
+    games: null,
   },
   reducers: {
     setGames: (state, action) => {
@@ -33,13 +33,6 @@ export const gamesSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllGames.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllGames.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllGames.rejected]: setError,
   },
 });

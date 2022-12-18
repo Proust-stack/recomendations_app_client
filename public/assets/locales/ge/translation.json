@@ -9,6 +9,13 @@
     "nav_search": "ძიება...",
     "nav_google": "შესვლა google-ით",
     "nav_twitter": "შედით twitter-ით",
+
+    "table_name": "ჩემი მიმოხილვები",
+    "table_title": "დასახელება",
+    "table_composition": "შემადგენლობა",
+    "table_createdAt": "შექმნილია",
+    "table_updatedAT": "განახლებულია ზე",
+
     "footer_withlove": "დამზადებულია სიყვარულით",
     "footer_address": "საქართველო, თბილისი, 2022"
   }

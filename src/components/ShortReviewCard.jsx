@@ -90,15 +90,16 @@ export default function ShortReviewCard({
           )}
       </Box>
       <Box sx={{ display: "flex", gap: 1 }}>
-        {tags.map((tag) => (
-          <Chip
-            variant="outlined"
-            key={tag}
-            label={tag}
-            color="primary"
-            size="small"
-          />
-        ))}
+        {tags &&
+          tags.map((tag) => (
+            <Chip
+              variant="outlined"
+              key={tag}
+              label={tag}
+              color="primary"
+              size="small"
+            />
+          ))}
       </Box>
 
       <CardContent>

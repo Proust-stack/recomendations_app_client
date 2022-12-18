@@ -73,9 +73,9 @@ const setError = (state, action) => {
 export const compositionSlice = createSlice({
   name: "composition",
   initialState: {
-    currentComposition: {},
-    compositionsByGroup: [],
-    allCompositions: [],
+    currentComposition: null,
+    compositionsByGroup: null,
+    allCompositions: null,
   },
   reducers: {
     setComposition: (state, action) => {
@@ -89,40 +89,9 @@ export const compositionSlice = createSlice({
     },
   },
   extraReducers: {
-    [getOneComposition.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getOneComposition.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getOneComposition.rejected]: setError,
-
-    [getAllByGroup.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllByGroup.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllByGroup.rejected]: setError,
-
-    [getAllCompositions.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllCompositions.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllCompositions.rejected]: setError,
-
-    [setUserRating.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [setUserRating.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [setUserRating.rejected]: setError,
   },
 });

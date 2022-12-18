@@ -19,15 +19,17 @@ export const getAllTags = createAsyncThunk(
 );
 export const getAllTagsByGroup = createAsyncThunk(
   "tag/getAllTagsByGroup",
-  async function (_, { rejectWithValue, dispatch, state }) {
+  async function (groupId, { rejectWithValue, dispatch, state }) {
     try {
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/tag/all",
+        url: "http://localhost:5000/api/tag/allbygroup/" + groupId,
       });
+
       const tags = data.map((item) => item.tags).flat();
-      dispatch(setTags(tags));
+
+      dispatch(setTagsByGroup([...new Set(tags)]));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -42,11 +44,15 @@ const setError = (state, action) => {
 export const tagSlice = createSlice({
   name: "tag",
   initialState: {
-    tags: [],
+    tags: null,
     selectedTags: [],
+    tagsByGroup: null,
   },
   reducers: {
     setTags: (state, action) => {
+      state.tags = action.payload;
+    },
+    setTagsByGroup: (state, action) => {
       state.tags = action.payload;
     },
     setSelectedTags: (state, action) => {
@@ -60,17 +66,10 @@ export const tagSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllTags.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllTags.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllTags.rejected]: setError,
   },
 });
 
-export const { setTags, setSelectedTags } = tagSlice.actions;
+export const { setTags, setSelectedTags, setTagsByGroup } = tagSlice.actions;
 
 export default tagSlice.reducer;

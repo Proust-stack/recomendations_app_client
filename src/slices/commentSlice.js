@@ -41,7 +41,7 @@ const setError = (state, action) => {
 export const commentSlice = createSlice({
   name: "comment",
   initialState: {
-    comments: [],
+    comments: null,
   },
   reducers: {
     setComments: (state, action) => {
@@ -50,13 +50,6 @@ export const commentSlice = createSlice({
     },
   },
   extraReducers: {
-    [sendComment.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [sendComment.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [sendComment.rejected]: setError,
   },
 });

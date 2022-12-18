@@ -25,7 +25,7 @@ const setError = (state, action) => {
 export const groupSlice = createSlice({
   name: "groups",
   initialState: {
-    groups: [],
+    groups: null,
   },
   reducers: {
     setGroups: (state, action) => {
@@ -33,13 +33,6 @@ export const groupSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllGroups.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllGroups.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllGroups.rejected]: setError,
   },
 });

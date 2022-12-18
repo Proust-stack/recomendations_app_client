@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTags, setSelectedTags } from "../slices/tagSlice";
-import { Box, Stack, Skeleton } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import {
+  getAllTags,
+  getAllTagsByGroup,
+  setSelectedTags,
+} from "../slices/tagSlice";
+import { Box } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import { useLocation } from "react-router-dom";
-import { getAllReviewsByTags } from "../slices/reviewSlice";
 
-export default function TagsCloud() {
+export default function TagsCloud({ groupId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllTags());
-  }, []);
+    groupId && dispatch(getAllTagsByGroup(groupId));
+    !groupId && dispatch(getAllTags());
+  }, [groupId]);
 
   const handleClick = (tag) => {
     dispatch(setSelectedTags(tag));
   };
 
-  const { tags, loading, error } = useSelector((state) => state.tag);
+  const { tags } = useSelector((state) => state.tag);
   const { selectedTags } = useSelector((state) => state.tag);
   return (
     <Box
@@ -32,11 +34,10 @@ export default function TagsCloud() {
         padding: 3,
       }}
     >
-      {!loading &&
+      {tags &&
         tags.map((tag) => (
           <Chip
             variant={selectedTags?.includes(tag) ? "filled" : "outlined"}
-            key={tag}
             label={tag}
             onClick={() => handleClick(tag)}
             sx={{ cursor: "pointer" }}

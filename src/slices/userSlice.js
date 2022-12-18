@@ -58,7 +58,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     currentUser: initState,
-    allUsers: [],
+    allUsers: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -76,22 +76,7 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [signInGoogle.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [signInGoogle.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [signInGoogle.rejected]: setError,
-
-    [getAllUsers.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllUsers.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllUsers.rejected]: setError,
   },
 });

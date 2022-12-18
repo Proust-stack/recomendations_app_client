@@ -25,7 +25,7 @@ const setError = (state, action) => {
 export const bookSlice = createSlice({
   name: "book",
   initialState: {
-    books: [],
+    books: null,
   },
   reducers: {
     setBooks: (state, action) => {
@@ -33,13 +33,6 @@ export const bookSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllBooks.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllBooks.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllBooks.rejected]: setError,
   },
 });

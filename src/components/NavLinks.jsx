@@ -46,15 +46,16 @@ export default function NavLinks() {
         aria-label="nav tabs"
         textColor="secondary"
       >
-        {pages.map((page) => (
-          <Tab
-            label={t(page.genre)}
-            to={page.path}
-            component={Link}
-            color="text.primary"
-            key={page.path}
-          />
-        ))}
+        {pages &&
+          pages.map((page) => (
+            <Tab
+              label={t(page.genre)}
+              to={page.path}
+              component={Link}
+              color="text.primary"
+              key={page.path}
+            />
+          ))}
       </Tabs>
     </StyledBox>
   );

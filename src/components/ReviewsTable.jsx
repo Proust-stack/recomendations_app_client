@@ -25,6 +25,7 @@ import { useDispatch } from "react-redux";
 import { deleteReviews } from "../slices/reviewSlice";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useTranslation } from "react-i18next";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,40 +57,8 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: "_id",
-    numeric: false,
-    disablePadding: false,
-    label: "ID",
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "Title",
-  },
-  {
-    id: "composition",
-    numeric: false,
-    disablePadding: false,
-    label: "Composition",
-  },
-  {
-    id: "createdAt",
-    numeric: false,
-    disablePadding: false,
-    label: "Created at",
-  },
-  {
-    id: "updatedAt",
-    numeric: false,
-    disablePadding: false,
-    label: "Updated at",
-  },
-];
-
 function EnhancedTableHead(props) {
+  const { t } = useTranslation();
   const {
     onSelectAllClick,
     order,
@@ -101,6 +70,39 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+  const headCells = [
+    {
+      id: "_id",
+      numeric: false,
+      disablePadding: false,
+      label: "ID",
+    },
+    {
+      id: "name",
+      numeric: false,
+      disablePadding: false,
+      label: t("table_title"),
+    },
+    {
+      id: "composition",
+      numeric: false,
+      disablePadding: false,
+      label: t("table_composition"),
+    },
+    {
+      id: "createdAt",
+      numeric: false,
+      disablePadding: false,
+      label: t("table_createdAt"),
+    },
+    {
+      id: "updatedAt",
+      numeric: false,
+      disablePadding: false,
+      label: t("table_updatedAT"),
+    },
+  ];
 
   return (
     <TableHead>
@@ -152,6 +154,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { numSelected, selected } = props;
@@ -194,7 +197,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          My reviews
+          {t("table_name")}
         </Typography>
       )}
 
@@ -227,6 +230,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function ReviewsTable(props) {
+  const { t } = useTranslation();
   const rows = props.reviews?.map(
     ({ _id, composition, createdAt, updatedAt, title }) => ({
       _id,

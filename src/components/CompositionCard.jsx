@@ -5,18 +5,14 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import UserRating from "./ui/UserRating";
-import { useSelector } from "react-redux";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import BasicModal from "./ui/Modal";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export default function CompositionCard(props) {
   const { img, title, tags, reviewsRating, usersRating, _id, noLink } = props;
-  const { currentUser } = useSelector((state) => state.user);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

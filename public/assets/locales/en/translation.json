@@ -10,6 +10,12 @@
     "nav_google": "Sign in with google",
     "nav_twitter": "Sign in with twitter",
 
+    "table_name": "My reviews",
+    "table_title": "Title",
+    "table_composition": "Composition",
+    "table_createdAt": "Created at",
+    "table_updatedAT": "Updated at",
+
     "footer_withlove": "Made with Love",
     "footer_address": "Georgia, Tbilisi, 2022"
   }

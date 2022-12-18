@@ -174,11 +174,11 @@ const setError = (state, action) => {
 export const reviewSlice = createSlice({
   name: "reviews",
   initialState: {
-    reviews: [],
-    currentReview: {},
-    reviewsByComposition: [],
-    reviewsAll: [],
-    searchResults: [],
+    reviews: null,
+    currentReview: null,
+    reviewsByComposition: null,
+    reviewsAll: null,
+    searchResults: null,
     likesFromUserReviews: 0,
   },
   reducers: {
@@ -210,76 +210,13 @@ export const reviewSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAllReviewsByUser.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllReviewsByUser.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllReviewsByUser.rejected]: setError,
-
-    [getAllReviewsByComposition.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllReviewsByComposition.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllReviewsByComposition.rejected]: setError,
-
-    [getOneReview.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getOneReview.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getOneReview.rejected]: setError,
-
-    [likeReview.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [likeReview.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [likeReview.rejected]: setError,
-
-    [getAllReviewsByTags.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [getAllReviewsByTags.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [getAllReviewsByTags.rejected]: setError,
-
-    [search.pending]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [search.fulfilled]: (state) => {
-      state.status = "resolved";
-    },
     [search.rejected]: setError,
-
-    [search.deleteReviews]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [search.deleteReviews]: (state) => {
-      state.status = "resolved";
-    },
     [search.deleteReviews]: setError,
-
-    [search.updateReview]: (state) => {
-      state.status = "loading";
-      state.error = null;
-    },
-    [search.updateReview]: (state) => {
-      state.status = "resolved";
-    },
     [search.updateReview]: setError,
   },
 });

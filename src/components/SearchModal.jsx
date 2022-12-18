@@ -2,8 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useSelector } from "react-redux";
-import ReviewCard from "./ReviewCard";
 import ShortReviewCard from "./ShortReviewCard";
+import { Suspense } from "react";
 
 const style = {
   position: "absolute",
@@ -34,16 +34,18 @@ export default function SearchModal({ open, handleClose }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        {!loading &&
-          (searchResults.length
-            ? searchResults.map((review) => (
-                <ShortReviewCard
-                  {...review}
-                  key={review._id}
-                  handleClose={handleClose}
-                />
-              ))
-            : "no results")}
+        <Suspense fallback={<h2>Loading...</h2>}>
+          {!loading &&
+            (searchResults
+              ? searchResults.map((review) => (
+                  <ShortReviewCard
+                    {...review}
+                    key={review._id}
+                    handleClose={handleClose}
+                  />
+                ))
+              : "no results")}
+        </Suspense>
       </Box>
     </Modal>
   );

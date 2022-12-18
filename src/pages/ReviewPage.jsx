@@ -1,18 +1,18 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Grid from "@mui/material/Grid";
+
 import { getOneReview } from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
-import {
-  getAllCompositions,
-  getOneComposition,
-} from "../slices/compositionSlice";
+import { getAllCompositions } from "../slices/compositionSlice";
 import CompositionCard from "../components/CompositionCard";
 import UserRating from "../components/ui/UserRating";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "../utils/errorCallback";
+import Loader from "../components/ui/Loader";
 
 export default function Reviewpage() {
   const dispatch = useDispatch();
@@ -40,36 +40,27 @@ export default function Reviewpage() {
   // }, []);
 
   return (
-    <Box
-      flex={4}
-      p={{ xs: 0, md: 2 }}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        minHeight: "100vh",
-        flexWrap: "wrap",
-        gap: 5,
-      }}
-    >
-      <Box sx={{ alignSelf: "flex-start" }}>
-        {currentReview._id && (
-          <CompositionCard {...currentReview.composition} noLink={true} />
-        )}
-      </Box>
-
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        {currentUser._id && !rated && currentReview._id ? (
-          <UserRating
-            compositionId={currentReview.composition._id}
-            setRated={setRated}
-          />
-        ) : null}
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          {currentReview._id && <ReviewCard {...currentReview} />}
-        </ErrorBoundary>
-      </Box>
-    </Box>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<Loader />}>
+        <Grid container spacing={2} sx={{ padding: 2, minHeight: "100vh" }}>
+          <Grid item xs={2}>
+            {currentReview && (
+              <CompositionCard {...currentReview.composition} noLink={true} />
+            )}
+          </Grid>
+          <Grid item xs={10}>
+            {currentUser && !rated && currentReview ? (
+              <UserRating
+                compositionId={currentReview.composition._id}
+                setRated={setRated}
+              />
+            ) : null}
+            <Box sx={{ alignSelf: "stretch", justifySelf: "stretch" }}>
+              {currentReview && <ReviewCard {...currentReview} />}
+            </Box>
+          </Grid>
+        </Grid>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
