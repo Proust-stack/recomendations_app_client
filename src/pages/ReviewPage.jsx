@@ -11,6 +11,8 @@ import {
 } from "../slices/compositionSlice";
 import CompositionCard from "../components/CompositionCard";
 import UserRating from "../components/ui/UserRating";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "../utils/errorCallback";
 
 export default function Reviewpage() {
   const dispatch = useDispatch();
@@ -64,7 +66,9 @@ export default function Reviewpage() {
             setRated={setRated}
           />
         ) : null}
-        {currentReview._id && <ReviewCard {...currentReview} />}
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          {currentReview._id && <ReviewCard {...currentReview} />}
+        </ErrorBoundary>
       </Box>
     </Box>
   );

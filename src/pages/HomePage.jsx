@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
+import { ErrorBoundary } from "react-error-boundary";
+
 import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
 import ShortReviewCard from "../components/ShortReviewCard";
+import ErrorFallback from "../utils/errorCallback";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -35,7 +38,9 @@ export default function HomePage() {
         >
           {!reviewsLoading &&
             reviewsAll.map((review, idx) => (
-              <ShortReviewCard {...review} idx={idx} key={review._id} />
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <ShortReviewCard {...review} idx={idx} key={review._id} />
+              </ErrorBoundary>
             ))}
         </Box>
       </Grid>

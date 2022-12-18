@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ErrorBoundary } from "react-error-boundary";
 
 import Layout from "./components/Layout";
 import AdminPage from "./pages/AdminPage";
@@ -18,6 +19,7 @@ import AddGroupForm from "./components/admin/AddGroupForm";
 import AddCompositionForm from "./components/admin/AddCompositionForm";
 import CompositionPage from "./pages/CompositionPage";
 import Reviewpage from "./pages/ReviewPage";
+import ErrorFallback from "./utils/errorCallback";
 
 function App() {
   const { t } = useTranslation();
@@ -52,23 +54,25 @@ function App() {
   return (
     <ThemeProvider theme={themeWithMode}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="movies" element={<MoviesPage />} />
-            <Route path="books" element={<BooksPage />} />
-            <Route path="games" element={<GamesPage />} />
-            <Route path="composition/:id" element={<CompositionPage />} />
-            <Route path="review/:id" element={<Reviewpage />} />
-            <Route path="mypage/:id" element={<PersonalPage />} />
-            <Route path="dashboard/*" element={<AdminPage />}>
-              <Route path="users" element={<UsersTable />} />
-              <Route path="group" element={<AddGroupForm />} />
-              <Route path="composition" element={<AddCompositionForm />} />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="movies" element={<MoviesPage />} />
+              <Route path="books" element={<BooksPage />} />
+              <Route path="games" element={<GamesPage />} />
+              <Route path="composition/:id" element={<CompositionPage />} />
+              <Route path="review/:id" element={<Reviewpage />} />
+              <Route path="mypage/:id" element={<PersonalPage />} />
+              <Route path="dashboard/*" element={<AdminPage />}>
+                <Route path="users" element={<UsersTable />} />
+                <Route path="group" element={<AddGroupForm />} />
+                <Route path="composition" element={<AddCompositionForm />} />
+              </Route>
+              <Route path="*" element={<Notfoundpage />} />
             </Route>
-            <Route path="*" element={<Notfoundpage />} />
-          </Route>
-        </Routes>
+          </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
     </ThemeProvider>
   );
