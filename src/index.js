@@ -19,8 +19,8 @@ i18n
     load: "languageOnly",
     fallbackLng: "en",
     detection: {
-      order: ["cookie", "path", "htmlTag", "localStorage", "subdomain"],
-      caches: ["cookie", "localStorage"],
+      order: ["path", "htmlTag", "cookie", "localStorage", "subdomain"],
+      caches: ["cookie"],
     },
     backend: {
       loadPath: "/assets/locales/{{lng}}/translation.json",

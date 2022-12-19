@@ -15,6 +15,24 @@
     "table_composition": "შემადგენლობა",
     "table_createdAt": "შექმნილია",
     "table_updatedAT": "განახლებულია ზე",
+    "table_rows_per_page": "რიგები თითო გვერდზე",
+    "table_filter": "ფილტრის სია",
+
+    "new_review_group": "ჯგუფი",
+    "new_review_composition": "შემადგენლობა",
+    "new_review_rate": "შეფასება",
+    "new_review_title": "დასახელება",
+    "new_review_review": "მიმოხილვა",
+    "new_review_tags": "ტეგები",
+    "new_review_images": "სურათები",
+    "new_review_tags_label": "აირჩიეთ ტეგები",
+    "new_review_btn": "შექმენით მიმოხილვა",
+
+    "dashboard_users": "მომხმარებლები",
+    "dashboard_add_group": "ჯგუფის დამატება",
+    "dashboard_add_composition": "დაამატეთ შემადგენლობა",
+
+    "mypage_new_review": "ახალი მიმოხილვა",
 
     "footer_withlove": "დამზადებულია სიყვარულით",
     "footer_address": "საქართველო, თბილისი, 2022"

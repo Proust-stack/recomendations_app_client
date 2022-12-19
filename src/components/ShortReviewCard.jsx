@@ -5,21 +5,19 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import moment from "moment";
 import { Markup } from "interweave";
-import { likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
+import ReactMarkdown from "react-markdown";
 
 const Styled = styled(FavoriteIcon)(({ theme }) => ({
   display: "none",
@@ -38,15 +36,14 @@ export default function ShortReviewCard({
   text,
   _id,
   handleClose,
+  markdown,
 }) {
   const [liked, setLiked] = React.useState(false);
   const { reviewsAll } = useSelector((state) => state.review);
-  const { locale } = useSelector((state) => state.locale);
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const shortText = text.slice(0, 200) + "...";
+  const shortText = markdown.slice(0, 200) + "...";
 
   const handleClick = () => {
     navigate(`/review/${_id}`);
@@ -103,8 +100,8 @@ export default function ShortReviewCard({
       </Box>
 
       <CardContent>
-        <Typography color="text.primary">
-          <Markup content={shortText} />
+        <Typography color="text.primary" component={"span"}>
+          <ReactMarkdown>{shortText}</ReactMarkdown>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

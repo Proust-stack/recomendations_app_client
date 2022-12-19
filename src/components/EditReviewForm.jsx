@@ -123,11 +123,6 @@ export default function EditReviewForm({ compositionId }) {
     dispatch(getAllTags());
   }, []);
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    dispatch(getAllByGroup(event.target.value));
-  };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

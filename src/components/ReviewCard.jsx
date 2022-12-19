@@ -18,17 +18,17 @@ import Box from "@mui/material/Box";
 import moment from "moment";
 import { Markup } from "interweave";
 import CommentsSection from "./CommentsSection";
-import { getOneReview, likeReview, unLikeReview } from "../slices/reviewSlice";
+import { likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import BasicModal from "./ui/Modal";
 import EditReviewForm from "./EditReviewForm";
 import Loader from "./ui/Loader";
 import { getOneComposition } from "../slices/compositionSlice";
+import ReactMarkdown from "react-markdown";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -69,8 +69,9 @@ export default function ReviewCard({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const reviewLikes =
-      reviewsAll.find((item) => item._id === _id)?.likes || [];
+    const reviewLikes = reviewsAll
+      ? reviewsAll.find((item) => item._id === _id)?.likes
+      : [];
     setLiked(reviewLikes.includes(currentUser._id));
   }, []);
 

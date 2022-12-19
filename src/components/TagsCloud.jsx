@@ -37,6 +37,7 @@ export default function TagsCloud({ groupId }) {
       {tags &&
         tags.map((tag) => (
           <Chip
+            key={tag}
             variant={selectedTags?.includes(tag) ? "filled" : "outlined"}
             label={tag}
             onClick={() => handleClick(tag)}

@@ -16,16 +16,15 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { useDispatch } from "react-redux";
-import { deleteReviews } from "../slices/reviewSlice";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteReviews, getAllReviewsByUser } from "../slices/reviewSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -114,14 +113,14 @@ function EnhancedTableHead(props) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all reviews",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="right"
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -156,13 +155,16 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const params = useParams();
   const dispatch = useDispatch();
   const { numSelected, selected } = props;
 
-  const handleDelete = (data) => {
-    console.log(data);
-    dispatch(deleteReviews(data));
+  const handleDelete = (reviewIds) => {
+    dispatch(deleteReviews(reviewIds)).then(() =>
+      dispatch(getAllReviewsByUser(params.id))
+    );
   };
+
   const handleOpen = (data) => {
     navigate(`/review/${data[0]}`);
   };
@@ -215,7 +217,7 @@ function EnhancedTableToolbar(props) {
           </Tooltip>
         </>
       ) : (
-        <Tooltip title="Filter list">
+        <Tooltip title={t("table_filter")}>
           <IconButton>
             <FilterListIcon />
           </IconButton>
@@ -241,10 +243,9 @@ export default function ReviewsTable(props) {
     })
   );
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("title");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -291,10 +292,6 @@ export default function ReviewsTable(props) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -312,7 +309,7 @@ export default function ReviewsTable(props) {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size="small"
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -360,15 +357,23 @@ export default function ReviewsTable(props) {
                       </TableCell>
                       <TableCell align="right">{row.name}</TableCell>
                       <TableCell align="right">{row.composition}</TableCell>
-                      <TableCell align="right">{row.createdAt}</TableCell>
-                      <TableCell align="right">{row.updatedAt}</TableCell>
+                      <TableCell align="right">
+                        {moment(row.createdAt).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        {moment(row.updatedAt).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: 33 * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -385,12 +390,9 @@ export default function ReviewsTable(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage={t("table_rows_per_page")}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }

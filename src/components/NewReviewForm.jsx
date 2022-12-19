@@ -1,16 +1,14 @@
 import Select from "@mui/material/Select";
-import { useForm, Controller, useFormState } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import DragDrop from "./ui/DragDrop";
 import { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { addReview } from "../slices/reviewSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
@@ -24,21 +22,26 @@ import {
 import app from "../utils/firebase";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
+import { useTranslation } from "react-i18next";
+import { getAllGroups } from "../slices/groupSlice";
+import { addReview } from "../slices/reviewSlice";
 
 export default function NewReviewForm() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState("");
   const [imgPerc, setImgPerc] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
   const { groups } = useSelector((state) => state.group);
   const { compositionsByGroup } = useSelector((state) => state.composition);
-  const { allCompositions } = useSelector((state) => state.composition);
-  const { reviewsAll } = useSelector((state) => state.review);
   const { tags } = useSelector((state) => state.tag);
   let uploadTask;
+
+  useEffect(() => {
+    !groups && dispatch(getAllGroups());
+  }, []);
 
   const schema = yup
     .object({
@@ -55,6 +58,7 @@ export default function NewReviewForm() {
     control,
     handleSubmit,
     formState: { errors },
+    formState,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -68,7 +72,7 @@ export default function NewReviewForm() {
 
   const onSubmit = async (data) => {
     let fullData;
-    if (img?.length) {
+    if (img.length) {
       fullData = {
         ...data,
         user: currentUser._id,
@@ -83,7 +87,7 @@ export default function NewReviewForm() {
       };
     }
     console.log(fullData);
-    //dispatch(addReview(fullData));
+    dispatch(addReview(fullData));
   };
 
   const uploadFile = (file) => {
@@ -121,16 +125,15 @@ export default function NewReviewForm() {
   };
 
   useEffect(() => {
-    file?.length && uploadFile(file);
+    file.length && uploadFile(file);
   }, [file]);
 
   useEffect(() => {
     dispatch(getAllTags());
   }, []);
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    dispatch(getAllByGroup(event.target.value));
+  const handleChange = (value) => {
+    dispatch(getAllByGroup(value));
   };
 
   return (
@@ -149,17 +152,24 @@ export default function NewReviewForm() {
           gap: 1,
         }}
       >
-        <InputLabel>Group</InputLabel>
+        <InputLabel>{t("new_review_group")}</InputLabel>
         <Controller
           name="group"
           rules={{ required: true }}
           render={({ field }) => (
-            <Select {...field}>
-              {groups.map((group) => (
-                <MenuItem value={`${group._id}`} key={group.title}>
-                  {group.title}
-                </MenuItem>
-              ))}
+            <Select
+              {...field}
+              onChange={(e, value) => {
+                handleChange(e.target.value);
+                field.onChange(e.target.value);
+              }}
+            >
+              {groups &&
+                groups.map((group) => (
+                  <MenuItem value={`${group._id}`} key={group.title}>
+                    {group.title}
+                  </MenuItem>
+                ))}
             </Select>
           )}
           control={control}
@@ -168,7 +178,7 @@ export default function NewReviewForm() {
           {errors.group?.message}
         </Typography>
 
-        <InputLabel>Composition</InputLabel>
+        <InputLabel>{t("new_review_composition")}</InputLabel>
         <Controller
           name="composition"
           rules={{ required: true }}
@@ -176,14 +186,12 @@ export default function NewReviewForm() {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={allCompositions}
+              options={compositionsByGroup || []}
               getOptionLabel={(option) => option.title}
               onChange={(event, item) => {
-                field.onChange(item._id);
+                field.onChange(item?._id);
               }}
-              renderInput={(params) => (
-                <TextField {...params} label="Composition" />
-              )}
+              renderInput={(params) => <TextField {...params} />}
             />
           )}
           control={control}
@@ -192,7 +200,7 @@ export default function NewReviewForm() {
           {errors.composition?.message}
         </Typography>
 
-        <InputLabel>Rate </InputLabel>
+        <InputLabel>{t("new_review_rate")} </InputLabel>
         <Controller
           name="reviewRating"
           control={control}
@@ -212,7 +220,7 @@ export default function NewReviewForm() {
         <Typography variant="paragraph" color="text.secodary">
           {errors.reviewRating?.message}
         </Typography>
-        <InputLabel>Title</InputLabel>
+        <InputLabel>{t("new_review_title")}</InputLabel>
         <Controller
           name="title"
           control={control}
@@ -222,7 +230,7 @@ export default function NewReviewForm() {
         <Typography variant="paragraph" color="text.primary">
           {errors.title?.message}
         </Typography>
-        <InputLabel>Review</InputLabel>
+        <InputLabel>{t("new_review_review")}</InputLabel>
         <Controller
           name="markdown"
           control={control}
@@ -232,13 +240,13 @@ export default function NewReviewForm() {
           )}
         />
         <Typography color="text.primary">{errors.markdown?.message}</Typography>
-        <InputLabel>Tags</InputLabel>
+        <InputLabel>{t("new_review_tags")}</InputLabel>
         <Autocomplete
           disablePortal
           multiple
           limitTags={5}
           id="multiple-limit-tags"
-          options={tags}
+          options={tags || []}
           getOptionLabel={(option) => option}
           value={tagsValue}
           onChange={(event, newValue) => {
@@ -247,10 +255,10 @@ export default function NewReviewForm() {
           renderInput={(params) => <TextField {...params} label="tags" />}
         />
       </Box>
-      <InputLabel>Images</InputLabel>
+      <InputLabel>{t("new_review_images")}</InputLabel>
       <DragDrop setFile={setFile} />
       <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
-        Create review
+        {t("new_review_btn")}
       </Button>
     </form>
   );

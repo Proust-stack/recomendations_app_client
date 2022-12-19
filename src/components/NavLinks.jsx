@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getAllGroups } from "../slices/groupSlice";
 

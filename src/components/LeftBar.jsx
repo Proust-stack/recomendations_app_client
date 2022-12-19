@@ -1,5 +1,6 @@
 import { Article, Group, Home } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import {
   Box,
@@ -12,6 +13,7 @@ import {
 import React from "react";
 
 export default function LeftBar() {
+  const { t } = useTranslation();
   return (
     <Box flex={1} p={2} sx={{ display: "flex", flexDirection: "column" }}>
       <Box position="fixed">
@@ -21,7 +23,7 @@ export default function LeftBar() {
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary="Users" />
+              <ListItemText primary={t("dashboard_users")} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -29,7 +31,7 @@ export default function LeftBar() {
               <ListItemIcon>
                 <Article />
               </ListItemIcon>
-              <ListItemText primary="Add group" />
+              <ListItemText primary={t("dashboard_add_group")} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -37,7 +39,7 @@ export default function LeftBar() {
               <ListItemIcon>
                 <Group />
               </ListItemIcon>
-              <ListItemText primary="Add composition" />
+              <ListItemText primary={t("dashboard_add_composition")} />
             </ListItemButton>
           </ListItem>
         </List>

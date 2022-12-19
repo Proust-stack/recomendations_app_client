@@ -49,10 +49,6 @@ export default function ProfileMenu() {
     getUserFromGoogle();
   }, []);
 
-  useEffect(() => {
-    currentUser._id && dispatch(getAllReviewsByUser(currentUser._id));
-  }, [currentUser]);
-
   const getLogout = () => {
     dispatch(logout());
     navigate("/");

@@ -3,6 +3,8 @@ import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import React from "react";
 import { styled } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import SelectSmall from "./ui/SelectSmall";
 import ProfileMenu from "./ui/ProfileMenu";
@@ -33,6 +35,8 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <AppBar color="primary" position="relative">
@@ -40,7 +44,7 @@ export default function Navbar() {
           <AppNameTitle />
           <SearchComponent />
           <Box sx={{ display: "flex" }}>
-            <NavLinks />
+            {matches && <NavLinks />}
             <SmallMenu />
             <SelectSmall />
             <ModeButton />
