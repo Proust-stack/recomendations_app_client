@@ -33,7 +33,6 @@ export default function HomePage() {
                 flexWrap: "wrap",
                 gap: 5,
                 padding: 3,
-                minHeight: "100vh",
               }}
             >
               {reviewsAll &&

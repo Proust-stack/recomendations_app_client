@@ -19,7 +19,13 @@ export default function CompositionCard(props) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ maxWidth: 345, position: "relative", flexShrink: 1, padding: 2 }}
+      sx={{
+        position: "relative",
+        flexShrink: 1,
+        padding: 1,
+        flexGrow: 1,
+        cursor: "pointer",
+      }}
     >
       <CardMedia
         component="img"

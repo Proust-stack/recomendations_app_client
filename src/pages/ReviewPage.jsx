@@ -42,8 +42,8 @@ export default function Reviewpage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
-        <Grid container spacing={2} sx={{ padding: 2, minHeight: "100vh" }}>
-          <Grid item xs={2}>
+        <Grid container spacing={2} sx={{ padding: 2 }}>
+          <Grid item xs="auto">
             {currentReview && (
               <CompositionCard {...currentReview.composition} noLink={true} />
             )}
@@ -55,9 +55,7 @@ export default function Reviewpage() {
                 setRated={setRated}
               />
             ) : null}
-            <Box sx={{ alignSelf: "stretch", justifySelf: "stretch" }}>
-              {currentReview && <ReviewCard {...currentReview} />}
-            </Box>
+            <Box>{currentReview && <ReviewCard {...currentReview} />}</Box>
           </Grid>
         </Grid>
       </Suspense>

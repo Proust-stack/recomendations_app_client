@@ -23,7 +23,6 @@ export default function MoviesPage() {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Box
-              p={{ xs: 0, md: 2 }}
               sx={{
                 display: "flex",
                 alignItems: "flex-start",
@@ -31,7 +30,7 @@ export default function MoviesPage() {
                 flexDirection: "row",
                 flexWrap: "wrap",
                 gap: 5,
-                minHeight: "100vh",
+                padding: 3,
               }}
             >
               {movies &&

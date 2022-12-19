@@ -10,7 +10,11 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Box
+        bgcolor={"background.default"}
+        color={"text.primary"}
+        sx={{ minHeight: "100vh" }}
+      >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Outlet />
         </ErrorBoundary>

@@ -58,6 +58,7 @@ export default function ReviewCard({
   text,
   _id,
   composition,
+  markdown,
 }) {
   const [expanded, setExpanded] = React.useState(true);
   const [liked, setLiked] = React.useState(false);
@@ -72,7 +73,7 @@ export default function ReviewCard({
     const reviewLikes = reviewsAll
       ? reviewsAll.find((item) => item._id === _id)?.likes
       : [];
-    setLiked(reviewLikes.includes(currentUser._id));
+    currentUser && setLiked(reviewLikes.includes(currentUser._id));
   }, []);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function ReviewCard({
   }, []);
 
   const handleLike = () => {
-    if (liked) {
+    if (liked && currentUser) {
       dispatch(unLikeReview(_id));
       setLiked((prev) => !prev);
     } else {
@@ -98,7 +99,7 @@ export default function ReviewCard({
 
   return (
     <Card sx={{ padding: 1, flexGrow: 1, position: "relative" }}>
-      {user === currentUser._id || currentUser.isAdmin ? (
+      {currentUser && (user === currentUser._id || currentUser.isAdmin) ? (
         <Fab
           color="secondary"
           sx={{
@@ -154,7 +155,7 @@ export default function ReviewCard({
 
       <CardContent>
         <Typography color="text.primary">
-          <Markup content={text} />
+          <ReactMarkdown>{markdown}</ReactMarkdown>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -31,7 +31,6 @@ export default function GamesPage() {
                 flexDirection: "row",
                 flexWrap: "wrap",
                 gap: 5,
-                minHeight: "100vh",
               }}
             >
               {games &&

@@ -52,7 +52,7 @@ export default function ShortReviewCard({
 
   useEffect(() => {
     const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
-    setLiked(reviewLikes.includes(currentUser._id));
+    currentUser && setLiked(reviewLikes.includes(currentUser._id));
   }, []);
 
   return (

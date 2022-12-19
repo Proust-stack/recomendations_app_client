@@ -24,14 +24,14 @@ export default function BooksPAge() {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Box
-              p={{ xs: 0, md: 2 }}
               sx={{
                 display: "flex",
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                gap: 5,
+                padding: 3,
+                gap: 4,
                 minHeight: "100vh",
               }}
             >
@@ -41,10 +41,8 @@ export default function BooksPAge() {
                 ))}
             </Box>
           </Grid>
-          <Grid item xs={4}>
-            <Box>
-              <TagsCloud groupId={books && books[0]?.group} />
-            </Box>
+          <Grid item xs={4} justify="center" p={5} sx={{ flexWrap: "wrap" }}>
+            <TagsCloud groupId={books && books[0]?.group} />
           </Grid>
         </Grid>
       </Suspense>
