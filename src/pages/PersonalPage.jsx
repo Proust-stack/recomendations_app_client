@@ -34,13 +34,8 @@ export default function PersonalPage() {
         <Box
           flex={4}
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            minHeight: "100vh",
-            alignItems: "flex-start",
             padding: 6,
             position: "relative",
-            gap: 2,
           }}
         >
           <Fab
@@ -56,8 +51,8 @@ export default function PersonalPage() {
               <AddIcon />
             </Tooltip>
           </Fab>
-          <BasicModal open={open} handleClose={handleClose}>
-            <NewReviewForm />
+          <BasicModal open={open}>
+            <NewReviewForm handleClose={handleClose} />
           </BasicModal>
           {reviews && <ReviewsTable reviews={reviews} />}
         </Box>

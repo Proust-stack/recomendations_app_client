@@ -22,7 +22,7 @@ export default function CompositionPage() {
   }, []);
   useEffect(() => {
     dispatch(getOneComposition(id));
-  }, [currentComposition]);
+  }, []);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -37,13 +37,11 @@ export default function CompositionPage() {
           }}
         >
           <Box
-            flex={3}
+            flex={2}
             sx={{
               display: "flex",
               alignItems: "center",
               flexDirection: "column",
-              flexWrap: "wrap",
-              gap: 5,
             }}
           >
             {currentComposition && (
@@ -52,7 +50,6 @@ export default function CompositionPage() {
           </Box>
           <Box
             flex={10}
-            p={{ xs: 0, md: 2 }}
             sx={{
               display: "flex",
               alignItems: "flex-start",

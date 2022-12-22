@@ -59,6 +59,7 @@ export const userSlice = createSlice({
   initialState: {
     currentUser: initState,
     allUsers: null,
+    rated: false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -74,6 +75,9 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    setRated: (state, action) => {
+      state.rated = true;
+    },
   },
   extraReducers: {
     [signInGoogle.rejected]: setError,
@@ -81,6 +85,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, logout, setAllUsers } = userSlice.actions;
+export const { setUser, logout, setAllUsers, setRated } = userSlice.actions;
 
 export default userSlice.reducer;

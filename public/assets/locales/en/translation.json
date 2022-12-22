@@ -7,8 +7,12 @@
     "nav_books": "Books",
     "nav_games": "Games",
     "nav_search": "Search...",
+
     "nav_google": "Sign in with google",
     "nav_twitter": "Sign in with twitter",
+    "nav_mypage": "My page",
+    "nav_dashboard": "Dashboard",
+    "nav_logout": "Logout",
 
     "table_name": "My reviews",
     "table_title": "Title",

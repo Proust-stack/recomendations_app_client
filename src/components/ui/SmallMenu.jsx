@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import styled from "@mui/material/styles/styled";
 import { useTranslation } from "react-i18next";
 
 const pages = [

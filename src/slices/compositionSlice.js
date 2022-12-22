@@ -16,6 +16,7 @@ export const getOneComposition = createAsyncThunk(
     }
   }
 );
+
 export const setUserRating = createAsyncThunk(
   "composition/setUserRating",
   async function (userRatingData, { rejectWithValue, dispatch }) {
@@ -23,7 +24,7 @@ export const setUserRating = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "patch",
-        data: userRatingData.userRating,
+        data: userRatingData,
         url:
           "http://localhost:5000/api/composition/userrating/" +
           userRatingData.compositionId,

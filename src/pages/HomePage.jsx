@@ -3,6 +3,9 @@ import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorBoundary } from "react-error-boundary";
+import styled from "@mui/material/styles/styled";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
@@ -10,7 +13,18 @@ import ShortReviewCard from "../components/ShortReviewCard";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
 
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 10,
+}));
+
 export default function HomePage() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
   const { reviewsAll } = useSelector((state) => state.review);
   const { selectedTags } = useSelector((state) => state.tag);
@@ -22,27 +36,34 @@ export default function HomePage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ padding: 2 }}
+          direction={matches ? "column" : "row"}
+        >
+          <Grid item xs>
+            <TagsCloud />
+          </Grid>
+          <Grid item xs={10}>
             <Box
               sx={{
                 display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
+                alignItems: "center",
+                justifyContent: "center",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                gap: 5,
-                padding: 3,
+                gap: 2,
+                padding: 1,
               }}
             >
               {reviewsAll &&
-                reviewsAll.map((review, idx) => (
-                  <ShortReviewCard {...review} idx={idx} key={review._id} />
+                reviewsAll.map((review) => (
+                  <StyledBox>
+                    <ShortReviewCard {...review} key={review._id} />
+                  </StyledBox>
                 ))}
             </Box>
-          </Grid>
-          <Grid item xs={4}>
-            <TagsCloud />
           </Grid>
         </Grid>
       </Suspense>

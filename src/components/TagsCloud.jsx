@@ -30,8 +30,9 @@ export default function TagsCloud({ groupId }) {
         justifyContent: "center",
         flexDirection: "row",
         flexWrap: "wrap",
-        gap: 3,
-        padding: 3,
+        gap: 2,
+        padding: 1,
+        maxWidth: "100%",
       }}
     >
       {tags &&

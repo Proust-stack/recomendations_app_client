@@ -43,7 +43,7 @@ export default function Navbar() {
         <StyledToolbar>
           <AppNameTitle />
           <SearchComponent />
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             {matches && <NavLinks />}
             <SmallMenu />
             <SelectSmall />

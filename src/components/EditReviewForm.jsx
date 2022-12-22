@@ -22,11 +22,12 @@ import app from "../utils/firebase";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 
-export default function EditReviewForm({ compositionId }) {
+export default function EditReviewForm({ compositionId, handleClose }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
   const [imgPerc, setImgPerc] = useState(0);
+  const [uploaded, setUploaded] = useState(false);
   const { currentComposition } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
   const { currentReview } = useSelector((state) => state.review);
@@ -79,6 +80,8 @@ export default function EditReviewForm({ compositionId }) {
       id: currentReview._id,
     };
     dispatch(updateReview(objectForDispatch));
+    setUploaded(false);
+    handleClose();
   };
 
   const uploadFile = (file) => {
@@ -110,6 +113,9 @@ export default function EditReviewForm({ compositionId }) {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImg((prev) => [...prev, downloadURL]);
+          if (file.length === img.length) {
+            setUploaded(true);
+          }
         });
       }
     );
@@ -202,7 +208,13 @@ export default function EditReviewForm({ compositionId }) {
       <div>{errors.tags?.message}</div>
       <InputLabel>Images</InputLabel>
       <DragDrop setFile={setFile} />
-      <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
+      <Typography>{imgPerc}</Typography>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ marginTop: "2rem" }}
+        disabled={!uploaded}
+      >
         Submit changes
       </Button>
     </form>

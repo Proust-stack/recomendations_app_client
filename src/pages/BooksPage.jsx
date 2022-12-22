@@ -1,16 +1,28 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "@mui/material/styles/styled";
+import { ErrorBoundary } from "react-error-boundary";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import { getAllBooks } from "../slices/booksSlice";
 import CompositionCard from "../components/CompositionCard";
-import Grid from "@mui/material/Grid";
-import TagsCloud from "../components/TagsCloud";
-import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
-import { getAllTagsByGroup } from "../slices/tagSlice";
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "flex-start",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 10,
+  padding: 10,
+}));
 
 export default function BooksPAge() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,30 +33,10 @@ export default function BooksPAge() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                padding: 3,
-                gap: 4,
-                minHeight: "100vh",
-              }}
-            >
-              {books &&
-                books.map((book) => (
-                  <CompositionCard {...book} key={book._id} />
-                ))}
-            </Box>
-          </Grid>
-          <Grid item xs={4} justify="center" p={5} sx={{ flexWrap: "wrap" }}>
-            <TagsCloud groupId={books && books[0]?.group} />
-          </Grid>
-        </Grid>
+        <StyledBox>
+          {books &&
+            books.map((book) => <CompositionCard {...book} key={book._id} />)}
+        </StyledBox>
       </Suspense>
     </ErrorBoundary>
   );

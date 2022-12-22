@@ -11,7 +11,7 @@ export const getAllTags = createAsyncThunk(
         url: "http://localhost:5000/api/tag/all",
       });
       const tags = data.map((item) => item.tags).flat();
-      dispatch(setTags(tags));
+      dispatch(setTags([...new Set(tags)]));
     } catch (error) {
       return rejectWithValue(error.message);
     }

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { styled } from "@mui/material/styles";
+import styled from "@mui/material/styles/styled";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,11 +12,9 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import moment from "moment";
-import { Markup } from "interweave";
 import CommentsSection from "./CommentsSection";
 import { likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
@@ -41,13 +39,10 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Styled = styled(FavoriteIcon)(({ theme }) => ({
-  display: "none",
-  justifyContent: "space-between",
-  [theme.breakpoints.up("md")]: {
-    display: "flex",
-    ml: 2,
-  },
+const StyledCard = styled(Card)(({ theme }) => ({
+  padding: 1,
+  flexGrow: 1,
+  position: "relative",
 }));
 
 export default function ReviewCard({
@@ -57,7 +52,6 @@ export default function ReviewCard({
   tags,
   text,
   _id,
-  composition,
   markdown,
 }) {
   const [expanded, setExpanded] = React.useState(true);
@@ -74,10 +68,6 @@ export default function ReviewCard({
       ? reviewsAll.find((item) => item._id === _id)?.likes
       : [];
     currentUser && setLiked(reviewLikes.includes(currentUser._id));
-  }, []);
-
-  useEffect(() => {
-    dispatch(getOneComposition(composition._id));
   }, []);
 
   const handleLike = () => {
@@ -98,7 +88,7 @@ export default function ReviewCard({
   const handleClose = () => setOpen(false);
 
   return (
-    <Card sx={{ padding: 1, flexGrow: 1, position: "relative" }}>
+    <StyledCard>
       {currentUser && (user === currentUser._id || currentUser.isAdmin) ? (
         <Fab
           color="secondary"
@@ -125,7 +115,7 @@ export default function ReviewCard({
         title={user.name}
         subheader={moment(createdAt).fromNow()}
       />
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
         {img.length &&
           img.map((item) =>
             item ? (
@@ -140,7 +130,7 @@ export default function ReviewCard({
             ) : null
           )}
       </Box>
-      <Box sx={{ display: "flex", gap: 1 }}>
+      <Box sx={{ display: "flex", gap: 1, p: 2, flexWrap: "wrap" }}>
         {tags &&
           tags.map((tag) => (
             <Chip
@@ -178,9 +168,9 @@ export default function ReviewCard({
           <CommentsSection expanded={expanded} id={_id} />
         </Suspense>
       </Collapse>
-      <BasicModal open={open} handleClose={handleClose}>
-        <EditReviewForm currentReviewId={_id} />
+      <BasicModal open={open}>
+        <EditReviewForm currentReviewId={_id} handleClose={handleClose} />
       </BasicModal>
-    </Card>
+    </StyledCard>
   );
 }

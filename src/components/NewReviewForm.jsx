@@ -26,13 +26,14 @@ import { useTranslation } from "react-i18next";
 import { getAllGroups } from "../slices/groupSlice";
 import { addReview } from "../slices/reviewSlice";
 
-export default function NewReviewForm() {
+export default function NewReviewForm({ handleClose }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
   const [img, setImg] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
   const [imgPerc, setImgPerc] = useState(0);
+  const [uploaded, setUploaded] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const { groups } = useSelector((state) => state.group);
   const { compositionsByGroup } = useSelector((state) => state.composition);
@@ -41,6 +42,15 @@ export default function NewReviewForm() {
 
   useEffect(() => {
     !groups && dispatch(getAllGroups());
+  }, []);
+
+  useEffect(() => {
+    console.log("useEffect upload ");
+    file.length && uploadFile(file);
+  }, [file]);
+
+  useEffect(() => {
+    dispatch(getAllTags());
   }, []);
 
   const schema = yup
@@ -58,7 +68,6 @@ export default function NewReviewForm() {
     control,
     handleSubmit,
     formState: { errors },
-    formState,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -88,16 +97,17 @@ export default function NewReviewForm() {
     }
     console.log(fullData);
     dispatch(addReview(fullData));
+    setUploaded(false);
+    handleClose();
   };
 
   const uploadFile = (file) => {
     const storage = getStorage(app);
-    file.forEach((item) => {
+    for (const item of file) {
       const fileName = new Date().getTime() + item.name;
       const storageRef = ref(storage, "images/" + fileName);
       uploadTask = uploadBytesResumable(storageRef, item);
-    });
-
+    }
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -119,18 +129,11 @@ export default function NewReviewForm() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImg((prev) => [...prev, downloadURL]);
+          setUploaded(true);
         });
       }
     );
   };
-
-  useEffect(() => {
-    file.length && uploadFile(file);
-  }, [file]);
-
-  useEffect(() => {
-    dispatch(getAllTags());
-  }, []);
 
   const handleChange = (value) => {
     dispatch(getAllByGroup(value));
@@ -257,7 +260,13 @@ export default function NewReviewForm() {
       </Box>
       <InputLabel>{t("new_review_images")}</InputLabel>
       <DragDrop setFile={setFile} />
-      <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
+      <Typography color="text.primary">Uploaded: {imgPerc}%</Typography>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ marginTop: "2rem" }}
+        disabled={!uploaded}
+      >
         {t("new_review_btn")}
       </Button>
     </form>

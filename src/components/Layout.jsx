@@ -13,7 +13,12 @@ export default function Layout() {
       <Box
         bgcolor={"background.default"}
         color={"text.primary"}
-        sx={{ minHeight: "100vh" }}
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
       >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Outlet />

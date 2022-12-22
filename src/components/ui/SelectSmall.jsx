@@ -4,8 +4,16 @@ import Select from "@mui/material/Select";
 import LanguageIcon from "@mui/icons-material/Language";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
-import { changeLocale } from "../../slices/localeSlice";
+import Typography from "@mui/material/Typography";
+import styled from "@mui/material/styles/styled";
 import i18n from "i18next";
+
+import { changeLocale } from "../../slices/localeSlice";
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  display: "flex",
+  gap: 6,
+}));
 
 export default function SelectSmall() {
   const dispatch = useDispatch();
@@ -24,13 +32,31 @@ export default function SelectSmall() {
         labelId="demo-select-small"
         id="demo-select-small"
         value={lan}
-        label="Age"
         onChange={handleChange}
-        sx={{ textDecoration: "none" }}
         variant="standard"
+        autoWidth
+        sx={{ border: "none" }}
       >
-        <MenuItem value={"en"}>English</MenuItem>
-        <MenuItem value={"ge"}>ქართული</MenuItem>
+        <StyledMenuItem value={"en"}>
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/us.png`}
+            srcSet={`https://flagcdn.com/w40/us.png 2x`}
+            alt=""
+          />
+          <Typography>English</Typography>
+        </StyledMenuItem>
+        <StyledMenuItem value={"ge"}>
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/ge.png`}
+            srcSet={`https://flagcdn.com/w40/ge.png 2x`}
+            alt=""
+          />
+          <Typography>ქართული</Typography>
+        </StyledMenuItem>
       </Select>
     </Box>
   );

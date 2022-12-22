@@ -7,37 +7,28 @@ import Grid from "@mui/material/Grid";
 
 import { getOneReview } from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
-import { getAllCompositions } from "../slices/compositionSlice";
 import CompositionCard from "../components/CompositionCard";
 import UserRating from "../components/ui/UserRating";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
+import { hasRated } from "../utils/hasUserRated";
+import { getOneComposition } from "../slices/compositionSlice";
 
 export default function Reviewpage() {
   const dispatch = useDispatch();
-  const [rated, setRated] = React.useState(false);
   let { id } = useParams();
-  const { currentReview, loading, error } = useSelector(
-    (state) => state.review
-  );
+  const { currentReview } = useSelector((state) => state.review);
   const { currentUser } = useSelector((state) => state.user);
-
-  // const { currentComposition, loading: compositionLoading } = useSelector(
-  //   (state) => state.composition
-  // );
+  const { currentComposition } = useSelector((state) => state.composition);
 
   useEffect(() => {
     dispatch(getOneReview(id));
   }, []);
 
   useEffect(() => {
-    dispatch(getAllCompositions());
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(getOneComposition(id));
-  // }, []);
+    currentReview && dispatch(getOneComposition(currentReview.composition._id));
+  }, [currentReview]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -49,11 +40,10 @@ export default function Reviewpage() {
             )}
           </Grid>
           <Grid item xs={10}>
-            {currentUser && !rated && currentReview ? (
-              <UserRating
-                compositionId={currentReview.composition._id}
-                setRated={setRated}
-              />
+            {currentUser &&
+            currentComposition &&
+            !hasRated(currentComposition.usersRating, currentUser._id) ? (
+              <UserRating compositionId={currentComposition._id} />
             ) : null}
             <Box>{currentReview && <ReviewCard {...currentReview} />}</Box>
           </Grid>

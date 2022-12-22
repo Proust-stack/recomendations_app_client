@@ -47,6 +47,17 @@ function App() {
             contrastText: "#000",
           },
         },
+        typography: {
+          subtitle1: {
+            fontSize: 12,
+          },
+          body1: {
+            fontWeight: 500,
+          },
+          button: {
+            fontStyle: "italic",
+          },
+        },
       }),
     [mode]
   );

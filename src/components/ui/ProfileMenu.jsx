@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -15,7 +15,6 @@ import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { auth, provider } from "../../utils/firebase";
 import { logout } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
-import { getAllReviewsByUser } from "../../slices/reviewSlice";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,7 +28,7 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
   const { currentUser } = useSelector((state) => state.user);
-  const { reviews, loading } = useSelector((state) => state.review);
+  const { reviews } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const dispatch = useDispatch();
 
@@ -130,12 +129,12 @@ export default function ProfileMenu() {
       >
         {currentUser ? (
           <MenuItem onClick={() => navigate(`/mypage/${currentUser._id}`)}>
-            <Avatar /> My page
+            <Avatar /> {t("nav_mypage")}
           </MenuItem>
         ) : null}
         {currentUser?.isAdmin ? (
           <MenuItem onClick={() => navigate("/dashboard")}>
-            <Avatar /> Dashboard
+            <Avatar /> {t("nav_dashboard")}
           </MenuItem>
         ) : null}
         {currentUser ? null : (
@@ -149,7 +148,7 @@ export default function ProfileMenu() {
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
-            Logout
+            {t("nav_logout")}
           </MenuItem>
         ) : null}
       </Menu>

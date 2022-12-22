@@ -1,5 +1,4 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -14,18 +13,15 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import moment from "moment";
-import { Markup } from "interweave";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
+import styled from "@mui/material/styles/styled";
 
-const Styled = styled(FavoriteIcon)(({ theme }) => ({
-  display: "none",
-  justifyContent: "space-between",
-  [theme.breakpoints.up("md")]: {
-    display: "flex",
-    ml: 2,
-  },
+const StyledCard = styled(Card)(({ theme }) => ({
+  padding: 15,
+  cursor: "pointer",
+  backgroundColor: "grey[100]",
 }));
 
 export default function ShortReviewCard({
@@ -56,10 +52,7 @@ export default function ShortReviewCard({
   }, []);
 
   return (
-    <Card
-      sx={{ padding: 1, flexGrow: 1, cursor: "pointer" }}
-      onClick={handleClick}
-    >
+    <StyledCard onClick={handleClick}>
       <CardHeader
         avatar={
           <Avatar
@@ -71,7 +64,7 @@ export default function ShortReviewCard({
         title={user.name}
         subheader={moment(createdAt).fromNow()}
       />
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
         {img.length &&
           img.map((item) =>
             item ? (
@@ -86,7 +79,7 @@ export default function ShortReviewCard({
             ) : null
           )}
       </Box>
-      <Box sx={{ display: "flex", gap: 1 }}>
+      <Box>
         {tags &&
           tags.map((tag) => (
             <Chip
@@ -98,7 +91,6 @@ export default function ShortReviewCard({
             />
           ))}
       </Box>
-
       <CardContent>
         <Typography color="text.primary" component={"span"}>
           <ReactMarkdown>{shortText}</ReactMarkdown>
@@ -109,6 +101,6 @@ export default function ShortReviewCard({
           {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
         </IconButton>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 }

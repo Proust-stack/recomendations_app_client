@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { setUserRating } from "../../slices/compositionSlice";
 
-export default function UserRating({ compositionId, setRated }) {
+export default function UserRating({ compositionId }) {
   const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
 
@@ -25,7 +25,6 @@ export default function UserRating({ compositionId, setRated }) {
         onChange={(event, newValue) => {
           dispatch(setUserRating({ userRating: newValue, compositionId }));
           setValue(newValue);
-          setRated(true);
         }}
       />
     </Box>
