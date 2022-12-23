@@ -144,8 +144,7 @@ export default function NewReviewForm({ handleClose }) {
       onSubmit={handleSubmit(onSubmit)}
       style={{
         width: "100%",
-        paddingTop: 20,
-        paddingBottom: 20,
+        padding: 20,
       }}
     >
       <Box

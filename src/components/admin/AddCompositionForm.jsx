@@ -30,7 +30,7 @@ export default function AddCompositionForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        marginTop: 20,
+        padding: 10,
         width: "80%",
       }}
     >
