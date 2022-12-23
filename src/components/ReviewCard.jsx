@@ -25,7 +25,6 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import BasicModal from "./ui/Modal";
 import EditReviewForm from "./EditReviewForm";
 import Loader from "./ui/Loader";
-import { getOneComposition } from "../slices/compositionSlice";
 import ReactMarkdown from "react-markdown";
 
 const ExpandMore = styled((props) => {
@@ -168,7 +167,7 @@ export default function ReviewCard({
           <CommentsSection expanded={expanded} id={_id} />
         </Suspense>
       </Collapse>
-      <BasicModal open={open}>
+      <BasicModal open={open} handleClose={handleClose}>
         <EditReviewForm currentReviewId={_id} handleClose={handleClose} />
       </BasicModal>
     </StyledCard>

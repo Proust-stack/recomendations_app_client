@@ -71,7 +71,7 @@ export default function ShortReviewCard({
               <CardMedia
                 component="img"
                 height="150"
-                sx={{ width: 150 }}
+                sx={{ width: "auto", borderRadius: 5 }}
                 image={item}
                 alt="picture"
                 key={item}
@@ -79,7 +79,7 @@ export default function ShortReviewCard({
             ) : null
           )}
       </Box>
-      <Box>
+      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
         {tags &&
           tags.map((tag) => (
             <Chip

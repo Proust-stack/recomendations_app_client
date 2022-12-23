@@ -9,10 +9,11 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import StarsIcon from "@mui/icons-material/Stars";
-
+import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getOneComposition } from "../slices/compositionSlice";
-import { getReviewsRating } from "../utils/getUsersRatingsMean";
+import { getUsersRating } from "../utils/getUsersRatingsMean";
 import { DEFAULT_IMG } from "../utils/const";
 
 export default function CompositionCard(props) {
@@ -22,12 +23,8 @@ export default function CompositionCard(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    _id && dispatch(getOneComposition(_id));
+    dispatch(getOneComposition(_id));
   }, []);
-
-  // React.useEffect(() => {
-  //   reviewsRating && dispatch(getReviewsRating(reviewsRating));
-  // }, []);
 
   return (
     <Card
@@ -50,21 +47,26 @@ export default function CompositionCard(props) {
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {reviewsRating}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="body2" color="text.secondary">
+            Reviews rating:{" "}
+            {currentComposition &&
+              getUsersRating(currentComposition.reviewsRating)}
+          </Typography>
           <StarsIcon />
-        </Typography>
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ fontWeight: 300 }}
-        >
-          User rating:{" "}
-          {currentComposition &&
-            getReviewsRating(currentComposition.usersRating)}
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ fontWeight: 300 }}
+          >
+            User rating:{" "}
+            {currentComposition &&
+              getUsersRating(currentComposition.usersRating)}
+          </Typography>
           <StarIcon />
-        </Typography>
+        </Box>
       </CardContent>
       <CardActions>
         {noLink ? null : (

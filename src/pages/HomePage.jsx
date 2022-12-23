@@ -59,8 +59,8 @@ export default function HomePage() {
             >
               {reviewsAll &&
                 reviewsAll.map((review) => (
-                  <StyledBox>
-                    <ShortReviewCard {...review} key={review._id} />
+                  <StyledBox key={review._id}>
+                    <ShortReviewCard {...review} />
                   </StyledBox>
                 ))}
             </Box>

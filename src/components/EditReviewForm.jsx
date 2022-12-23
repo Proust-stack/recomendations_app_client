@@ -64,14 +64,15 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         img,
         tags: tagsValue,
         user: currentReview.user,
-        composition: currentReview.composition._id,
+        composition: currentComposition._id,
       };
     } else {
       fullData = {
         ...data,
         tags: tagsValue,
         user: currentReview.user,
-        composition: currentReview.composition._id,
+        composition: currentComposition._id,
+        reviewsRatingId: "63a057292e22250c185bd057",
       };
     }
     console.log(fullData);
@@ -80,8 +81,8 @@ export default function EditReviewForm({ compositionId, handleClose }) {
       id: currentReview._id,
     };
     dispatch(updateReview(objectForDispatch));
-    setUploaded(false);
-    handleClose();
+    // setUploaded(false);
+    // handleClose();
   };
 
   const uploadFile = (file) => {
@@ -213,7 +214,7 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         type="submit"
         variant="contained"
         sx={{ marginTop: "2rem" }}
-        disabled={!uploaded}
+        disabled={file.length && !uploaded}
       >
         Submit changes
       </Button>

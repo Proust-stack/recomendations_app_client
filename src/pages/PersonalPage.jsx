@@ -51,7 +51,7 @@ export default function PersonalPage() {
               <AddIcon />
             </Tooltip>
           </Fab>
-          <BasicModal open={open}>
+          <BasicModal open={open} handleClose={handleClose}>
             <NewReviewForm handleClose={handleClose} />
           </BasicModal>
           {reviews && <ReviewsTable reviews={reviews} />}
