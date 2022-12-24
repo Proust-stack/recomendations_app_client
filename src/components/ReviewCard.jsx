@@ -39,7 +39,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  padding: 1,
+  padding: 2,
   flexGrow: 1,
   position: "relative",
 }));
@@ -114,14 +114,14 @@ export default function ReviewCard({
         title={user.name}
         subheader={moment(createdAt).fromNow()}
       />
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, m: 2 }}>
         {img.length &&
           img.map((item) =>
             item ? (
               <CardMedia
                 component="img"
                 height="150"
-                sx={{ width: 150 }}
+                sx={{ width: "auto", borderRadius: 5 }}
                 image={item}
                 alt="picture"
                 key={item}
@@ -148,9 +148,11 @@ export default function ReviewCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={handleLike}>
-          {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
-        </IconButton>
+        {currentUser ? (
+          <IconButton aria-label="add to favorites" onClick={handleLike}>
+            {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
+          </IconButton>
+        ) : null}
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

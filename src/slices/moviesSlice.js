@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const getAllMovies = createAsyncThunk(
   "games/getAllMovies",
@@ -8,7 +9,7 @@ export const getAllMovies = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/all/63923cbcc4db72d5c2440420",
+        url: `${SERVER}/api/composition/all/63923cbcc4db72d5c2440420`,
       });
       dispatch(setMovies(data));
     } catch (error) {

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const getAllBooks = createAsyncThunk(
   "book/getAllBooks",
@@ -8,7 +9,7 @@ export const getAllBooks = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/all/63923c91c4db72d5c244041e",
+        url: `${SERVER}/composition/all/63923c91c4db72d5c244041e`,
       });
       dispatch(setBooks(data));
     } catch (error) {

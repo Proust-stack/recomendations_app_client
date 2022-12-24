@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const getAllTags = createAsyncThunk(
   "tag/getAllTags",
@@ -8,7 +9,7 @@ export const getAllTags = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/tag/all",
+        url: `${SERVER}/api/tag/all`,
       });
       const tags = data.map((item) => item.tags).flat();
       dispatch(setTags([...new Set(tags)]));
@@ -24,7 +25,7 @@ export const getAllTagsByGroup = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/tag/allbygroup/" + groupId,
+        url: `${SERVER}/api/tag/allbygroup/` + groupId,
       });
 
       const tags = data.map((item) => item.tags).flat();

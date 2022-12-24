@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const getAllGroups = createAsyncThunk(
   "group/getAllGroups",
@@ -8,7 +9,7 @@ export const getAllGroups = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/group/all",
+        url: `${SERVER}/api/group/all`,
       });
       dispatch(setGroups(data));
     } catch (error) {

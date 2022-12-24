@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const signInGoogle = createAsyncThunk(
   "user/signInGoogle",
   async function (user, { rejectWithValue, dispatch, state }) {
-    console.log(user);
     const { displayName: name, email, photoURL: img } = user;
     try {
       const { data } = await axios({
         withCredentials: true,
         method: "post",
-        url: "http://localhost:5000/api/user/auth/google",
+        url: `${SERVER}/api/user/auth/google`,
         data: {
           name,
           email,
@@ -31,7 +31,7 @@ export const getAllUsers = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/user/all",
+        url: `${SERVER}/api/user/all`,
       });
       dispatch(setAllUsers(data));
     } catch (error) {

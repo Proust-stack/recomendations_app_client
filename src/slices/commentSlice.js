@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const sendComment = createAsyncThunk(
   "comment/sendComment",
@@ -9,7 +10,7 @@ export const sendComment = createAsyncThunk(
         withCredentials: true,
         method: "post",
         data: comment,
-        url: "http://localhost:5000/api/comment/create",
+        url: `${SERVER}/comment/create`,
       });
     } catch (error) {
       return rejectWithValue(error.message);
@@ -24,7 +25,7 @@ export const getAllComments = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/comment/all/" + reviewId,
+        url: `${SERVER}/api/comment/all/` + reviewId,
       });
       dispatch(setComments(data));
     } catch (error) {

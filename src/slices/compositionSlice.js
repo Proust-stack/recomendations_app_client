@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER } from "../utils/const";
 
 export const getOneComposition = createAsyncThunk(
   "composition/getOneComposition",
@@ -8,7 +9,7 @@ export const getOneComposition = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/" + id,
+        url: `${SERVER}/api/composition/` + id,
       });
       dispatch(setComposition(data));
     } catch (error) {
@@ -26,7 +27,7 @@ export const setUserRating = createAsyncThunk(
         method: "patch",
         data: userRatingData,
         url:
-          "http://localhost:5000/api/composition/userrating/" +
+          `${SERVER}/api/composition/userrating/` +
           userRatingData.compositionId,
       });
     } catch (error) {
@@ -42,7 +43,7 @@ export const getAllByGroup = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/all/" + groupId,
+        url: `${SERVER}/api/composition/all/` + groupId,
       });
       dispatch(setCompositions(data));
     } catch (error) {
@@ -57,7 +58,7 @@ export const getAllCompositions = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: "http://localhost:5000/api/composition/compositions/all/nofilter",
+        url: `${SERVER}/api/composition/compositions/all/nofilter`,
       });
       dispatch(setAllCompositions(data));
     } catch (error) {

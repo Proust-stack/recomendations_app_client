@@ -95,7 +95,6 @@ export default function NewReviewForm({ handleClose }) {
         tags: tagsValue,
       };
     }
-    console.log(fullData);
     dispatch(addReview(fullData));
     setUploaded(false);
     handleClose();
@@ -116,7 +115,6 @@ export default function NewReviewForm({ handleClose }) {
         setImgPerc(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
-            console.log("Upload is paused");
             break;
           case "running":
             console.log("Upload is running");

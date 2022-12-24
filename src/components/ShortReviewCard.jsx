@@ -97,9 +97,11 @@ export default function ShortReviewCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
-        </IconButton>
+        {currentUser ? (
+          <IconButton aria-label="add to favorites">
+            {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
+          </IconButton>
+        ) : null}
       </CardActions>
     </StyledCard>
   );

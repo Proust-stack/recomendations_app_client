@@ -75,7 +75,6 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         reviewsRatingId: "63a057292e22250c185bd057",
       };
     }
-    console.log(fullData);
     const objectForDispatch = {
       data: fullData,
       id: currentReview._id,
