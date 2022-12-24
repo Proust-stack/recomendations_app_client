@@ -19,7 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import app from "../utils/firebase";
+import { app } from "../utils/firebase";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 import { useTranslation } from "react-i18next";

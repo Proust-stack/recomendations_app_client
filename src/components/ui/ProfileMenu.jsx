@@ -12,7 +12,8 @@ import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
 import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
-import { auth, provider } from "../../utils/firebase";
+import { provider } from "../../utils/firebase";
+import auth from "../../utils/firebase";
 import { logout } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
 
