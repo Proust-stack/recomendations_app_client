@@ -5,7 +5,7 @@ import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import dotenv from "dotenv";
+//import dotenv from "dotenv";
 
 import { store } from "./store/index";
 import App from "./App";
@@ -30,7 +30,7 @@ i18n
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-dotenv.config();
+//dotenv.config();
 
 root.render(
   <Provider store={store}>
