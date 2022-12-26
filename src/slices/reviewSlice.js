@@ -119,7 +119,7 @@ export const getOneReview = createAsyncThunk(
 );
 export const deleteReviews = createAsyncThunk(
   "reviews/deleteReviews",
-  async function (reviews, { rejectWithValue, dispatch, state }) {
+  async function (reviews, { rejectWithValue }) {
     try {
       const { data } = await axios({
         withCredentials: true,

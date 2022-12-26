@@ -1,18 +1,20 @@
 import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Collapse from "@mui/material/Collapse";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
+import { ErrorBoundary } from "react-error-boundary";
+
 import Comment from "./Comment";
 import { getAllComments } from "../slices/commentSlice";
 import ErrorFallback from "../utils/errorCallback";
-import { ErrorBoundary } from "react-error-boundary";
 import Loader from "./ui/Loader";
 
 export default function CommentsSection({ expanded, id }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.comment);
 
@@ -30,7 +32,7 @@ export default function CommentsSection({ expanded, id }) {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
         <CardContent>
-          <Typography paragraph>Comments:</Typography>
+          <Typography paragraph>{t("comment_section_comments")}:</Typography>
           {comments &&
             comments.map((comment) => (
               <Box key={comment._id}>

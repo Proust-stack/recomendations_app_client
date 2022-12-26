@@ -20,6 +20,7 @@ import AddCompositionForm from "./components/admin/AddCompositionForm";
 import CompositionPage from "./pages/CompositionPage";
 import Reviewpage from "./pages/ReviewPage";
 import ErrorFallback from "./utils/errorCallback";
+import UsersWideTable from "./components/admin/UsersWideTable";
 
 function App() {
   const { t } = useTranslation();
@@ -76,7 +77,8 @@ function App() {
               <Route path="review/:id" element={<Reviewpage />} />
               <Route path="mypage/:id" element={<PersonalPage />} />
               <Route path="dashboard/*" element={<AdminPage />}>
-                <Route path="users" element={<UsersTable />} />
+                <Route index element={<UsersWideTable />} />
+                <Route index path="users" element={<UsersWideTable />} />
                 <Route path="group" element={<AddGroupForm />} />
                 <Route path="composition" element={<AddCompositionForm />} />
               </Route>

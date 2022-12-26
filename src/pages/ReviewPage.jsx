@@ -23,10 +23,14 @@ export default function Reviewpage() {
   const { currentComposition } = useSelector((state) => state.composition);
 
   useEffect(() => {
-    dispatch(getOneReview(id)).then(() => {
-      dispatch(getOneComposition(currentReview.composition._id));
-    });
+    dispatch(getOneReview(id));
   }, []);
+
+  useEffect(() => {
+    if (currentReview) {
+      dispatch(getOneComposition(currentReview.composition._id));
+    }
+  }, [currentReview]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import CompositionCard from "../components/CompositionCard";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 import { getAllReviewsByComposition } from "../slices/reviewSlice";
 import { getOneComposition } from "../slices/compositionSlice";
 import ShortReviewCard from "../components/ShortReviewCard";
@@ -12,6 +14,7 @@ import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
 
 export default function CompositionPage() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   let { id } = useParams();
   const { currentComposition } = useSelector((state) => state.composition);
@@ -58,10 +61,13 @@ export default function CompositionPage() {
               gap: 2,
             }}
           >
-            {reviewsByComposition &&
+            {reviewsByComposition && reviewsByComposition.length ? (
               reviewsByComposition.map((review) => (
                 <ShortReviewCard {...review} key={review._id} />
-              ))}
+              ))
+            ) : (
+              <Typography>{t("composition_page_no_reviews")}</Typography>
+            )}
           </Box>
         </Box>
       </Suspense>

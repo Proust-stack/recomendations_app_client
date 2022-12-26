@@ -10,14 +10,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
-import { provider } from "../../utils/firebase";
-import auth from "../../utils/firebase";
-import { logout } from "../../slices/userSlice";
+import firebaseConfig from "../../utils/firebase";
+import { logout, setUser } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
 
 export default function ProfileMenu() {
+  let auth;
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -35,7 +39,11 @@ export default function ProfileMenu() {
 
   const signInWithGoogle = () => {
     auth.languageCode = locale;
-    signInWithRedirect(auth, provider);
+    signInWithRedirect(auth, googleProvider);
+  };
+  const signInWithGithub = () => {
+    auth.languageCode = locale;
+    signInWithRedirect(auth, githubProvider);
   };
 
   const getUserFromGoogle = async () => {
@@ -46,6 +54,14 @@ export default function ProfileMenu() {
   };
 
   useEffect(() => {
+    if (currentUser.blocked) {
+      getLogout();
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    initializeApp(firebaseConfig);
+    auth = getAuth();
     getUserFromGoogle();
   }, []);
 
@@ -128,7 +144,7 @@ export default function ProfileMenu() {
           horizontal: "right",
         }}
       >
-        {currentUser ? (
+        {currentUser && !currentUser.blocked ? (
           <MenuItem onClick={() => navigate(`/mypage/${currentUser._id}`)}>
             <Avatar /> {t("nav_mypage")}
           </MenuItem>
@@ -138,11 +154,11 @@ export default function ProfileMenu() {
             <Avatar /> {t("nav_dashboard")}
           </MenuItem>
         ) : null}
-        {currentUser ? null : (
+        {currentUser && !currentUser.blocked ? null : (
           <MenuItem onClick={signInWithGoogle}>{t("nav_google")}</MenuItem>
         )}
-        {currentUser ? null : (
-          <MenuItem onClick={() => {}}>{t("nav_twitter")}</MenuItem>
+        {currentUser && !currentUser.blocked ? null : (
+          <MenuItem onClick={signInWithGithub}>{t("nav_twitter")}</MenuItem>
         )}
         {currentUser ? (
           <MenuItem onClick={getLogout}>

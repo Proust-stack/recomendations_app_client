@@ -38,6 +38,17 @@
 
     "mypage_new_review": "ახალი მიმოხილვა",
 
+    "composition_page_no_reviews": "მიმოხილვა ჯერ არ არის",
+
+    "composition_component_view_reviews": "მიმოხილვების ნახვა",
+    "composition_component_reviews_rating": "მიმოხილვა რეიტინგი",
+    "composition_component_user_rating": "მომხმარებლის რეიტინგი",
+
+    "comment_component_button_send": "ელ-ფოსტა",
+    "comment_component_popover": "თქვენ უნდა შეხვიდეთ კომენტარამდე",
+
+    "comment_section_comments": "კომენტარები",
+
     "footer_withlove": "დამზადებულია სიყვარულით",
     "footer_address": "საქართველო, თბილისი, 2022"
   }

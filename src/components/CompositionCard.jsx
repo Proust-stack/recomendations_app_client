@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -11,20 +11,23 @@ import StarIcon from "@mui/icons-material/Star";
 import StarsIcon from "@mui/icons-material/Stars";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { getOneComposition } from "../slices/compositionSlice";
 import { getUsersRating } from "../utils/getUsersRatingsMean";
-import { DEFAULT_IMG } from "../utils/const";
 
-export default function CompositionCard(props) {
+const CompositionCard = React.memo(function CompositionCard(props) {
+  const { t } = useTranslation();
   const { img, title, tags, reviewsRating, _id, noLink } = props;
   const { currentComposition } = useSelector((state) => state.composition);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOneComposition(_id));
-  }, []);
+    if (_id) {
+      dispatch(getOneComposition(_id));
+    }
+  }, [_id]);
 
   return (
     <Card
@@ -39,7 +42,7 @@ export default function CompositionCard(props) {
       <CardMedia
         component="img"
         height="194"
-        image={DEFAULT_IMG}
+        image={img}
         alt="composition"
         sx={{ objectFit: "cover", width: "auto" }}
       />
@@ -49,7 +52,7 @@ export default function CompositionCard(props) {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="body2" color="text.secondary">
-            Reviews rating:{" "}
+            {t("composition_component_reviews_rating")}:{" "}
             {currentComposition &&
               getUsersRating(currentComposition.reviewsRating)}
           </Typography>
@@ -61,7 +64,7 @@ export default function CompositionCard(props) {
             color="text.secondary"
             sx={{ fontWeight: 300 }}
           >
-            User rating:{" "}
+            {t("composition_component_user_rating")}:{" "}
             {currentComposition &&
               getUsersRating(currentComposition.usersRating)}
           </Typography>
@@ -71,10 +74,12 @@ export default function CompositionCard(props) {
       <CardActions>
         {noLink ? null : (
           <Button size="small" onClick={() => navigate(`/composition/${_id}`)}>
-            View reviews
+            {t("composition_component_view_reviews")}
           </Button>
         )}
       </CardActions>
     </Card>
   );
-}
+});
+
+export default CompositionCard;

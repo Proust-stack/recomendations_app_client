@@ -14,6 +14,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
 import { getAllReviewsByUser } from "../slices/reviewSlice";
+import AlertComponent from "../components/ui/AlertComponent";
 
 export default function PersonalPage() {
   const dispatch = useDispatch();
@@ -21,11 +22,15 @@ export default function PersonalPage() {
   const { reviews } = useSelector((state) => state.review);
 
   const [open, setOpen] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   let { id } = useParams();
+
   useEffect(() => {
-    id && dispatch(getAllReviewsByUser(id));
+    if (id) {
+      dispatch(getAllReviewsByUser(id));
+    }
   }, []);
 
   return (
@@ -52,10 +57,14 @@ export default function PersonalPage() {
             </Tooltip>
           </Fab>
           <BasicModal open={open} handleClose={handleClose}>
-            <NewReviewForm handleClose={handleClose} />
+            <NewReviewForm
+              handleClose={handleClose}
+              setOpenAlert={setOpenAlert}
+            />
           </BasicModal>
           {reviews && <ReviewsTable reviews={reviews} />}
         </Box>
+        <AlertComponent openAlert={openAlert} setOpenAlert={setOpenAlert} />
       </Suspense>
     </ErrorBoundary>
   );

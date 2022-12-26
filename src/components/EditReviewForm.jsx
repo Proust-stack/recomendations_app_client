@@ -18,9 +18,9 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app } from "../utils/firebase";
-import { getAllByGroup } from "../slices/compositionSlice";
+import { initializeApp } from "firebase/app";
 import { getAllTags } from "../slices/tagSlice";
+import firebaseConfig from "../utils/firebase";
 
 export default function EditReviewForm({ compositionId, handleClose }) {
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export default function EditReviewForm({ compositionId, handleClose }) {
   };
 
   const uploadFile = (file) => {
-    const storage = getStorage(app);
+    const storage = getStorage(initializeApp(firebaseConfig));
     file.forEach((item) => {
       const fileName = new Date().getTime() + item.name;
       const storageRef = ref(storage, "images/" + fileName);

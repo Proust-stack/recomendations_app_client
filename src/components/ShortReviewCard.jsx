@@ -17,6 +17,9 @@ import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
 import styled from "@mui/material/styles/styled";
+import { useTranslation } from "react-i18next";
+import Moment from "react-moment";
+import "moment/locale/ka";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: 15,
@@ -29,15 +32,18 @@ export default function ShortReviewCard({
   createdAt,
   img,
   tags,
-  text,
+  title,
   _id,
   handleClose,
   markdown,
+  composition,
 }) {
   const [liked, setLiked] = React.useState(false);
   const { reviewsAll } = useSelector((state) => state.review);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { locale } = useSelector((state) => state.locale);
 
   const shortText = markdown.slice(0, 200) + "...";
 
@@ -48,8 +54,16 @@ export default function ShortReviewCard({
 
   useEffect(() => {
     const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
-    currentUser && setLiked(reviewLikes.includes(currentUser._id));
-  }, []);
+    if (currentUser) {
+      setLiked(reviewLikes.includes(currentUser._id));
+    }
+  }, [currentUser]);
+
+  const getTime = (time, locale) => {
+    const momentLocale = locale === "ge" ? "ka" : locale;
+    moment.locale(momentLocale);
+    return moment(time).fromNow();
+  };
 
   return (
     <StyledCard onClick={handleClick}>
@@ -62,7 +76,7 @@ export default function ShortReviewCard({
           />
         }
         title={user.name}
-        subheader={moment(createdAt).fromNow()}
+        subheader={getTime(createdAt, locale)}
       />
       <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
         {img.length &&
@@ -92,6 +106,12 @@ export default function ShortReviewCard({
           ))}
       </Box>
       <CardContent>
+        <Typography color="text.primary" component={"span"}>
+          {composition.title}
+        </Typography>
+        <Typography color="text.primary" component={"span"}>
+          <ReactMarkdown>{title}</ReactMarkdown>
+        </Typography>
         <Typography color="text.primary" component={"span"}>
           <ReactMarkdown>{shortText}</ReactMarkdown>
         </Typography>

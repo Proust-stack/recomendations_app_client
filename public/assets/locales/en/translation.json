@@ -38,6 +38,17 @@
 
     "mypage_new_review": "New review",
 
+    "composition_page_no_reviews": "No reviews yet",
+
+    "composition_component_view_reviews": "View reviews",
+    "composition_component_reviews_rating": "Reviews rating",
+    "composition_component_user_rating": "User rating",
+
+    "comment_component_button_send": "Send",
+    "comment_component_popover": "You need to sign in before comment",
+
+    "comment_section_comments": "Comments",
+
     "footer_withlove": "Made with Love",
     "footer_address": "Georgia, Tbilisi, 2022"
   }

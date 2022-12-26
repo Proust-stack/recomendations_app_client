@@ -10,7 +10,7 @@ export const sendComment = createAsyncThunk(
         withCredentials: true,
         method: "post",
         data: comment,
-        url: `${SERVER}/comment/create`,
+        url: `${SERVER}/api/comment/create`,
       });
     } catch (error) {
       return rejectWithValue(error.message);

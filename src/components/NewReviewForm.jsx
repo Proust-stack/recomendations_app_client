@@ -13,27 +13,30 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
+import CardMedia from "@mui/material/CardMedia";
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app } from "../utils/firebase";
+import firebaseConfig from "../utils/firebase";
+import { initializeApp } from "firebase/app";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 import { useTranslation } from "react-i18next";
 import { getAllGroups } from "../slices/groupSlice";
 import { addReview } from "../slices/reviewSlice";
 
-export default function NewReviewForm({ handleClose }) {
+export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [file, setFile] = useState([]);
+  const [files, setFiles] = useState([]);
   const [img, setImg] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
   const [imgPerc, setImgPerc] = useState(0);
   const [uploaded, setUploaded] = useState(false);
+
   const { currentUser } = useSelector((state) => state.user);
   const { groups } = useSelector((state) => state.group);
   const { compositionsByGroup } = useSelector((state) => state.composition);
@@ -41,13 +44,16 @@ export default function NewReviewForm({ handleClose }) {
   let uploadTask;
 
   useEffect(() => {
-    !groups && dispatch(getAllGroups());
-  }, []);
+    if (!groups) {
+      dispatch(getAllGroups());
+    }
+  }, [groups]);
 
   useEffect(() => {
-    console.log("useEffect upload ");
-    file.length && uploadFile(file);
-  }, [file]);
+    if (files.length) {
+      uploadFile(files);
+    }
+  }, [files]);
 
   useEffect(() => {
     dispatch(getAllTags());
@@ -95,42 +101,26 @@ export default function NewReviewForm({ handleClose }) {
         tags: tagsValue,
       };
     }
+    console.log(fullData);
     dispatch(addReview(fullData));
     setUploaded(false);
-    handleClose();
+    setOpenAlert(true);
+    //handleClose();
   };
 
-  const uploadFile = (file) => {
-    const storage = getStorage(app);
-    for (const item of file) {
-      const fileName = new Date().getTime() + item.name;
+  const uploadFile = async (files) => {
+    const storage = getStorage(initializeApp(firebaseConfig));
+    const imgUrls = [];
+    for (const file of files) {
+      const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, "images/" + fileName);
-      uploadTask = uploadBytesResumable(storageRef, item);
+      await uploadBytesResumable(storageRef, file);
+      const imgUrl = await getDownloadURL(ref(storage, `images/${fileName}`));
+      imgUrls.push(imgUrl);
     }
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImgPerc(Math.round(progress));
-        switch (snapshot.state) {
-          case "paused":
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
-        }
-      },
-      (error) => {},
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImg((prev) => [...prev, downloadURL]);
-          setUploaded(true);
-        });
-      }
-    );
+
+    setImg(imgUrls);
+    setUploaded(true);
   };
 
   const handleChange = (value) => {
@@ -256,13 +246,26 @@ export default function NewReviewForm({ handleClose }) {
         />
       </Box>
       <InputLabel>{t("new_review_images")}</InputLabel>
-      <DragDrop setFile={setFile} />
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+        {files &&
+          files.map((file) => (
+            <CardMedia
+              component="img"
+              height="50"
+              sx={{ width: "auto", borderRadius: 1 }}
+              image={URL.createObjectURL(file)}
+              alt="picture"
+              key={file.name}
+            />
+          ))}
+      </Box>
+      <DragDrop setFile={setFiles} />
       <Typography color="text.primary">Uploaded: {imgPerc}%</Typography>
       <Button
         type="submit"
         variant="contained"
         sx={{ marginTop: "2rem" }}
-        disabled={!uploaded}
+        disabled={files.length && !uploaded}
       >
         {t("new_review_btn")}
       </Button>

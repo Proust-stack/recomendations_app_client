@@ -35,7 +35,7 @@ export default function SelectSmall() {
         onChange={handleChange}
         variant="standard"
         autoWidth
-        sx={{ border: "none" }}
+        sx={{ border: "none", display: "flex", justifyContent: "center" }}
       >
         <StyledMenuItem value={"en"}>
           <img
