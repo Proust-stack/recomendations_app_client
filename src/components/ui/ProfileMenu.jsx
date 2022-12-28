@@ -49,7 +49,7 @@ export default function ProfileMenu() {
   };
 
   useEffect(() => {
-    if (currentUser.blocked) {
+    if (currentUser?.blocked) {
       getLogout();
     }
   }, [currentUser]);
@@ -137,7 +137,7 @@ export default function ProfileMenu() {
           horizontal: "right",
         }}
       >
-        {currentUser && !currentUser.blocked ? (
+        {currentUser && !currentUser?.blocked ? (
           <MenuItem onClick={() => navigate(`/mypage/${currentUser._id}`)}>
             <Avatar /> {t("nav_mypage")}
           </MenuItem>
@@ -147,10 +147,10 @@ export default function ProfileMenu() {
             <Avatar /> {t("nav_dashboard")}
           </MenuItem>
         ) : null}
-        {currentUser && !currentUser.blocked ? null : (
+        {currentUser && !currentUser?.blocked ? null : (
           <MenuItem onClick={signInWithGoogle}>{t("nav_google")}</MenuItem>
         )}
-        {currentUser && !currentUser.blocked ? null : (
+        {currentUser && !currentUser?.blocked ? null : (
           <MenuItem onClick={signInWithGithub}>{t("nav_twitter")}</MenuItem>
         )}
         {currentUser ? (
