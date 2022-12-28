@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getOneReview } from "../slices/reviewSlice";
 import ReviewCard from "../components/ReviewCard";
@@ -16,6 +18,8 @@ import { hasRated } from "../utils/hasUserRated";
 import { getOneComposition } from "../slices/compositionSlice";
 
 export default function Reviewpage() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("lg"));
   const dispatch = useDispatch();
   let { id } = useParams();
   const { currentReview } = useSelector((state) => state.review);
@@ -35,13 +39,18 @@ export default function Reviewpage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
-        <Grid container spacing={2} sx={{ padding: 2 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ padding: 2 }}
+          direction={matches ? "column" : "row"}
+        >
           <Grid item xs="auto">
             {currentReview && (
               <CompositionCard {...currentReview.composition} noLink={true} />
             )}
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs>
             {currentUser &&
             currentComposition &&
             !hasRated(currentComposition.usersRating, currentUser._id) ? (

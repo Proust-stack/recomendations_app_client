@@ -12,14 +12,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
-import moment from "moment";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
 import styled from "@mui/material/styles/styled";
 import { useTranslation } from "react-i18next";
-import Moment from "react-moment";
-import "moment/locale/ka";
+import { getTimeFromNow } from "../utils/getTimeFromNow";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: 15,
@@ -59,12 +57,6 @@ export default function ShortReviewCard({
     }
   }, [currentUser]);
 
-  const getTime = (time, locale) => {
-    const momentLocale = locale === "ge" ? "ka" : locale;
-    moment.locale(momentLocale);
-    return moment(time).fromNow();
-  };
-
   return (
     <StyledCard onClick={handleClick}>
       <CardHeader
@@ -76,7 +68,7 @@ export default function ShortReviewCard({
           />
         }
         title={user.name}
-        subheader={getTime(createdAt, locale)}
+        subheader={getTimeFromNow(createdAt, locale)}
       />
       <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
         {img.length &&

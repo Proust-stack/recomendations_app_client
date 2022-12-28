@@ -9,7 +9,7 @@ export const getAllGroups = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/group/all`,
+        url: `http://localhost:5000/api/group/all`,
       });
       dispatch(setGroups(data));
     } catch (error) {

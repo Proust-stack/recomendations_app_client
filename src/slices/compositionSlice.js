@@ -9,7 +9,7 @@ export const getOneComposition = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/composition/` + id,
+        url: `http://localhost:5000/api/composition/` + id,
       });
       dispatch(setComposition(data));
     } catch (error) {
@@ -27,7 +27,7 @@ export const setUserRating = createAsyncThunk(
         method: "patch",
         data: userRatingData,
         url:
-          `${SERVER}/api/composition/userrating/` +
+          `http://localhost:5000/api/composition/userrating/` +
           userRatingData.compositionId,
       });
     } catch (error) {
@@ -43,7 +43,7 @@ export const getAllByGroup = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/composition/all/` + groupId,
+        url: `http://localhost:5000/api/composition/all/` + groupId,
       });
       dispatch(setCompositions(data));
     } catch (error) {
@@ -58,7 +58,7 @@ export const getAllCompositions = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/composition/compositions/all/nofilter`,
+        url: `http://localhost:5000/api/composition/compositions/all/nofilter`,
       });
       dispatch(setAllCompositions(data));
     } catch (error) {

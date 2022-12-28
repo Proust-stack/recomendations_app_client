@@ -20,13 +20,12 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import firebaseConfig from "../utils/firebase";
-import { initializeApp } from "firebase/app";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 import { useTranslation } from "react-i18next";
 import { getAllGroups } from "../slices/groupSlice";
 import { addReview } from "../slices/reviewSlice";
+import app from "../utils/firebase";
 
 export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const { t } = useTranslation();
@@ -41,7 +40,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const { groups } = useSelector((state) => state.group);
   const { compositionsByGroup } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
-  let uploadTask;
 
   useEffect(() => {
     if (!groups) {
@@ -109,7 +107,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
   };
 
   const uploadFile = async (files) => {
-    const storage = getStorage(initializeApp(firebaseConfig));
+    const storage = getStorage(app);
     const imgUrls = [];
     for (const file of files) {
       const fileName = new Date().getTime() + file.name;

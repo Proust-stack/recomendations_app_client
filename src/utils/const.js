@@ -2,7 +2,7 @@ export const HOME_PAGE_ROUTE = "/";
 export const PERSONAL_PAGE_ROUTE = "/";
 export const REVIEW_ROUTE = "/";
 export const DASHBOARD_ROUTE = "/";
-export const TEST_API = "${SERVER}/api";
+export const TEST_API = "http://localhost:5000/api";
 export const SERVER = process.env.REACT_APP_SERVER_URL;
 
 export const DEFAULT_IMG =

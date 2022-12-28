@@ -10,7 +10,7 @@ export const sendComment = createAsyncThunk(
         withCredentials: true,
         method: "post",
         data: comment,
-        url: `${SERVER}/api/comment/create`,
+        url: `http://localhost:5000/api/comment/create`,
       });
     } catch (error) {
       return rejectWithValue(error.message);
@@ -25,7 +25,7 @@ export const getAllComments = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/comment/all/` + reviewId,
+        url: `http://localhost:5000/api/comment/all/` + reviewId,
       });
       dispatch(setComments(data));
     } catch (error) {

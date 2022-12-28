@@ -10,18 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Logout from "@mui/icons-material/LogoutOutlined";
 import { useTranslation } from "react-i18next";
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
-import firebaseConfig from "../../utils/firebase";
 import { logout, setUser } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
+import { auth, githubProvider, googleProvider } from "../../utils/firebase";
 
 export default function ProfileMenu() {
-  let auth;
-  const googleProvider = new GoogleAuthProvider();
-  const githubProvider = new GithubAuthProvider();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -60,8 +55,6 @@ export default function ProfileMenu() {
   }, [currentUser]);
 
   useEffect(() => {
-    initializeApp(firebaseConfig);
-    auth = getAuth();
     getUserFromGoogle();
   }, []);
 

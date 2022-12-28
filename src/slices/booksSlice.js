@@ -9,7 +9,7 @@ export const getAllBooks = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `${SERVER}/api/composition/all/63923c91c4db72d5c244041e`,
+        url: `http://localhost:5000/api/composition/all/63923c91c4db72d5c244041e`,
       });
       dispatch(setBooks(data));
     } catch (error) {

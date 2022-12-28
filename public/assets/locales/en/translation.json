@@ -7,7 +7,6 @@
     "nav_books": "Books",
     "nav_games": "Games",
     "nav_search": "Search...",
-
     "nav_google": "Sign in with google",
     "nav_twitter": "Sign in with twitter",
     "nav_mypage": "My page",
@@ -39,6 +38,8 @@
     "mypage_new_review": "New review",
 
     "composition_page_no_reviews": "No reviews yet",
+
+    "review_page_fownload_pdf": "Download PDF",
 
     "composition_component_view_reviews": "View reviews",
     "composition_component_reviews_rating": "Reviews rating",

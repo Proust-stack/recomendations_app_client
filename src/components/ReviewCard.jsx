@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import Button from "@mui/material/Button";
 import styled from "@mui/material/styles/styled";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -22,10 +23,15 @@ import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import Image from "mui-image";
+import { useTranslation } from "react-i18next";
+
 import BasicModal from "./ui/Modal";
 import EditReviewForm from "./EditReviewForm";
 import Loader from "./ui/Loader";
 import ReactMarkdown from "react-markdown";
+import { generatePDF } from "../utils/generatePDF";
+import { getTimeFromNow } from "../utils/getTimeFromNow";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -40,8 +46,13 @@ const ExpandMore = styled((props) => {
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: 2,
-  flexGrow: 1,
   position: "relative",
+}));
+const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+  transition: "0.1s .3s ease-out",
+  "&:hover": {
+    height: 300,
+  },
 }));
 
 export default function ReviewCard({
@@ -60,6 +71,7 @@ export default function ReviewCard({
   const { reviewsAll } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const { currentUser } = useSelector((state) => state.user);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -87,7 +99,7 @@ export default function ReviewCard({
   const handleClose = () => setOpen(false);
 
   return (
-    <StyledCard>
+    <StyledCard id="review">
       {currentUser && (user === currentUser._id || currentUser.isAdmin) ? (
         <Fab
           color="secondary"
@@ -112,13 +124,16 @@ export default function ReviewCard({
           />
         }
         title={user.name}
-        subheader={moment(createdAt).fromNow()}
+        subheader={getTimeFromNow(createdAt, locale)}
       />
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, m: 2 }}>
+      <Button variant="text" onClick={generatePDF} sx={{ position: "absolut" }}>
+        {t("review_page_fownload_pdf")}
+      </Button>
+      <Box sx={{ display: "flex", gap: 2, m: 2, height: 150 }}>
         {img.length &&
           img.map((item) =>
             item ? (
-              <CardMedia
+              <StyledCardMedia
                 component="img"
                 height="150"
                 sx={{ width: "auto", borderRadius: 5 }}
