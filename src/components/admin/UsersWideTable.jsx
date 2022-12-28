@@ -274,7 +274,7 @@ const UsersWideTable = () => {
           numSelected={selected.length}
           selected={selected}
           setData={setData}
-          user={list.find((item) => item._id === selected[0])}
+          user={list?.find((item) => item._id === selected[0])}
         />
         <TableContainer>
           <Table

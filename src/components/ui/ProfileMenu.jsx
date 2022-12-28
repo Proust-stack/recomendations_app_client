@@ -44,6 +44,7 @@ export default function ProfileMenu() {
   const getUserFromGoogle = async () => {
     const response = await getRedirectResult(auth);
     if (response?.user) {
+      console.log(response?.user);
       dispatch(signInGoogle(response.user));
     }
   };
@@ -151,7 +152,7 @@ export default function ProfileMenu() {
           <MenuItem onClick={signInWithGoogle}>{t("nav_google")}</MenuItem>
         )}
         {currentUser && !currentUser?.blocked ? null : (
-          <MenuItem onClick={signInWithGithub}>{t("nav_twitter")}</MenuItem>
+          <MenuItem onClick={signInWithGithub}>{t("nav_github")}</MenuItem>
         )}
         {currentUser ? (
           <MenuItem onClick={getLogout}>

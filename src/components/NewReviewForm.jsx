@@ -33,7 +33,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const [files, setFiles] = useState([]);
   const [img, setImg] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
-  const [imgPerc, setImgPerc] = useState(0);
   const [uploaded, setUploaded] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
@@ -103,7 +102,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
     dispatch(addReview(fullData));
     setUploaded(false);
     setOpenAlert(true);
-    //handleClose();
+    handleClose();
   };
 
   const uploadFile = async (files) => {
@@ -113,7 +112,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
       const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, "images/" + fileName);
       await uploadBytesResumable(storageRef, file);
-      const imgUrl = await getDownloadURL(ref(storage, `images/${fileName}`));
+      const imgUrl = await getDownloadURL(storageRef);
       imgUrls.push(imgUrl);
     }
 
@@ -258,7 +257,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
           ))}
       </Box>
       <DragDrop setFile={setFiles} />
-      <Typography color="text.primary">Uploaded: {imgPerc}%</Typography>
       <Button
         type="submit"
         variant="contained"

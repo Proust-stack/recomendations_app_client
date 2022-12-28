@@ -9,10 +9,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
-import ShortReviewCard from "../components/ShortReviewCard";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
-import LazyComponent from "../hocs/LazyComponent";
+import LazyShortReviewCardComponent from "../hocs/LazyComponent";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -61,8 +60,7 @@ export default function HomePage() {
               {reviewsAll &&
                 reviewsAll.map((review) => (
                   <StyledBox key={review._id}>
-                    {/* <ShortReviewCard {...review} /> */}
-                    <LazyComponent {...review} />
+                    <LazyShortReviewCardComponent {...review} />
                   </StyledBox>
                 ))}
             </Box>

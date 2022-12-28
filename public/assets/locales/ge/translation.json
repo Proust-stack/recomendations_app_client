@@ -9,7 +9,7 @@
     "nav_search": "ძიება...",
 
     "nav_google": "შესვლა google-ით",
-    "nav_twitter": "შედით twitter-ით",
+    "nav_github": "შედით github-ით",
     "nav_mypage": "ჩემი გვერდი",
     "nav_dashboard": "დაფა",
     "nav_logout": "შესვლა",
@@ -45,6 +45,10 @@
     "composition_component_view_reviews": "მიმოხილვების ნახვა",
     "composition_component_reviews_rating": "მიმოხილვა რეიტინგი",
     "composition_component_user_rating": "მომხმარებლის რეიტინგი",
+
+    "review_component_edit_review": "რედაქტირება მიმოხილვა",
+    "review_component_show_comments": "კომენტარების ჩვენება",
+    "review_component_hide_comments": "კომენტარების დამალვა",
 
     "comment_component_button_send": "ელ-ფოსტა",
     "comment_component_popover": "თქვენ უნდა შეხვიდეთ კომენტარამდე",

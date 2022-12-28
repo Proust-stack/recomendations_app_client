@@ -32,6 +32,10 @@ import Loader from "./ui/Loader";
 import ReactMarkdown from "react-markdown";
 import { generatePDF } from "../utils/generatePDF";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
+import {
+  LasyCommentSection,
+  LasyCommentSectionComponent,
+} from "../hocs/LazyComponent";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -110,7 +114,7 @@ export default function ReviewCard({
           }}
           onClick={handleOpen}
         >
-          <Tooltip title="Edit review">
+          <Tooltip title={t("review_component_edit_review")}>
             <ModeEditIcon />
           </Tooltip>
         </Fab>
@@ -174,15 +178,19 @@ export default function ReviewCard({
           aria-expanded={expanded}
           aria-label="show comments"
         >
-          <Tooltip title={expanded ? "Hide comments" : "Show comments"}>
+          <Tooltip
+            title={
+              expanded
+                ? t("review_component_hide_comments")
+                : t("review_component_show_comments")
+            }
+          >
             <ExpandMoreIcon />
           </Tooltip>
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Suspense fallback={<Loader />}>
-          <CommentsSection expanded={expanded} id={_id} />
-        </Suspense>
+        <LasyCommentSectionComponent expanded={expanded} id={_id} />
       </Collapse>
       <BasicModal open={open} handleClose={handleClose}>
         <EditReviewForm currentReviewId={_id} handleClose={handleClose} />

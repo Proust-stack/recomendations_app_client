@@ -23,15 +23,13 @@ import app from "../utils/firebase";
 
 export default function EditReviewForm({ compositionId, handleClose }) {
   const dispatch = useDispatch();
-  const [file, setFile] = useState([]);
+  const [files, setFiles] = useState([]);
   const [img, setImg] = useState([]);
-  const [imgPerc, setImgPerc] = useState(0);
   const [uploaded, setUploaded] = useState(false);
   const { currentComposition } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
   const { currentReview } = useSelector((state) => state.review);
   const [tagsValue, setTagsValue] = useState(currentReview.tags || []);
-  let uploadTask;
 
   const schema = yup
     .object({
@@ -83,46 +81,26 @@ export default function EditReviewForm({ compositionId, handleClose }) {
     // handleClose();
   };
 
-  const uploadFile = (file) => {
+  const uploadFile = async (files) => {
     const storage = getStorage(app);
-    file.forEach((item) => {
-      const fileName = new Date().getTime() + item.name;
+    const imgUrls = [];
+    for (const file of files) {
+      const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, "images/" + fileName);
-      uploadTask = uploadBytesResumable(storageRef, item);
-    });
+      await uploadBytesResumable(storageRef, file);
+      const imgUrl = await getDownloadURL(storageRef);
+      imgUrls.push(imgUrl);
+    }
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImgPerc(Math.round(progress));
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
-        }
-      },
-      (error) => {},
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImg((prev) => [...prev, downloadURL]);
-          if (file.length === img.length) {
-            setUploaded(true);
-          }
-        });
-      }
-    );
+    setImg(imgUrls);
+    setUploaded(true);
   };
 
   useEffect(() => {
-    file.length && uploadFile(file);
-  }, [file]);
+    if (files.length) {
+      uploadFile(files);
+    }
+  }, [files]);
 
   useEffect(() => {
     dispatch(getAllTags());
@@ -204,15 +182,13 @@ export default function EditReviewForm({ compositionId, handleClose }) {
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
-      <div>{errors.tags?.message}</div>
       <InputLabel>Images</InputLabel>
-      <DragDrop setFile={setFile} />
-      <Typography>{imgPerc}</Typography>
+      <DragDrop setFile={setFiles} />
       <Button
         type="submit"
         variant="contained"
         sx={{ marginTop: "2rem" }}
-        disabled={file.length && !uploaded}
+        disabled={files.length && !uploaded}
       >
         Submit changes
       </Button>
