@@ -9,7 +9,7 @@ export const getAllReviewsByUser = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/review/all/` + id,
+        url: `${SERVER}/api/review/all/` + id,
       });
       dispatch(setReviews(data));
     } catch (error) {
@@ -25,7 +25,7 @@ export const getAllReviewsByTags = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/review/all/reviews/bytags`,
+        url: `${SERVER}/api/review/all/reviews/bytags`,
         params: {
           tags,
         },
@@ -43,7 +43,7 @@ export const search = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/review/all/search`,
+        url: `${SERVER}/api/review/all/search`,
         params: {
           q,
         },
@@ -61,7 +61,7 @@ export const getAllReviewsByComposition = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/review/all/composition/` + id,
+        url: `${SERVER}/api/review/all/composition/` + id,
       });
       dispatch(setReviewsByComposition(data));
     } catch (error) {
@@ -77,7 +77,7 @@ export const addReview = createAsyncThunk(
         withCredentials: true,
         method: "post",
         data: review,
-        url: `http://localhost:5000/api/review/create`,
+        url: `${SERVER}/api/review/create`,
       });
       dispatch(setReview(data));
     } catch (error) {
@@ -93,7 +93,7 @@ export const updateReview = createAsyncThunk(
         withCredentials: true,
         method: "patch",
         data: review.data,
-        url: `http://localhost:5000/api/review/` + review.id,
+        url: `${SERVER}/api/review/` + review.id,
       });
       dispatch(setReview(data));
     } catch (error) {
@@ -109,7 +109,7 @@ export const getOneReview = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/review/` + id,
+        url: `${SERVER}/api/review/` + id,
       });
       dispatch(setReview(data));
     } catch (error) {
@@ -124,7 +124,7 @@ export const deleteReviews = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "delete",
-        url: `http://localhost:5000/api/review/remove`,
+        url: `${SERVER}/api/review/remove`,
         data: {
           reviews,
         },
@@ -141,7 +141,7 @@ export const likeReview = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "patch",
-        url: `http://localhost:5000/api/review/like/` + id,
+        url: `${SERVER}/api/review/like/` + id,
       });
       dispatch(changeReview(data));
     } catch (error) {
@@ -156,7 +156,7 @@ export const unLikeReview = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "patch",
-        url: `http://localhost:5000/api/review/unlike/` + id,
+        url: `${SERVER}/api/review/unlike/` + id,
       });
       dispatch(changeReview(data));
     } catch (error) {

@@ -10,7 +10,7 @@ export const signInGoogle = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "post",
-        url: `http://localhost:5000/api/user/auth/google`,
+        url: `${SERVER}/api/user/auth/google`,
         data: {
           name,
           email,
@@ -31,7 +31,7 @@ export const getAllUsers = createAsyncThunk(
       const { data } = await axios({
         withCredentials: true,
         method: "get",
-        url: `http://localhost:5000/api/user/all`,
+        url: `${SERVER}/api/user/all`,
       });
       dispatch(setAllUsers(data));
     } catch (error) {
@@ -47,7 +47,7 @@ export const blockUser = createAsyncThunk(
       await axios({
         withCredentials: true,
         method: "patch",
-        url: `http://localhost:5000/api/user/block/` + userId,
+        url: `${SERVER}/api/user/block/` + userId,
       });
     } catch (error) {
       return rejectWithValue(error.message);
@@ -61,7 +61,7 @@ export const unBlockUser = createAsyncThunk(
       await axios({
         withCredentials: true,
         method: "patch",
-        url: `http://localhost:5000/api/user/unblock/` + userId,
+        url: `${SERVER}/api/user/unblock/` + userId,
       });
     } catch (error) {
       return rejectWithValue(error.message);
@@ -76,7 +76,7 @@ export const deleteUser = createAsyncThunk(
       await axios({
         withCredentials: true,
         method: "delete",
-        url: `http://localhost:5000/api/user/` + userId,
+        url: `${SERVER}/api/user/` + userId,
       });
     } catch (error) {
       return rejectWithValue(error.message);
