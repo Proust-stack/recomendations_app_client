@@ -45,7 +45,7 @@ export default function Reviewpage() {
           sx={{ padding: 2 }}
           direction={matches ? "column" : "row"}
         >
-          <Grid item xs="auto">
+          <Grid item xs={2}>
             {currentReview && (
               <CompositionCard {...currentReview.composition} noLink={true} />
             )}

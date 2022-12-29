@@ -23,18 +23,7 @@ export default function TagsCloud({ groupId }) {
   const { tags } = useSelector((state) => state.tag);
   const { selectedTags } = useSelector((state) => state.tag);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: 2,
-        padding: 1,
-        maxWidth: "100%",
-      }}
-    >
+    <>
       {tags &&
         tags.map((tag) => (
           <Chip
@@ -46,6 +35,6 @@ export default function TagsCloud({ groupId }) {
             color="primary"
           />
         ))}
-    </Box>
+    </>
   );
 }

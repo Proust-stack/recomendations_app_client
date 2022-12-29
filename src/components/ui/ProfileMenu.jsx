@@ -41,10 +41,9 @@ export default function ProfileMenu() {
     signInWithRedirect(auth, githubProvider);
   };
 
-  const getUserFromGoogle = async () => {
+  const getUserFromRedirect = async () => {
     const response = await getRedirectResult(auth);
     if (response?.user) {
-      console.log(response?.user);
       dispatch(signInGoogle(response.user));
     }
   };
@@ -56,7 +55,10 @@ export default function ProfileMenu() {
   }, [currentUser]);
 
   useEffect(() => {
-    getUserFromGoogle();
+    let timer = setTimeout(() => {
+      getUserFromRedirect();
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const getLogout = () => {

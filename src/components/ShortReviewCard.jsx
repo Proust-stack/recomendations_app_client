@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
 import styled from "@mui/material/styles/styled";
+import Image from "mui-image";
+
 import { useTranslation } from "react-i18next";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
 
@@ -45,17 +47,20 @@ export default function ShortReviewCard({
 
   const shortText = markdown.slice(0, 200) + "...";
 
-  const handleClick = () => {
-    navigate(`/review/${_id}`);
-    handleClose && handleClose();
-  };
-
   useEffect(() => {
-    const reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
+    let reviewLikes;
+    if (reviewsAll) {
+      reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
+    }
     if (currentUser) {
       setLiked(reviewLikes.includes(currentUser._id));
     }
   }, [currentUser]);
+
+  const handleClick = () => {
+    navigate(`/review/${_id}`);
+    handleClose && handleClose();
+  };
 
   return (
     <StyledCard onClick={handleClick}>
@@ -70,7 +75,7 @@ export default function ShortReviewCard({
         title={user.name}
         subheader={getTimeFromNow(createdAt, locale)}
       />
-      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
         {img.length &&
           img.map((item) =>
             item ? (
@@ -82,7 +87,16 @@ export default function ShortReviewCard({
                 alt="picture"
                 key={item}
               />
-            ) : null
+            ) : // <Image
+            //   height="150"
+            //   width="auto"
+            //   src={item}
+            //   fit="cover"
+            //   key={item}
+            //   sx={{ borderRadius: 3 }}
+            //   duration={500}
+            // />
+            null
           )}
       </Box>
       <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>

@@ -14,21 +14,29 @@ import MoviesPage from "./pages/MoviesPage";
 import BooksPage from "./pages/BooksPage";
 import GamesPage from "./pages/GamesPage";
 import { useEffect } from "react";
-import UsersTable from "./components/admin/UsersTable";
+import { useDispatch } from "react-redux";
+
 import AddGroupForm from "./components/admin/AddGroupForm";
 import AddCompositionForm from "./components/admin/AddCompositionForm";
 import CompositionPage from "./pages/CompositionPage";
 import Reviewpage from "./pages/ReviewPage";
 import ErrorFallback from "./utils/errorCallback";
 import UsersWideTable from "./components/admin/UsersWideTable";
+import { getAllReviewsByTags } from "./slices/reviewSlice";
 
 function App() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { mode } = useSelector((state) => state.theme);
   const { locale } = useSelector((state) => state.locale);
+
   useEffect(() => {
     document.title = t("nav_title");
   }, [locale, t]);
+
+  useEffect(() => {
+    dispatch(getAllReviewsByTags([]));
+  }, []);
 
   const themeWithMode = React.useMemo(
     () =>

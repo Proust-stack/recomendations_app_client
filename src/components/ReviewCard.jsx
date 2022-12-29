@@ -32,10 +32,6 @@ import Loader from "./ui/Loader";
 import ReactMarkdown from "react-markdown";
 import { generatePDF } from "../utils/generatePDF";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
-import {
-  LasyCommentSection,
-  LasyCommentSectionComponent,
-} from "../hocs/LazyComponent";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -68,7 +64,7 @@ export default function ReviewCard({
   _id,
   markdown,
 }) {
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = React.useState(false);
   const [liked, setLiked] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -133,7 +129,7 @@ export default function ReviewCard({
       <Button variant="text" onClick={generatePDF} sx={{ position: "absolut" }}>
         {t("review_page_fownload_pdf")}
       </Button>
-      <Box sx={{ display: "flex", gap: 2, m: 2, height: 150 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         {img.length &&
           img.map((item) =>
             item ? (
@@ -190,7 +186,7 @@ export default function ReviewCard({
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <LasyCommentSectionComponent expanded={expanded} id={_id} />
+        <CommentsSection expanded={expanded} id={_id} />
       </Collapse>
       <BasicModal open={open} handleClose={handleClose}>
         <EditReviewForm currentReviewId={_id} handleClose={handleClose} />

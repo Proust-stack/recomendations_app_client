@@ -11,13 +11,13 @@ import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
-import LazyShortReviewCardComponent from "../hocs/LazyComponent";
+import ShortReviewCard from "../components/ShortReviewCard";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "flex-start",
   justifyContent: "flex-start",
-  flexDirection: "row",
+  flexDirection: "column",
   flexWrap: "wrap",
   gap: 10,
 }));
@@ -42,28 +42,16 @@ export default function HomePage() {
           sx={{ padding: 2 }}
           direction={matches ? "column" : "row"}
         >
-          <Grid item xs>
+          <Grid item xs={2}>
             <TagsCloud />
           </Grid>
           <Grid item xs={10}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 2,
-                padding: 1,
-              }}
-            >
+            <StyledBox>
               {reviewsAll &&
                 reviewsAll.map((review) => (
-                  <StyledBox key={review._id}>
-                    <LazyShortReviewCardComponent {...review} />
-                  </StyledBox>
+                  <ShortReviewCard {...review} key={review._id} />
                 ))}
-            </Box>
+            </StyledBox>
           </Grid>
         </Grid>
       </Suspense>

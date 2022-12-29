@@ -28,6 +28,10 @@ export default function CommentsSection({ expanded, id }) {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    dispatch(getAllComments(id));
+  }, []);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>

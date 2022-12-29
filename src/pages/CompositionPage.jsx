@@ -5,6 +5,9 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getAllReviewsByComposition } from "../slices/reviewSlice";
 import { getOneComposition } from "../slices/compositionSlice";
@@ -14,6 +17,8 @@ import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
 
 export default function CompositionPage() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("lg"));
   const { t } = useTranslation();
   const dispatch = useDispatch();
   let { id } = useParams();
@@ -23,6 +28,7 @@ export default function CompositionPage() {
   useEffect(() => {
     dispatch(getAllReviewsByComposition(id));
   }, []);
+
   useEffect(() => {
     dispatch(getOneComposition(id));
   }, []);
@@ -30,37 +36,18 @@ export default function CompositionPage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<Loader />}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: 2,
-            padding: 2,
-          }}
+        <Grid
+          container
+          spacing={2}
+          sx={{ padding: 2 }}
+          direction={matches ? "column" : "row"}
         >
-          <Box
-            flex={2}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
+          <Grid item xs={2}>
             {currentComposition && (
               <CompositionCard {...currentComposition} noLink={true} />
             )}
-          </Box>
-          <Box
-            flex={10}
-            sx={{
-              display: "flex",
-              alignItems: "flex-start",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 2,
-            }}
-          >
+          </Grid>
+          <Grid item xs={10}>
             {reviewsByComposition && reviewsByComposition.length ? (
               reviewsByComposition.map((review) => (
                 <ShortReviewCard {...review} key={review._id} />
@@ -68,8 +55,8 @@ export default function CompositionPage() {
             ) : (
               <Typography>{t("composition_page_no_reviews")}</Typography>
             )}
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Suspense>
     </ErrorBoundary>
   );

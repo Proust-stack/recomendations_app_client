@@ -1,4 +1,4 @@
-export const getUsersRating = (ratings) => {
+export const getRating = (ratings) => {
   if (!ratings) return null;
   if (ratings.lengh === 0) return null;
   let estimations;

@@ -12,22 +12,15 @@ import StarsIcon from "@mui/icons-material/Stars";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import Image from "mui-image";
 
-import { getOneComposition } from "../slices/compositionSlice";
-import { getUsersRating } from "../utils/getUsersRatingsMean";
+import { getRating } from "../utils/getUsersRatingsMean";
 
 const CompositionCard = React.memo(function CompositionCard(props) {
   const { t } = useTranslation();
-  const { img, title, tags, reviewsRating, _id, noLink } = props;
+  const { img, title, _id, noLink } = props;
   const { currentComposition } = useSelector((state) => state.composition);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (_id) {
-      dispatch(getOneComposition(_id));
-    }
-  }, [_id]);
 
   return (
     <Card
@@ -35,17 +28,18 @@ const CompositionCard = React.memo(function CompositionCard(props) {
         position: "relative",
         flexShrink: 1,
         padding: 1,
-        flexGrow: 1,
+        flexGrow: 0,
         cursor: "pointer",
       }}
     >
-      <CardMedia
+      {/* <CardMedia
         component="img"
         height="194"
         image={img}
         alt="composition"
         sx={{ objectFit: "cover", width: "auto" }}
-      />
+      /> */}
+      <Image height="194" src={img[0]} fit="cover" duration={500} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -53,8 +47,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="body2" color="text.secondary">
             {t("composition_component_reviews_rating")}:{" "}
-            {currentComposition &&
-              getUsersRating(currentComposition.reviewsRating)}
+            {currentComposition && getRating(currentComposition.reviewsRating)}
           </Typography>
           <StarsIcon />
         </Box>
@@ -65,8 +58,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
             sx={{ fontWeight: 300 }}
           >
             {t("composition_component_user_rating")}:{" "}
-            {currentComposition &&
-              getUsersRating(currentComposition.usersRating)}
+            {currentComposition && getRating(currentComposition.usersRating)}
           </Typography>
           <StarIcon />
         </Box>
