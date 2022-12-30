@@ -16,13 +16,12 @@ export default function AdminPage() {
           <Grid item xs={2}>
             <LeftBar />
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs>
             <Box
               sx={{
                 display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
                 minHeight: "100vh",
+                width: "100%",
               }}
             >
               <Outlet />

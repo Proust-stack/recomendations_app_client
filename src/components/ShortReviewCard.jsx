@@ -37,6 +37,7 @@ export default function ShortReviewCard({
   handleClose,
   markdown,
   composition,
+  noFoto,
 }) {
   const [liked, setLiked] = React.useState(false);
   const { reviewsAll } = useSelector((state) => state.review);
@@ -75,30 +76,32 @@ export default function ShortReviewCard({
         title={user.name}
         subheader={getTimeFromNow(createdAt, locale)}
       />
-      <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
-        {img.length &&
-          img.map((item) =>
-            item ? (
-              <CardMedia
-                component="img"
-                height="150"
-                sx={{ width: "auto", borderRadius: 5 }}
-                image={item}
-                alt="picture"
-                key={item}
-              />
-            ) : // <Image
-            //   height="150"
-            //   width="auto"
-            //   src={item}
-            //   fit="cover"
-            //   key={item}
-            //   sx={{ borderRadius: 3 }}
-            //   duration={500}
-            // />
-            null
-          )}
-      </Box>
+      {!noFoto && (
+        <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
+          {img.length &&
+            img.map((item) =>
+              item ? (
+                <CardMedia
+                  component="img"
+                  height="150"
+                  sx={{ width: "auto", borderRadius: 5 }}
+                  image={item}
+                  alt="picture"
+                  key={item}
+                />
+              ) : // <Image
+              //   height="150"
+              //   width="auto"
+              //   src={item}
+              //   fit="cover"
+              //   key={item}
+              //   sx={{ borderRadius: 3 }}
+              //   duration={500}
+              // />
+              null
+            )}
+        </Box>
+      )}
       <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
         {tags &&
           tags.map((tag) => (

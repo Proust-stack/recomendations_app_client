@@ -12,6 +12,7 @@ function DragDrop({ setFile }) {
     <Box
       style={{
         width: "100%",
+        display: "flex",
       }}
     >
       <FileUploader
@@ -19,6 +20,7 @@ function DragDrop({ setFile }) {
         types={fileTypes}
         handleChange={imageHandleChange}
         multiple
+        maxSize={5}
       />
     </Box>
   );

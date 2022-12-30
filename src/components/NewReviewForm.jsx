@@ -129,9 +129,18 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
       onSubmit={handleSubmit(onSubmit)}
       style={{
         width: "100%",
-        padding: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+        position: "relative",
       }}
     >
+      <Button
+        variant="text"
+        sx={{ position: "absolut", top: 0, right: 1 }}
+        onClick={handleClose}
+      >
+        X
+      </Button>
       <Box
         sx={{
           display: "flex",

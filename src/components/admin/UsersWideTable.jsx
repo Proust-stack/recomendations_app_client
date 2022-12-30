@@ -265,7 +265,7 @@ const UsersWideTable = () => {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - list.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - list?.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -288,58 +288,59 @@ const UsersWideTable = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={list.length}
+              rowCount={list?.length}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(list, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+              {list &&
+                stableSort(list, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row._id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={() => handleClick(row._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row._id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        align="left"
+                    return (
+                      <TableRow
+                        hover
+                        onClick={() => handleClick(row._id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row._id}
+                        selected={isItemSelected}
                       >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">
-                        {row.blocked ? "blocked" : "active"}
-                      </TableCell>
-                      <TableCell align="left">
-                        {row.isAdmin ? "admin" : "user"}
-                      </TableCell>
-                      <TableCell align="left">
-                        <Link to={`/mypage/${row._id}`}>{row._id}</Link>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                          align="left"
+                        >
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="left">{row.email}</TableCell>
+                        <TableCell align="left">
+                          {row.blocked ? "blocked" : "active"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.isAdmin ? "admin" : "user"}
+                        </TableCell>
+                        <TableCell align="left">
+                          <Link to={`/mypage/${row._id}`}>{row._id}</Link>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
@@ -355,7 +356,7 @@ const UsersWideTable = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={list.length}
+          count={list?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

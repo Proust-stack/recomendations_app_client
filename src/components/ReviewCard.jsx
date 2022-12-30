@@ -32,6 +32,7 @@ import Loader from "./ui/Loader";
 import ReactMarkdown from "react-markdown";
 import { generatePDF } from "../utils/generatePDF";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
+import AlertComponent from "../components/ui/AlertComponent";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -62,11 +63,13 @@ export default function ReviewCard({
   tags,
   text,
   _id,
+  title,
   markdown,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const [liked, setLiked] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(false);
 
   const { reviewsAll } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
@@ -97,6 +100,8 @@ export default function ReviewCard({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  console.log(user);
+  console.log(currentUser);
 
   return (
     <StyledCard id="review">
@@ -158,6 +163,9 @@ export default function ReviewCard({
       </Box>
 
       <CardContent>
+        <Typography color="text.primary" component={"span"}>
+          <ReactMarkdown>{title}</ReactMarkdown>
+        </Typography>
         <Typography color="text.primary">
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </Typography>
@@ -189,8 +197,17 @@ export default function ReviewCard({
         <CommentsSection expanded={expanded} id={_id} />
       </Collapse>
       <BasicModal open={open} handleClose={handleClose}>
-        <EditReviewForm currentReviewId={_id} handleClose={handleClose} />
+        <EditReviewForm
+          currentReviewId={_id}
+          handleClose={handleClose}
+          setOpenAlert={setOpenAlert}
+        />
       </BasicModal>
+      <AlertComponent
+        openAlert={openAlert}
+        setOpenAlert={setOpenAlert}
+        text="Review changed!"
+      />
     </StyledCard>
   );
 }

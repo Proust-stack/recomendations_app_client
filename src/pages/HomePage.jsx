@@ -18,6 +18,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
   alignItems: "flex-start",
   justifyContent: "flex-start",
   flexDirection: "column",
+  gap: 10,
+  flexWrap: "wrap",
+}));
+const TagsWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "row",
   flexWrap: "wrap",
   gap: 10,
 }));
@@ -43,7 +51,9 @@ export default function HomePage() {
           direction={matches ? "column" : "row"}
         >
           <Grid item xs={2}>
-            <TagsCloud />
+            <TagsWrapper>
+              <TagsCloud />
+            </TagsWrapper>
           </Grid>
           <Grid item xs={10}>
             <StyledBox>

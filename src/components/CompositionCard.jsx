@@ -13,8 +13,20 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Image from "mui-image";
+import styled from "@mui/material/styles/styled";
 
 import { getRating } from "../utils/getUsersRatingsMean";
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+}));
+const StyledImage = styled(Image)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "90vw",
+  },
+}));
 
 const CompositionCard = React.memo(function CompositionCard(props) {
   const { t } = useTranslation();
@@ -23,7 +35,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
   const navigate = useNavigate();
 
   return (
-    <Card
+    <StyledCard
       sx={{
         position: "relative",
         flexShrink: 1,
@@ -39,7 +51,15 @@ const CompositionCard = React.memo(function CompositionCard(props) {
         alt="composition"
         sx={{ objectFit: "cover", width: "auto" }}
       /> */}
-      <Image height="194" src={img[0]} fit="cover" duration={500} />
+      <Box sx={{ height: 150 }}>
+        <StyledImage
+          height="100%"
+          src={img[0]}
+          fit="cover"
+          duration={500}
+          width="50%"
+        />
+      </Box>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -70,7 +90,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
           </Button>
         )}
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 });
 

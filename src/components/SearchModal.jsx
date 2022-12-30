@@ -10,7 +10,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "50%",
+  width: "80%",
+  height: "60%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -42,6 +43,7 @@ export default function SearchModal({ open, handleClose }) {
                     {...review}
                     key={review._id}
                     handleClose={handleClose}
+                    noFoto={true}
                   />
                 ))
               : "no results")}

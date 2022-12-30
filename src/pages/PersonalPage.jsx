@@ -22,7 +22,7 @@ export default function PersonalPage() {
   const { reviews } = useSelector((state) => state.review);
 
   const [open, setOpen] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(true);
+  const [openAlert, setOpenAlert] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   let { id } = useParams();
@@ -64,7 +64,7 @@ export default function PersonalPage() {
           </BasicModal>
           {reviews && <ReviewsTable reviews={reviews} />}
         </Box>
-        <AlertComponent openAlert={openAlert} setOpenAlert={setOpenAlert} />
+        <AlertComponent openAlert={openAlert} setOpenAlert={setOpenAlert} text="Review created!"/>
       </Suspense>
     </ErrorBoundary>
   );

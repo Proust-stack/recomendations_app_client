@@ -6,7 +6,7 @@ import Collapse from "@mui/material/Collapse";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function AlertComponent({ openAlert, setOpenAlert }) {
+export default function AlertComponent({ openAlert, setOpenAlert, text }) {
   return (
     <Box sx={{ width: "30%" }}>
       <Collapse in={openAlert}>
@@ -25,7 +25,7 @@ export default function AlertComponent({ openAlert, setOpenAlert }) {
           }
           sx={{ mb: 2 }}
         >
-          Review created!
+          {text}
         </Alert>
       </Collapse>
     </Box>

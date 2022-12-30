@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import DragDrop from "./ui/DragDrop";
 import { useEffect, useState } from "react";
-import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { updateReview } from "../slices/reviewSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,7 +20,11 @@ import {
 import { getAllTags } from "../slices/tagSlice";
 import app from "../utils/firebase";
 
-export default function EditReviewForm({ compositionId, handleClose }) {
+export default function EditReviewForm({
+  compositionId,
+  handleClose,
+  setOpenAlert,
+}) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [img, setImg] = useState([]);
@@ -36,7 +39,6 @@ export default function EditReviewForm({ compositionId, handleClose }) {
       title: yup.string().required(),
       markdown: yup.string().required(),
       img: yup.string(),
-      reviewRating: yup.number().positive().integer(),
     })
     .required();
 
@@ -49,7 +51,6 @@ export default function EditReviewForm({ compositionId, handleClose }) {
     defaultValues: {
       title: currentReview.title,
       markdown: currentReview.markdown,
-      reviewRating: currentReview.reviewRating,
     },
   });
 
@@ -69,7 +70,6 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         tags: tagsValue,
         user: currentReview.user,
         composition: currentComposition._id,
-        reviewsRatingId: "63a057292e22250c185bd057",
       };
     }
     const objectForDispatch = {
@@ -77,8 +77,9 @@ export default function EditReviewForm({ compositionId, handleClose }) {
       id: currentReview._id,
     };
     dispatch(updateReview(objectForDispatch));
-    // setUploaded(false);
-    // handleClose();
+    setUploaded(false);
+    setOpenAlert(true);
+    handleClose();
   };
 
   const uploadFile = async (files) => {
@@ -115,6 +116,13 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         paddingBottom: 20,
       }}
     >
+      <Button
+        variant="text"
+        sx={{ position: "absolut", top: 0, right: 1 }}
+        onClick={handleClose}
+      >
+        X
+      </Button>
       <Box
         sx={{
           display: "flex",
@@ -126,26 +134,6 @@ export default function EditReviewForm({ compositionId, handleClose }) {
         <TextField disabled defaultValue={currentComposition.group.title} />
         <InputLabel>Composition</InputLabel>
         <TextField disabled defaultValue={currentReview.composition.title} />
-        <InputLabel>Rating </InputLabel>
-        <Controller
-          name="reviewRating"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Rating
-              name="size-small"
-              defaultValue={0}
-              max={10}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value);
-              }}
-            />
-          )}
-        />
-        <Typography variant="paragraph" color="text.secodary">
-          {errors.reviewRating?.message}
-        </Typography>
         <InputLabel>Title</InputLabel>
         <Controller
           name="title"

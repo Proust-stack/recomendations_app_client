@@ -47,10 +47,12 @@ export default function CompositionPage() {
               <CompositionCard {...currentComposition} noLink={true} />
             )}
           </Grid>
-          <Grid item xs={10}>
+          <Grid container item xs={10} direction="column" spacing={2}>
             {reviewsByComposition && reviewsByComposition.length ? (
               reviewsByComposition.map((review) => (
-                <ShortReviewCard {...review} key={review._id} />
+                <Grid item>
+                  <ShortReviewCard {...review} key={review._id} />
+                </Grid>
               ))
             ) : (
               <Typography>{t("composition_page_no_reviews")}</Typography>

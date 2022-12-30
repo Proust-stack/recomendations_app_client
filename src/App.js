@@ -57,15 +57,25 @@ function App() {
           },
         },
         typography: {
+          fontSize: 14,
           subtitle1: {
             fontSize: 12,
           },
           body1: {
             fontWeight: 500,
           },
-          button: {
-            fontStyle: "italic",
-          },
+          fontFamily: [
+            "-apple-system",
+            "BlinkMacSystemFont",
+            '"Segoe UI"',
+            "Roboto",
+            '"Helvetica Neue"',
+            "Arial",
+            "sans-serif",
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+          ].join(","),
         },
       }),
     [mode]

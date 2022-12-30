@@ -5,7 +5,7 @@ import { SERVER } from "../utils/const";
 export const signInGoogle = createAsyncThunk(
   "user/signInGoogle",
   async function (user, { rejectWithValue, dispatch, state }) {
-    const { displayName: name, email, photoURL: img } = user;
+    const { displayName: name = "user", email, photoURL: img } = user;
     try {
       const { data } = await axios({
         withCredentials: true,

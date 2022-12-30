@@ -18,6 +18,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
   flexWrap: "wrap",
   gap: 10,
   padding: 10,
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
 }));
 
 export default function BooksPAge() {

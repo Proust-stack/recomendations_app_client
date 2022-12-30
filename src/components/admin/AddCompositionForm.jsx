@@ -10,6 +10,7 @@ import { useState } from "react";
 import { addComposition, addGroup } from "../../http/adminAPI";
 import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
+import Grid from "@mui/material/Grid";
 
 export default function AddCompositionForm() {
   const [file, setFile] = useState([]);
@@ -30,8 +31,8 @@ export default function AddCompositionForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        padding: 10,
-        width: "80%",
+        width: "85%",
+        padding: 20,
       }}
     >
       <Box

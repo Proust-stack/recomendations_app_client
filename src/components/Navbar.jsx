@@ -25,15 +25,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-const UserBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
-  },
-}));
-
 export default function Navbar() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
