@@ -30,7 +30,9 @@
     "new_review_tags": "ტეგები",
     "new_review_images": "სურათები",
     "new_review_tags_label": "აირჩიეთ ტეგები",
+
     "new_review_btn": "შექმენით მიმოხილვა",
+    "edit_review_btn": "ცვლილებების წარდგენა",
 
     "dashboard_users": "მომხმარებლები",
     "dashboard_add_group": "ჯგუფის დამატება",

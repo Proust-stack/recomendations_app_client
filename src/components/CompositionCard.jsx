@@ -24,7 +24,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 const StyledImage = styled(Image)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    width: "90vw",
+    width: "90%",
+    borderRadius: 10,
   },
 }));
 
@@ -38,30 +39,28 @@ const CompositionCard = React.memo(function CompositionCard(props) {
     <StyledCard
       sx={{
         position: "relative",
-        flexShrink: 1,
         padding: 1,
-        flexGrow: 0,
         cursor: "pointer",
       }}
     >
-      {/* <CardMedia
+      <CardMedia
         component="img"
-        height="194"
+        height="150"
         image={img}
         alt="composition"
-        sx={{ objectFit: "cover", width: "auto" }}
-      /> */}
-      <Box sx={{ height: 150 }}>
+        sx={{ objectFit: "cover" }}
+      />
+      {/* <Box sx={{ height: 150 }}>
         <StyledImage
           height="100%"
           src={img[0]}
           fit="cover"
           duration={500}
-          width="50%"
-        />
-      </Box>
+          width="80%"
+        /> */}
+      {/* </Box> */}
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5">
           {title}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>

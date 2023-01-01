@@ -4,17 +4,18 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
-import { addGroup } from "../../http/adminAPI";
+import { addGroup } from "../../slices/groupSlice";
+import { useDispatch } from "react-redux";
 
 export default function AddGroupForm() {
+  const dispatch = useDispatch();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       title: "",
     },
   });
-  const onSubmit = async (data) => {
-    const group = await addGroup(data);
-    console.log(group);
+  const onSubmit = (data) => {
+    dispatch(addGroup(data));
   };
   return (
     <form

@@ -100,8 +100,6 @@ export default function ReviewCard({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(user);
-  console.log(currentUser);
 
   return (
     <StyledCard id="review">

@@ -67,6 +67,22 @@ export const getAllCompositions = createAsyncThunk(
   }
 );
 
+export const addComposition = createAsyncThunk(
+  "composition/addComposition",
+  async function (composition, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "post",
+        data: composition,
+        url: `${SERVER}/api/composition/create`,
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const setError = (state, action) => {
   state.status = "rejected";
   state.error = action.payload;
@@ -95,6 +111,7 @@ export const compositionSlice = createSlice({
     [getAllByGroup.rejected]: setError,
     [getAllCompositions.rejected]: setError,
     [setUserRating.rejected]: setError,
+    [addComposition.rejected]: setError,
   },
 });
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -23,6 +23,7 @@ import Reviewpage from "./pages/ReviewPage";
 import ErrorFallback from "./utils/errorCallback";
 import UsersWideTable from "./components/admin/UsersWideTable";
 import { getAllReviewsByTags } from "./slices/reviewSlice";
+import { WithProtection } from "./hocs/withProtection";
 
 function App() {
   const { t } = useTranslation();
@@ -93,8 +94,22 @@ function App() {
               <Route path="games" element={<GamesPage />} />
               <Route path="composition/:id" element={<CompositionPage />} />
               <Route path="review/:id" element={<Reviewpage />} />
-              <Route path="mypage/:id" element={<PersonalPage />} />
-              <Route path="dashboard/*" element={<AdminPage />}>
+              <Route
+                path="mypage/:id"
+                element={
+                  <WithProtection>
+                    <PersonalPage />
+                  </WithProtection>
+                }
+              />
+              <Route
+                path="dashboard/*"
+                element={
+                  <WithProtection>
+                    <AdminPage />
+                  </WithProtection>
+                }
+              >
                 <Route index element={<UsersWideTable />} />
                 <Route index path="users" element={<UsersWideTable />} />
                 <Route path="group" element={<AddGroupForm />} />

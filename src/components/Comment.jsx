@@ -37,8 +37,10 @@ export default function Comment({ reviewId }) {
     if (currentUser) {
       dispatch(sendComment(fulldata));
     } else {
+      return;
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -70,7 +72,6 @@ export default function Comment({ reviewId }) {
           aria-haspopup="true"
           onMouseEnter={currentUser ? null : handlePopoverOpen}
           onMouseLeave={currentUser ? null : handlePopoverClose}
-          disabled={!currentUser}
         >
           {t("comment_component_button_send")}
         </Button>

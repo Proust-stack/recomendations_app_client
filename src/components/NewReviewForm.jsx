@@ -14,26 +14,19 @@ import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
 import CardMedia from "@mui/material/CardMedia";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 import { useTranslation } from "react-i18next";
 import { getAllGroups } from "../slices/groupSlice";
 import { addReview } from "../slices/reviewSlice";
-import app from "../utils/firebase";
+import { uploadFile } from "../utils/uploadFile";
+import SendButton from "./ui/SendButton";
 
 export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
-  const [img, setImg] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
-  const [uploaded, setUploaded] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
   const { groups } = useSelector((state) => state.group);
@@ -45,12 +38,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
       dispatch(getAllGroups());
     }
   }, [groups]);
-
-  useEffect(() => {
-    if (files.length) {
-      uploadFile(files);
-    }
-  }, [files]);
 
   useEffect(() => {
     dispatch(getAllTags());
@@ -83,41 +70,21 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
   });
 
   const onSubmit = async (data) => {
-    let fullData;
-    if (img.length) {
-      fullData = {
-        ...data,
-        user: currentUser._id,
-        img,
-        tags: tagsValue,
-      };
-    } else {
-      fullData = {
-        ...data,
-        user: currentUser._id,
-        tags: tagsValue,
-      };
+    let images = [];
+    console.log(files);
+    if (files.length) {
+      images = await uploadFile(files);
     }
+    let fullData = {
+      ...data,
+      user: currentUser._id,
+      img: images,
+      tags: tagsValue,
+    };
     console.log(fullData);
     dispatch(addReview(fullData));
-    setUploaded(false);
     setOpenAlert(true);
     handleClose();
-  };
-
-  const uploadFile = async (files) => {
-    const storage = getStorage(app);
-    const imgUrls = [];
-    for (const file of files) {
-      const fileName = new Date().getTime() + file.name;
-      const storageRef = ref(storage, "images/" + fileName);
-      await uploadBytesResumable(storageRef, file);
-      const imgUrl = await getDownloadURL(storageRef);
-      imgUrls.push(imgUrl);
-    }
-
-    setImg(imgUrls);
-    setUploaded(true);
   };
 
   const handleChange = (value) => {
@@ -266,14 +233,10 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
           ))}
       </Box>
       <DragDrop setFile={setFiles} />
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{ marginTop: "2rem" }}
-        disabled={files.length && !uploaded}
-      >
+      {/* <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
         {t("new_review_btn")}
-      </Button>
+      </Button> */}
+      <SendButton btnText="new_review_btn" />
     </form>
   );
 }

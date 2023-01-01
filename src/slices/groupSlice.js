@@ -17,6 +17,21 @@ export const getAllGroups = createAsyncThunk(
     }
   }
 );
+export const addGroup = createAsyncThunk(
+  "group/addGroup",
+  async function (title, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios({
+        withCredentials: true,
+        method: "post",
+        data: title,
+        url: `${SERVER}/api/group/create`,
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const setError = (state, action) => {
   state.status = "rejected";
@@ -35,6 +50,7 @@ export const groupSlice = createSlice({
   },
   extraReducers: {
     [getAllGroups.rejected]: setError,
+    [addGroup.rejected]: setError,
   },
 });
 

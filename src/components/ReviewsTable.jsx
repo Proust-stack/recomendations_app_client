@@ -25,6 +25,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import { getTime } from "../utils/getTime";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -232,6 +233,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function ReviewsTable(props) {
+  const { locale } = useSelector((state) => state.locale);
   const { t } = useTranslation();
   const rows = props.reviews?.map(
     ({ _id, composition, createdAt, updatedAt, title }) => ({
@@ -358,12 +360,12 @@ export default function ReviewsTable(props) {
                       <TableCell align="right">{row.name}</TableCell>
                       <TableCell align="right">{row.composition}</TableCell>
                       <TableCell align="right">
-                        {moment(row.createdAt).format(
+                        {moment(getTime(row.createdAt, locale)).format(
                           "MMMM Do YYYY, h:mm:ss a"
                         )}
                       </TableCell>
                       <TableCell align="right">
-                        {moment(row.updatedAt).format(
+                        {moment(getTime(row.createdAt, locale)).format(
                           "MMMM Do YYYY, h:mm:ss a"
                         )}
                       </TableCell>

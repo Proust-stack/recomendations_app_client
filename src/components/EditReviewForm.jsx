@@ -11,14 +11,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
 import { getAllTags } from "../slices/tagSlice";
-import app from "../utils/firebase";
+import { uploadFile } from "../utils/uploadFile";
+import SendButton from "./ui/SendButton";
 
 export default function EditReviewForm({
   compositionId,
@@ -27,12 +22,14 @@ export default function EditReviewForm({
 }) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
-  const [img, setImg] = useState([]);
-  const [uploaded, setUploaded] = useState(false);
   const { currentComposition } = useSelector((state) => state.composition);
   const { tags } = useSelector((state) => state.tag);
   const { currentReview } = useSelector((state) => state.review);
   const [tagsValue, setTagsValue] = useState(currentReview.tags || []);
+
+  useEffect(() => {
+    dispatch(getAllTags());
+  }, []);
 
   const schema = yup
     .object({
@@ -55,57 +52,26 @@ export default function EditReviewForm({
   });
 
   const onSubmit = async (data) => {
-    let fullData;
-    if (img.length) {
-      fullData = {
-        ...data,
-        img,
-        tags: tagsValue,
-        user: currentReview.user,
-        composition: currentComposition._id,
-      };
-    } else {
-      fullData = {
-        ...data,
-        tags: tagsValue,
-        user: currentReview.user,
-        composition: currentComposition._id,
-      };
+    let images = [];
+    if (files.length) {
+      images = await uploadFile(files);
     }
+    let fullData = {
+      ...data,
+      img: images,
+      tags: tagsValue,
+      user: currentReview.user,
+      composition: currentComposition._id,
+    };
+
     const objectForDispatch = {
       data: fullData,
       id: currentReview._id,
     };
     dispatch(updateReview(objectForDispatch));
-    setUploaded(false);
     setOpenAlert(true);
     handleClose();
   };
-
-  const uploadFile = async (files) => {
-    const storage = getStorage(app);
-    const imgUrls = [];
-    for (const file of files) {
-      const fileName = new Date().getTime() + file.name;
-      const storageRef = ref(storage, "images/" + fileName);
-      await uploadBytesResumable(storageRef, file);
-      const imgUrl = await getDownloadURL(storageRef);
-      imgUrls.push(imgUrl);
-    }
-
-    setImg(imgUrls);
-    setUploaded(true);
-  };
-
-  useEffect(() => {
-    if (files.length) {
-      uploadFile(files);
-    }
-  }, [files]);
-
-  useEffect(() => {
-    dispatch(getAllTags());
-  }, []);
 
   return (
     <form
@@ -172,14 +138,10 @@ export default function EditReviewForm({
       </Box>
       <InputLabel>Images</InputLabel>
       <DragDrop setFile={setFiles} />
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{ marginTop: "2rem" }}
-        disabled={files.length && !uploaded}
-      >
+      {/* <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
         Submit changes
-      </Button>
+      </Button> */}
+      <SendButton btnText="new_review_btn" />
     </form>
   );
 }
