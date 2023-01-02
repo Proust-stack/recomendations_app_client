@@ -15,15 +15,20 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import { Toolbar } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import { useDispatch, useSelector } from "react-redux";
 
-import { blockUser, deleteUser, getAllUsers } from "../../slices/userSlice";
+import {
+  blockUser,
+  changeRole,
+  deleteUser,
+  getAllUsers,
+} from "../../slices/userSlice";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -134,6 +139,11 @@ function EnhancedTableToolbar(props) {
     setData((prev) => !prev);
   };
 
+  const handleChangeRole = async () => {
+    dispatch(changeRole(selected[0]));
+    setData((prev) => !prev);
+  };
+
   return (
     <Toolbar
       sx={{
@@ -169,25 +179,35 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <>
-          <IconButton onClick={handleDelete}>
-            <Tooltip title="Delete">
-              <DeleteIcon color="error" />
-            </Tooltip>
-          </IconButton>
+        numSelected > 1 ? (
+          <p>Please, select only one person</p>
+        ) : (
+          <>
+            <IconButton onClick={handleChangeRole}>
+              <Tooltip title="Change role">
+                <AssignmentIndIcon color="success" />
+              </Tooltip>
+            </IconButton>
 
-          <IconButton onClick={handleBlock} disabled={user.blocked}>
-            <Tooltip title="Block" color="secondary">
-              <BlockIcon />
-            </Tooltip>
-          </IconButton>
+            <IconButton onClick={handleDelete}>
+              <Tooltip title="Delete">
+                <DeleteIcon color="error" />
+              </Tooltip>
+            </IconButton>
 
-          <IconButton onClick={handleUnblock} disabled={!user.blocked}>
-            <Tooltip title="Unblock">
-              <AccessibilityIcon color="primary" />
-            </Tooltip>
-          </IconButton>
-        </>
+            <IconButton onClick={handleBlock} disabled={user.blocked}>
+              <Tooltip title="Block" color="secondary">
+                <BlockIcon />
+              </Tooltip>
+            </IconButton>
+
+            <IconButton onClick={handleUnblock} disabled={!user.blocked}>
+              <Tooltip title="Unblock">
+                <AccessibilityIcon color="primary" />
+              </Tooltip>
+            </IconButton>
+          </>
+        )
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -227,7 +247,6 @@ const UsersWideTable = () => {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = list.map((n) => n._id);
-      console.log(newSelected);
       setSelected(newSelected);
       return;
     }

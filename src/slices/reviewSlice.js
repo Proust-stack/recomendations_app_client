@@ -143,7 +143,6 @@ export const likeReview = createAsyncThunk(
         method: "patch",
         url: `${SERVER}/api/review/like/` + id,
       });
-      dispatch(changeReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -158,7 +157,6 @@ export const unLikeReview = createAsyncThunk(
         method: "patch",
         url: `${SERVER}/api/review/unlike/` + id,
       });
-      dispatch(changeReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -199,14 +197,6 @@ export const reviewSlice = createSlice({
     setReviewsAll: (state, action) => {
       state.reviewsAll = action.payload;
     },
-    changeReview: (state, action) => {
-      state.reviewsAll.map((item) => {
-        if (item._id === action.payload._id) {
-          return action.payload;
-        }
-        return item;
-      });
-    },
   },
   extraReducers: {
     [getAllReviewsByUser.rejected]: setError,
@@ -225,7 +215,6 @@ export const {
   setReview,
   setReviewsByComposition,
   setReviewsAll,
-  changeReview,
   setSearchResults,
   setLikes,
 } = reviewSlice.actions;

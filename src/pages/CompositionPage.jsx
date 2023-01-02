@@ -47,7 +47,7 @@ export default function CompositionPage() {
               <CompositionCard {...currentComposition} noLink={true} />
             )}
           </Grid>
-          <Grid container item xs={10} direction="column" spacing={2}>
+          <Grid container item xs={10} direction="row" spacing={2}>
             {reviewsByComposition && reviewsByComposition.length ? (
               reviewsByComposition.map((review) => (
                 <Grid item key={review._id}>

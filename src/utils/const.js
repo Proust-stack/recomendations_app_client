@@ -2,6 +2,10 @@ export const HOME_PAGE_ROUTE = "/";
 export const PERSONAL_PAGE_ROUTE = "/";
 export const REVIEW_ROUTE = "/";
 export const DASHBOARD_ROUTE = "/";
+export const CATEGORY_NAME = {
+  latest: "The latest",
+  hottest: "The hottest",
+};
 export const SERVER = process.env.REACT_APP_SERVER_URL;
 //export const SERVER = "http://localhost:5000";
 

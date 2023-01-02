@@ -32,7 +32,7 @@ export default function TagsCloud({ groupId }) {
             label={tag}
             onClick={() => handleClick(tag)}
             sx={{ cursor: "pointer" }}
-            color="primary"
+            color="secondary"
           />
         ))}
     </>

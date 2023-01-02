@@ -16,7 +16,6 @@ import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
 import styled from "@mui/material/styles/styled";
-import Image from "mui-image";
 
 import { useTranslation } from "react-i18next";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
@@ -25,6 +24,10 @@ const StyledCard = styled(Card)(({ theme }) => ({
   padding: 15,
   cursor: "pointer",
   backgroundColor: "grey[100]",
+  maxWidth: 500,
+  [theme.breakpoints.down("md")]: {
+    width: "95%",
+  },
 }));
 
 export default function ShortReviewCard({
@@ -32,6 +35,7 @@ export default function ShortReviewCard({
   createdAt,
   img,
   tags,
+  likes,
   title,
   _id,
   handleClose,
@@ -40,7 +44,6 @@ export default function ShortReviewCard({
   noFoto,
 }) {
   const [liked, setLiked] = React.useState(false);
-  const { reviewsAll } = useSelector((state) => state.review);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -49,12 +52,8 @@ export default function ShortReviewCard({
   const shortText = markdown.slice(0, 200) + "...";
 
   useEffect(() => {
-    let reviewLikes;
-    if (reviewsAll) {
-      reviewLikes = reviewsAll.find((item) => item._id === _id)?.likes;
-    }
     if (currentUser) {
-      setLiked(reviewLikes.includes(currentUser._id));
+      setLiked(likes.includes(currentUser._id));
     }
   }, [currentUser]);
 
@@ -77,51 +76,46 @@ export default function ShortReviewCard({
         subheader={getTimeFromNow(createdAt, locale)}
       />
       {!noFoto && (
-        <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", gap: 2, mb: 2, ml: 2, flexWrap: "wrap" }}>
           {img.length &&
             img.map((item) =>
               item ? (
                 <CardMedia
                   component="img"
                   height="150"
-                  sx={{ width: "auto", borderRadius: 5 }}
+                  sx={{ width: 120, borderRadius: 5 }}
                   image={item}
                   alt="picture"
                   key={item}
                 />
-              ) : // <Image
-              //   height="150"
-              //   width="auto"
-              //   src={item}
-              //   fit="cover"
-              //   key={item}
-              //   sx={{ borderRadius: 3 }}
-              //   duration={500}
-              // />
-              null
+              ) : null
             )}
         </Box>
       )}
-      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+      <Box sx={{ display: "flex", gap: 1, ml: 2, flexWrap: "wrap" }}>
         {tags &&
           tags.map((tag) => (
             <Chip
               variant="outlined"
               key={tag}
               label={tag}
-              color="primary"
+              color="secondary"
               size="small"
             />
           ))}
       </Box>
       <CardContent>
-        <Typography color="text.primary" component={"span"}>
+        <Typography color="secondary" component={"span"}>
           {composition.title}
         </Typography>
         <Typography color="text.primary" component={"span"}>
           <ReactMarkdown>{title}</ReactMarkdown>
         </Typography>
-        <Typography color="text.primary" component={"span"}>
+        <Typography
+          color="text.primary"
+          component={"span"}
+          sx={{ fontSize: "0.8rem" }}
+        >
           <ReactMarkdown>{shortText}</ReactMarkdown>
         </Typography>
       </CardContent>

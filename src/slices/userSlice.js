@@ -54,6 +54,20 @@ export const blockUser = createAsyncThunk(
     }
   }
 );
+export const changeRole = createAsyncThunk(
+  "user/changeRole",
+  async function (userId, { rejectWithValue, dispatch }) {
+    try {
+      await axios({
+        withCredentials: true,
+        method: "patch",
+        url: `${SERVER}/api/user/role/` + userId,
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const unBlockUser = createAsyncThunk(
   "user/unBlockUser",
   async function (userId, { rejectWithValue, dispatch }) {
@@ -118,6 +132,7 @@ export const userSlice = createSlice({
     [signInGoogle.rejected]: setError,
     [getAllUsers.rejected]: setError,
     [blockUser.rejected]: setError,
+    [changeRole.rejected]: setError,
   },
 });
 

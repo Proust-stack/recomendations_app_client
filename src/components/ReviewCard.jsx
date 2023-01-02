@@ -15,7 +15,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
-import moment from "moment";
 import CommentsSection from "./CommentsSection";
 import { likeReview, unLikeReview } from "../slices/reviewSlice";
 import { useEffect } from "react";
@@ -23,7 +22,6 @@ import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import Image from "mui-image";
 import { useTranslation } from "react-i18next";
 
 import BasicModal from "./ui/Modal";
@@ -61,7 +59,7 @@ export default function ReviewCard({
   createdAt,
   img,
   tags,
-  text,
+  likes,
   _id,
   title,
   markdown,
@@ -78,10 +76,7 @@ export default function ReviewCard({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const reviewLikes = reviewsAll
-      ? reviewsAll.find((item) => item._id === _id)?.likes
-      : [];
-    currentUser && setLiked(reviewLikes.includes(currentUser._id));
+    currentUser && likes && setLiked(likes.includes(currentUser._id));
   }, []);
 
   const handleLike = () => {

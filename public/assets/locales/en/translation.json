@@ -13,6 +13,8 @@
     "nav_dashboard": "Dashboard",
     "nav_logout": "Logout",
 
+    "category_name": "",
+
     "table_name": "My reviews",
     "table_title": "Title",
     "table_composition": "Composition",

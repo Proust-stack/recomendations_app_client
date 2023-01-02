@@ -12,15 +12,9 @@ import TagsCloud from "../components/TagsCloud";
 import ErrorFallback from "../utils/errorCallback";
 import Loader from "../components/ui/Loader";
 import ShortReviewCard from "../components/ShortReviewCard";
+import Category from "../components/Category";
+import { CATEGORY_NAME } from "../utils/const";
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "flex-start",
-  flexDirection: "column",
-  gap: 10,
-  flexWrap: "wrap",
-}));
 const TagsWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -50,18 +44,30 @@ export default function HomePage() {
           sx={{ padding: 2 }}
           direction={matches ? "column" : "row"}
         >
-          <Grid item xs={2}>
+          <Grid item xs>
             <TagsWrapper>
               <TagsCloud />
             </TagsWrapper>
           </Grid>
-          <Grid item xs={10}>
-            <StyledBox>
-              {reviewsAll &&
-                reviewsAll.map((review) => (
-                  <ShortReviewCard {...review} key={review._id} />
-                ))}
-            </StyledBox>
+          <Grid item container xs={10} spacing={4} direction="row">
+            <Grid item>
+              <Category categoryName={CATEGORY_NAME.latest}>
+                {reviewsAll &&
+                  reviewsAll.latestReviews.map((review) => (
+                    <ShortReviewCard {...review} key={review._id} />
+                  ))}
+              </Category>
+            </Grid>
+            {matches ? null : (
+              <Grid item>
+                <Category categoryName={CATEGORY_NAME.hottest}>
+                  {reviewsAll &&
+                    reviewsAll.hottestReviews.map((review) => (
+                      <ShortReviewCard {...review} key={review._id} />
+                    ))}
+                </Category>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Suspense>
