@@ -7,15 +7,16 @@ import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import styled from "@mui/material/styles/styled";
 import i18n from "i18next";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { changeLocale } from "../../slices/localeSlice";
 
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  display: "flex",
-  gap: 6,
-}));
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({}));
 
 export default function SelectSmall() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
   const [lan, setLan] = React.useState("en");
 
@@ -26,7 +27,7 @@ export default function SelectSmall() {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", marginLeft: 5 }}>
+    <Box sx={{ display: "flex", alignItems: "center", marginLeft: 3 }}>
       <LanguageIcon color="secondary" sx={{ mr: 1 }} />
       <Select
         labelId="demo-select-small"
@@ -38,24 +39,34 @@ export default function SelectSmall() {
         sx={{ border: "none", display: "flex", justifyContent: "center" }}
       >
         <StyledMenuItem value={"en"}>
-          <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/us.png`}
-            srcSet={`https://flagcdn.com/w40/us.png 2x`}
-            alt=""
-          />
-          <Typography>English</Typography>
+          <Typography>
+            {matches ? (
+              <img
+                loading="lazy"
+                width="20"
+                src={`https://flagcdn.com/w20/us.png`}
+                srcSet={`https://flagcdn.com/w40/us.png 2x`}
+                alt="en"
+              />
+            ) : (
+              <span>English</span>
+            )}
+          </Typography>
         </StyledMenuItem>
         <StyledMenuItem value={"ge"}>
-          <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/ge.png`}
-            srcSet={`https://flagcdn.com/w40/ge.png 2x`}
-            alt=""
-          />
-          <Typography>ქართული</Typography>
+          <Typography>
+            {matches ? (
+              <img
+                loading="lazy"
+                width="20"
+                src={`https://flagcdn.com/w20/ge.png`}
+                srcSet={`https://flagcdn.com/w40/ge.png 2x`}
+                alt=""
+              />
+            ) : (
+              <span>ქართული</span>
+            )}
+          </Typography>
         </StyledMenuItem>
       </Select>
     </Box>

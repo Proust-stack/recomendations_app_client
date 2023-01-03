@@ -3,7 +3,6 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { search } from "../../slices/reviewSlice";
 import SearchModal from "../SearchModal";
@@ -23,6 +22,7 @@ const Search = styled("div")(({ theme }) => ({
   },
   [theme.breakpoints.down("md")]: {
     marginTop: 10,
+    width: "90%",
   },
 }));
 

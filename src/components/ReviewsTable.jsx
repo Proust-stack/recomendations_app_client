@@ -116,6 +116,7 @@ function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all reviews",
             }}
+            disabled
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -207,12 +208,12 @@ function EnhancedTableToolbar(props) {
       {numSelected > 0 ? (
         <>
           <Tooltip title="Delete">
-            <IconButton onClick={() => handleDelete(selected)}>
+            <IconButton onClick={() => handleDelete(selected)} sx={{ mr: 2 }}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Open">
-            <IconButton onClick={() => handleOpen(selected)}>
+            <IconButton onClick={() => handleOpen(selected)} sx={{ mr: 4 }}>
               <VisibilityIcon />
             </IconButton>
           </Tooltip>

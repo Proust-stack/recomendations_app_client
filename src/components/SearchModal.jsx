@@ -41,7 +41,6 @@ export default function SearchModal({ open, handleClose }) {
               ? searchResults.map((review) => (
                   <ShortReviewCard
                     {...review}
-                    key={review._id}
                     handleClose={handleClose}
                     noFoto={true}
                   />

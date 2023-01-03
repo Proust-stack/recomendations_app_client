@@ -39,7 +39,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
       <CardMedia
         component="img"
         height="150"
-        image={img}
+        image={img[0]}
         alt="composition"
         sx={{ objectFit: "cover" }}
       />
@@ -62,15 +62,19 @@ const CompositionCard = React.memo(function CompositionCard(props) {
           {title}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="body2" color="text.primary">
+          <Typography variant="body2" color="text.primary" mr={1.5}>
             {t("composition_component_reviews_rating")}:{" "}
+          </Typography>
+          <Typography color="secondary">
             {currentComposition && getRating(currentComposition.reviewsRating)}
           </Typography>
-          <StarsIcon color="primary" />
+          <StarsIcon color="secondary" />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="body2" color="text.primary">
+          <Typography variant="body2" color="text.primary" mr={1.5}>
             {t("composition_component_user_rating")}:{" "}
+          </Typography>
+          <Typography color="primary">
             {currentComposition && getRating(currentComposition.usersRating)}
           </Typography>
           <StarIcon color="primary" />

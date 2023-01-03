@@ -3,7 +3,8 @@ import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsghJtD-EGvw_sJ5-kf-8_TdtRUptvf9s",
-  authDomain: "whatever-aba07.firebaseapp.com",
+  //authDomain: "whatever-aba07.firebaseapp.com",
+  authDomain: "guileless-paletas-797aa8.netlify.app",
   projectId: "whatever-aba07",
   storageBucket: "whatever-aba07.appspot.com",
   messagingSenderId: "209022601699",

@@ -55,10 +55,7 @@ export default function ProfileMenu() {
   }, [currentUser]);
 
   useEffect(() => {
-    let timer = setTimeout(() => {
-      getUserFromRedirect();
-    }, 0);
-    return () => clearTimeout(timer);
+    getUserFromRedirect();
   }, []);
 
   const getLogout = () => {

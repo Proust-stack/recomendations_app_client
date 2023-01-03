@@ -63,7 +63,7 @@ export default function ShortReviewCard({
   };
 
   return (
-    <StyledCard onClick={handleClick}>
+    <StyledCard onClick={handleClick} elevation={12}>
       <CardHeader
         avatar={
           <Avatar
@@ -77,19 +77,20 @@ export default function ShortReviewCard({
       />
       {!noFoto && (
         <Box sx={{ display: "flex", gap: 2, mb: 2, ml: 2, flexWrap: "wrap" }}>
-          {img.length &&
-            img.map((item) =>
-              item ? (
-                <CardMedia
-                  component="img"
-                  height="150"
-                  sx={{ width: 120, borderRadius: 5 }}
-                  image={item}
-                  alt="picture"
-                  key={item}
-                />
-              ) : null
-            )}
+          {img.length
+            ? img.map((item) =>
+                item ? (
+                  <CardMedia
+                    component="img"
+                    height="150"
+                    sx={{ width: 120, borderRadius: 5 }}
+                    src={item}
+                    alt="review"
+                    key={item}
+                  />
+                ) : null
+              )
+            : null}
         </Box>
       )}
       <Box sx={{ display: "flex", gap: 1, ml: 2, flexWrap: "wrap" }}>

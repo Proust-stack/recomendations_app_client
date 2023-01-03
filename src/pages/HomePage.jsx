@@ -6,6 +6,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import styled from "@mui/material/styles/styled";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 
 import { getAllReviewsByTags } from "../slices/reviewSlice";
 import TagsCloud from "../components/TagsCloud";
@@ -25,6 +27,7 @@ const TagsWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
@@ -41,7 +44,7 @@ export default function HomePage() {
         <Grid
           container
           spacing={2}
-          sx={{ padding: 2 }}
+          sx={{ padding: 1.5 }}
           direction={matches ? "column" : "row"}
         >
           <Grid item xs>
@@ -51,6 +54,13 @@ export default function HomePage() {
           </Grid>
           <Grid item container xs={10} spacing={4} direction="row">
             <Grid item>
+              <Typography
+                variant="h6"
+                color="secondary"
+                sx={{ fontWeight: 300 }}
+              >
+                {t("category_lattest")}
+              </Typography>
               <Category categoryName={CATEGORY_NAME.latest}>
                 {reviewsAll &&
                   reviewsAll.latestReviews.map((review) => (
@@ -60,6 +70,13 @@ export default function HomePage() {
             </Grid>
             {matches ? null : (
               <Grid item>
+                <Typography
+                  variant="h6"
+                  color="secondary"
+                  sx={{ fontWeight: 300 }}
+                >
+                  {t("category_hottest")}
+                </Typography>
                 <Category categoryName={CATEGORY_NAME.hottest}>
                   {reviewsAll &&
                     reviewsAll.hottestReviews.map((review) => (

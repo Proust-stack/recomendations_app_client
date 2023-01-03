@@ -1,7 +1,12 @@
 export const HOME_PAGE_ROUTE = "/";
-export const PERSONAL_PAGE_ROUTE = "/";
-export const REVIEW_ROUTE = "/";
-export const DASHBOARD_ROUTE = "/";
+export const MOVIES_ROUTE = "movies";
+export const BOOKS_ROUTE = "books";
+export const GAMES_ROUTE = "games";
+export const PERSONAL_PAGE_ROUTE = "mypage/:id";
+export const REVIEW_ROUTE = "review/:id";
+export const COMPOSITION_ROUTE = "composition/:id";
+export const DASHBOARD_ROUTE = "dashboard/*";
+
 export const CATEGORY_NAME = {
   latest: "The latest",
   hottest: "The hottest",

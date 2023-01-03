@@ -8,6 +8,9 @@
     "nav_games": "თამაშები",
     "nav_search": "ძიება...",
 
+    "category_lattest": "უახლესი",
+    "category_hottest": "ყველაზე ცხელი",
+
     "nav_google": "შესვლა google-ით",
     "nav_github": "შედით github-ით",
     "nav_mypage": "ჩემი გვერდი",
@@ -58,5 +61,5 @@
     "comment_section_comments": "კომენტარები",
 
     "footer_withlove": "დამზადებულია სიყვარულით",
-    "footer_address": "საქართველო, თბილისი, 2022"
+    "footer_address": "საქართველო, თბილისი, 2023"
   }

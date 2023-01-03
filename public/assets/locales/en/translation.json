@@ -13,7 +13,8 @@
     "nav_dashboard": "Dashboard",
     "nav_logout": "Logout",
 
-    "category_name": "",
+    "category_lattest": "The latest",
+    "category_hottest": "The hottest",
 
     "table_name": "My reviews",
     "table_title": "Title",
@@ -59,5 +60,5 @@
     "comment_section_comments": "Comments",
 
     "footer_withlove": "Made with Love",
-    "footer_address": "Georgia, Tbilisi, 2022"
+    "footer_address": "Georgia, Tbilisi, 2023"
   }

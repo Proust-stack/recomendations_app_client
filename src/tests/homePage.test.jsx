@@ -10,8 +10,15 @@ jest.mock("react-redux");
 const mockedUseSelector = jest.spyOn(reduxHooks, "useSelector");
 const mockedDispatch = jest.spyOn(reduxHooks, "useDispatch");
 describe("HomePage", () => {
-  afterEach(cleanup);
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
   it("page snapshot", () => {
+    mockedUseSelector.mockReturnValue([]);
     const view = render(<HomePage />);
     expect(view).toMatchSnapshot();
   });
