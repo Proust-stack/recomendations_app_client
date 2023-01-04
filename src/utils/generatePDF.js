@@ -40,12 +40,14 @@ export const generatePDF = async () => {
   const canvas = await html2canvas(element, {
     allowTaint: true,
     useCORS: true,
+    windowWidth: element.scrollWidth,
+    windowHeight: element.scrollHeight,
   });
   const image = canvas.toDataURL("image/png", 1.0);
   const pdf = new jsPDF("p", "mm", "a4");
   const pageHeight = pdf.internal.pageSize.height;
   const pageWidth = pdf.internal.pageSize.width;
-  pdf.addImage(image, "JPG", 0, 0, pageWidth, pageHeight);
+  pdf.addImage(image, "PNG", 0, 0, pageWidth, pageHeight);
   //pdf.addImage(imageUrl, "JPEG", 10, 10, 180, 180);
   pdf.save("myPDF.pdf");
 };

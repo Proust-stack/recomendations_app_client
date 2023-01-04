@@ -41,7 +41,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
         height="150"
         image={img[0]}
         alt="composition"
-        sx={{ objectFit: "cover" }}
+        sx={{ width: "auto", borderRadius: 5 }}
       />
       {/* <Box sx={{ height: 150 }}>
         <StyledImage

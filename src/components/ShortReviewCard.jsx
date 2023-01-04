@@ -21,13 +21,10 @@ import { useTranslation } from "react-i18next";
 import { getTimeFromNow } from "../utils/getTimeFromNow";
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  padding: 15,
+  padding: 2,
   cursor: "pointer",
   backgroundColor: "grey[100]",
   maxWidth: 500,
-  [theme.breakpoints.down("md")]: {
-    width: "95%",
-  },
 }));
 
 export default function ShortReviewCard({

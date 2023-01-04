@@ -81,7 +81,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
       img: images,
       tags: tagsValue,
     };
-    console.log(fullData);
     dispatch(addReview(fullData));
     setOpenAlert(true);
     handleClose();

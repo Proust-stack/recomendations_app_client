@@ -123,26 +123,36 @@ export default function ReviewCard({
         }
         title={user.name}
         subheader={getTimeFromNow(createdAt, locale)}
+        data-html2canvas-ignore
       />
-      <Button variant="text" onClick={generatePDF} sx={{ position: "absolut" }}>
+      <Button
+        variant="text"
+        onClick={generatePDF}
+        sx={{ position: "absolut" }}
+        data-html2canvas-ignore
+      >
         {t("review_page_fownload_pdf")}
       </Button>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-        {img.length &&
-          img.map((item) =>
-            item ? (
-              <StyledCardMedia
-                component="img"
-                height="150"
-                sx={{ width: "auto", borderRadius: 5 }}
-                image={item}
-                alt="picture"
-                key={item}
-              />
-            ) : null
-          )}
+        {img.length
+          ? img.map((item) =>
+              item ? (
+                <CardMedia
+                  component="img"
+                  height="150"
+                  sx={{ width: "auto", borderRadius: 5 }}
+                  src={item}
+                  alt="review"
+                  key={item}
+                />
+              ) : null
+            )
+          : null}
       </Box>
-      <Box sx={{ display: "flex", gap: 1, p: 2, flexWrap: "wrap" }}>
+      <Box
+        sx={{ display: "flex", gap: 1, p: 2, flexWrap: "wrap" }}
+        data-html2canvas-ignore
+      >
         {tags &&
           tags.map((tag) => (
             <Chip
@@ -174,6 +184,7 @@ export default function ReviewCard({
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show comments"
+          data-html2canvas-ignore
         >
           <Tooltip
             title={

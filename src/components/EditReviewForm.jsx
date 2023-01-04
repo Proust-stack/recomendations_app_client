@@ -3,23 +3,26 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
-import DragDrop from "./ui/DragDrop";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateReview } from "../slices/reviewSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useTranslation } from "react-i18next";
+
 import { getAllTags } from "../slices/tagSlice";
 import { uploadFile } from "../utils/uploadFile";
 import SendButton from "./ui/SendButton";
+import { updateReview } from "../slices/reviewSlice";
+import DragDrop from "./ui/DragDrop";
 
 export default function EditReviewForm({
   compositionId,
   handleClose,
   setOpenAlert,
 }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const { currentComposition } = useSelector((state) => state.composition);
@@ -96,11 +99,11 @@ export default function EditReviewForm({
           gap: 1,
         }}
       >
-        <InputLabel>Group</InputLabel>
+        <InputLabel>{t("new_review_group")}</InputLabel>
         <TextField disabled defaultValue={currentComposition.group.title} />
-        <InputLabel>Composition</InputLabel>
+        <InputLabel>{t("new_review_composition")}</InputLabel>
         <TextField disabled defaultValue={currentReview.composition.title} />
-        <InputLabel>Title</InputLabel>
+        <InputLabel>{t("new_review_title")}</InputLabel>
         <Controller
           name="title"
           control={control}
@@ -110,7 +113,7 @@ export default function EditReviewForm({
         <Typography variant="paragraph" color="text.primary">
           {errors.title?.message}
         </Typography>
-        <InputLabel>Review</InputLabel>
+        <InputLabel>{t("new_review_review")}</InputLabel>
         <Controller
           name="markdown"
           control={control}
@@ -120,7 +123,7 @@ export default function EditReviewForm({
           )}
         />
         <Typography color="text.primary">{errors.markdown?.message}</Typography>
-        <InputLabel>Tags</InputLabel>
+        <InputLabel>{t("new_review_tags")}</InputLabel>
         <Autocomplete
           defaultValue={currentReview.tags}
           disablePortal
@@ -136,7 +139,7 @@ export default function EditReviewForm({
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
-      <InputLabel>Images</InputLabel>
+      <InputLabel>{t("new_review_images")}</InputLabel>
       <DragDrop setFile={setFiles} />
       {/* <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
         Submit changes
