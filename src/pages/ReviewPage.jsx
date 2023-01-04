@@ -34,7 +34,7 @@ export default function Reviewpage() {
     if (currentReview) {
       dispatch(getOneComposition(currentReview.composition._id));
     }
-  }, [currentReview]);
+  }, []);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -46,8 +46,8 @@ export default function Reviewpage() {
           direction={matches ? "column" : "row"}
         >
           <Grid item xs={2}>
-            {currentReview && (
-              <CompositionCard {...currentReview.composition} noLink={true} />
+            {currentComposition && (
+              <CompositionCard {...currentComposition} noLink={true} />
             )}
           </Grid>
           <Grid item xs>

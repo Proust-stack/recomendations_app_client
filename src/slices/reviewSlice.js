@@ -95,7 +95,6 @@ export const updateReview = createAsyncThunk(
         data: review.data,
         url: `${SERVER}/api/review/` + review.id,
       });
-      dispatch(setReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }

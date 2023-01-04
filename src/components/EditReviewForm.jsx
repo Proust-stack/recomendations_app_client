@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { getAllTags } from "../slices/tagSlice";
 import { uploadFile } from "../utils/uploadFile";
 import SendButton from "./ui/SendButton";
-import { updateReview } from "../slices/reviewSlice";
+import { getOneReview, updateReview } from "../slices/reviewSlice";
 import DragDrop from "./ui/DragDrop";
 
 export default function EditReviewForm({
@@ -63,15 +63,17 @@ export default function EditReviewForm({
       ...data,
       img: images,
       tags: tagsValue,
-      user: currentReview.user,
-      composition: currentComposition._id,
+      user: currentReview.user._id,
+      //composition: currentComposition._id,
     };
 
     const objectForDispatch = {
       data: fullData,
       id: currentReview._id,
     };
-    dispatch(updateReview(objectForDispatch));
+    dispatch(updateReview(objectForDispatch)).then(() =>
+      dispatch(getOneReview(currentReview._id))
+    );
     setOpenAlert(true);
     handleClose();
   };
@@ -125,7 +127,7 @@ export default function EditReviewForm({
         <Typography color="text.primary">{errors.markdown?.message}</Typography>
         <InputLabel>{t("new_review_tags")}</InputLabel>
         <Autocomplete
-          defaultValue={currentReview.tags}
+          defaultValue={currentReview?.tags || []}
           disablePortal
           multiple
           limitTags={5}
@@ -141,10 +143,7 @@ export default function EditReviewForm({
       </Box>
       <InputLabel>{t("new_review_images")}</InputLabel>
       <DragDrop setFile={setFiles} />
-      {/* <Button type="submit" variant="contained" sx={{ marginTop: "2rem" }}>
-        Submit changes
-      </Button> */}
-      <SendButton btnText="new_review_btn" />
+      <SendButton btnText="edit_review_btn" />
     </form>
   );
 }

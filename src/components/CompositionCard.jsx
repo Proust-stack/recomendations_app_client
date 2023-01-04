@@ -17,6 +17,7 @@ import { getRating } from "../utils/getUsersRatingsMean";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: 15,
+  maxWidth: "300px",
   [theme.breakpoints.down("md")]: {
     width: "95%",
   },
@@ -25,6 +26,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const CompositionCard = React.memo(function CompositionCard(props) {
   const { t } = useTranslation();
   const { img, title, _id, noLink } = props;
+  console.log(props);
   const { currentComposition } = useSelector((state) => state.composition);
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
       <CardMedia
         component="img"
         height="150"
-        image={img[0]}
+        image={img ? img[0] : null}
         alt="composition"
         sx={{ width: "auto", borderRadius: 5 }}
       />
