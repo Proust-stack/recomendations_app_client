@@ -19,6 +19,7 @@ const pages = [
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "none",
   justifyContent: "space-between",
+
   [theme.breakpoints.up("md")]: {
     display: "flex",
     ml: 2,

@@ -63,6 +63,7 @@ export default function ProfileMenu() {
     const response = await getRedirectResult(auth);
     if (response?.user) {
       dispatch(signInGoogle(response.user));
+      navigate("/");
     }
   };
 

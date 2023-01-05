@@ -19,6 +19,7 @@ import ErrorFallback from "../utils/errorCallback";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-around",
+  fontSize: "10px",
   [theme.breakpoints.down("lg")]: {
     flexDirection: "column",
     alignItems: "center",

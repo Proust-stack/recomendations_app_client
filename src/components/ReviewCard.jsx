@@ -16,7 +16,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import CommentsSection from "./CommentsSection";
-import { likeReview, unLikeReview } from "../slices/reviewSlice";
+import {
+  getAllReviewsByTags,
+  likeReview,
+  unLikeReview,
+} from "../slices/reviewSlice";
 import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
@@ -69,7 +73,6 @@ export default function ReviewCard({
   const [open, setOpen] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(false);
 
-  const { reviewsAll } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const { currentUser } = useSelector((state) => state.user);
   const { t } = useTranslation();
@@ -77,14 +80,18 @@ export default function ReviewCard({
 
   useEffect(() => {
     currentUser && likes && setLiked(likes.includes(currentUser._id));
-  }, []);
+  }, [likes]);
 
   const handleLike = () => {
     if (liked && currentUser) {
-      dispatch(unLikeReview(_id));
+      dispatch(unLikeReview(_id)).then(() => {
+        dispatch(getAllReviewsByTags());
+      });
       setLiked((prev) => !prev);
     } else {
-      dispatch(likeReview(_id));
+      dispatch(likeReview(_id)).then(() => {
+        dispatch(getAllReviewsByTags());
+      });
       setLiked((prev) => !prev);
     }
   };
