@@ -31,10 +31,10 @@ export default function Reviewpage() {
   }, []);
 
   useEffect(() => {
-    if (currentReview) {
+    if (currentReview && currentReview.composition?._id) {
       dispatch(getOneComposition(currentReview.composition._id));
     }
-  }, []);
+  }, [currentReview]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -44,6 +44,7 @@ export default function Reviewpage() {
           spacing={2}
           sx={{ padding: 2 }}
           direction={matches ? "column" : "row"}
+          id="review"
         >
           <Grid item xs={2}>
             {currentComposition && (

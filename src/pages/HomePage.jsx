@@ -54,11 +54,7 @@ export default function HomePage() {
           </Grid>
           <Grid item container xs={10} spacing={4} direction="row">
             <Grid item>
-              <Typography
-                variant="h6"
-                color="secondary"
-                sx={{ fontWeight: 300 }}
-              >
+              <Typography variant="subtitle2" color="secondary">
                 {t("category_lattest")}
               </Typography>
               <Category categoryName={CATEGORY_NAME.latest}>
@@ -70,11 +66,7 @@ export default function HomePage() {
             </Grid>
             {matches ? null : (
               <Grid item>
-                <Typography
-                  variant="h6"
-                  color="secondary"
-                  sx={{ fontWeight: 300 }}
-                >
+                <Typography variant="subtitle2" color="secondary">
                   {t("category_hottest")}
                 </Typography>
                 <Category categoryName={CATEGORY_NAME.hottest}>

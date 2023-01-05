@@ -15,11 +15,13 @@ import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { logout, setUser } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
 import { auth, githubProvider, googleProvider } from "../../utils/firebase";
+import { getAllReviewsByUser } from "../../slices/reviewSlice";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,6 +33,22 @@ export default function ProfileMenu() {
   const { reviews } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentUser?.blocked) {
+      getLogout();
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    getUserFromRedirect();
+  }, []);
+
+  useEffect(() => {
+    if (currentUser?._id) {
+      dispatch(getAllReviewsByUser(currentUser._id));
+    }
+  }, [currentUser]);
 
   const signInWithGoogle = () => {
     auth.languageCode = locale;
@@ -47,16 +65,6 @@ export default function ProfileMenu() {
       dispatch(signInGoogle(response.user));
     }
   };
-
-  useEffect(() => {
-    if (currentUser?.blocked) {
-      getLogout();
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    getUserFromRedirect();
-  }, []);
 
   const getLogout = () => {
     dispatch(logout());

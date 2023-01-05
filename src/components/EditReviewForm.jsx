@@ -10,6 +10,7 @@ import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useTranslation } from "react-i18next";
+import CardMedia from "@mui/material/CardMedia";
 
 import { getAllTags } from "../slices/tagSlice";
 import { uploadFile } from "../utils/uploadFile";
@@ -142,6 +143,19 @@ export default function EditReviewForm({
         />
       </Box>
       <InputLabel>{t("new_review_images")}</InputLabel>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+        {files &&
+          files.map((file) => (
+            <CardMedia
+              component="img"
+              height="50"
+              sx={{ width: "auto", borderRadius: 1 }}
+              image={URL.createObjectURL(file)}
+              alt="picture"
+              key={file.name}
+            />
+          ))}
+      </Box>
       <DragDrop setFile={setFiles} />
       <SendButton btnText="edit_review_btn" />
     </form>

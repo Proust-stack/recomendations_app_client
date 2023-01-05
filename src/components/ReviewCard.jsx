@@ -137,7 +137,7 @@ export default function ReviewCard({
         {img.length
           ? img.map((item) =>
               item ? (
-                <CardMedia
+                <StyledCardMedia
                   component="img"
                   height="150"
                   sx={{ width: "auto", borderRadius: 5 }}

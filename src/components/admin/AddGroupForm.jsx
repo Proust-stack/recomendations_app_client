@@ -9,13 +9,14 @@ import { useDispatch } from "react-redux";
 
 export default function AddGroupForm() {
   const dispatch = useDispatch();
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       title: "",
     },
   });
   const onSubmit = (data) => {
     dispatch(addGroup(data));
+    reset();
   };
   return (
     <form

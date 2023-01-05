@@ -33,6 +33,7 @@ export default function AddCompositionForm() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -51,9 +52,9 @@ export default function AddCompositionForm() {
       ...data,
       img: images,
     };
-    console.log(fullData);
     dispatch(addComposition(fullData));
     setOpenAlert(true);
+    reset();
   };
 
   return (

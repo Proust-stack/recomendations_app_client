@@ -17,7 +17,6 @@ import { getRating } from "../utils/getUsersRatingsMean";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: 15,
-  maxWidth: "300px",
   [theme.breakpoints.down("md")]: {
     width: "95%",
   },
@@ -25,9 +24,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const CompositionCard = React.memo(function CompositionCard(props) {
   const { t } = useTranslation();
-  const { img, title, _id, noLink } = props;
-  console.log(props);
-  const { currentComposition } = useSelector((state) => state.composition);
+  const { img, title, _id, reviewsRating, usersRating, noLink } = props;
   const navigate = useNavigate();
 
   return (
@@ -55,20 +52,22 @@ const CompositionCard = React.memo(function CompositionCard(props) {
         /> */}
       {/* </Box> */}
       <CardContent>
-        <Typography
-          gutterBottom
-          variant="h5"
-          noWrap={false}
-          color="text.primary"
-        >
-          {title}
-        </Typography>
+        <Box sx={{ maxWidth: 500 }}>
+          <Typography
+            gutterBottom
+            variant="h6"
+            noWrap={false}
+            color="text.primary"
+          >
+            {title}
+          </Typography>
+        </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="body2" color="text.primary" mr={1.5}>
             {t("composition_component_reviews_rating")}:{" "}
           </Typography>
           <Typography color="secondary">
-            {currentComposition && getRating(currentComposition.reviewsRating)}
+            {reviewsRating && getRating(reviewsRating)}
           </Typography>
           <StarsIcon color="secondary" />
         </Box>
@@ -77,7 +76,7 @@ const CompositionCard = React.memo(function CompositionCard(props) {
             {t("composition_component_user_rating")}:{" "}
           </Typography>
           <Typography color="primary">
-            {currentComposition && getRating(currentComposition.usersRating)}
+            {usersRating && getRating(usersRating)}
           </Typography>
           <StarIcon color="primary" />
         </Box>

@@ -79,7 +79,6 @@ export const addReview = createAsyncThunk(
         data: review,
         url: `${SERVER}/api/review/create`,
       });
-      dispatch(setReview(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }

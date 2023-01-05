@@ -71,7 +71,6 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
 
   const onSubmit = async (data) => {
     let images = [];
-    console.log(files);
     if (files.length) {
       images = await uploadFile(files);
     }

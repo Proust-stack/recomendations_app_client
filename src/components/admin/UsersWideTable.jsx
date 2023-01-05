@@ -22,6 +22,7 @@ import { Toolbar } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import {
   blockUser,
@@ -105,6 +106,7 @@ function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all users",
             }}
+            disabled
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -122,6 +124,7 @@ function EnhancedTableHead(props) {
 }
 
 function EnhancedTableToolbar(props) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { numSelected, selected, setData, user } = props;
 
@@ -165,7 +168,7 @@ function EnhancedTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} {t("table_selected")}
         </Typography>
       ) : (
         <Typography
