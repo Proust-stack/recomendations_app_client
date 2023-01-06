@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as reduxHooks from "react-redux";
-import HomePage from "../pages/HomePage";
+import TagsCloud from "../components/TagsCloud";
 
 jest.mock("react-redux");
 
@@ -44,40 +44,20 @@ describe("HomePage", () => {
     cleanup();
   });
   it("page snapshot", () => {
-    const { reviewsAll } = mockedUseSelector.mockReturnValue(mockState.review);
     const { selectedTags } = mockedUseSelector.mockReturnValue(mockState.tag);
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
-    const view = render(<HomePage />);
+    const view = render(<TagsCloud />);
 
     expect(view).toMatchSnapshot();
   });
   it("render tags", () => {
-    const { reviewsAll } = mockedUseSelector.mockReturnValue(mockState.review);
     const { selectedTags } = mockedUseSelector.mockReturnValue(mockState.tag);
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
-    const view = render(<HomePage />);
+    const view = render(<TagsCloud />);
 
     const textElement = screen.queryByText(/strange/i);
     expect(textElement).toBeInTheDocument();
   });
-  // it("render reviews", () => {
-  //   const view = render(<HomePage />);
-  //   mockedUseSelector.mockReturnValue({ reviewsAll });
-  //   mockedUseSelector.mockReturnValue({ selectedTags });
-  //   const dispatch = jest.fn();
-  //   mockedDispatch.mockReturnValue(dispatch);
-
-  //   const textElement = screen.getByText(/Dark Souls/i);
-  //   expect(textElement).toBeInTheDocument();
-  // });
-  // it("reviews dispatch to have been called", () => {
-  //   const view = render(<HomePage />);
-  //   mockedUseSelector.mockReturnValue({ reviewsAll });
-  //   mockedUseSelector.mockReturnValue({ selectedTags });
-  //   const dispatch = jest.fn();
-  //   mockedDispatch.mockReturnValue(dispatch);
-  //   expect(dispatch).toHaveBeenCalled();
-  // });
 });

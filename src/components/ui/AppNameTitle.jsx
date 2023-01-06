@@ -11,6 +11,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   gap: 10,
+  [theme.breakpoints.down("lg")]: {
+    display: "none",
+  },
 }));
 
 export default function AppNameTitle() {
@@ -21,7 +24,6 @@ export default function AppNameTitle() {
       <Typography
         variant="h6"
         sx={{
-          display: { xs: "none", sm: "flex" },
           cursor: "pointer",
           fontWeight: 700,
           letterSpacing: ".3rem",

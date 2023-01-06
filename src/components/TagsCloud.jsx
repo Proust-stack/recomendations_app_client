@@ -12,9 +12,8 @@ export default function TagsCloud({ groupId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    groupId && dispatch(getAllTagsByGroup(groupId));
-    !groupId && dispatch(getAllTags());
-  }, [groupId]);
+    dispatch(getAllTags());
+  }, []);
 
   const handleClick = (tag) => {
     dispatch(setSelectedTags(tag));
