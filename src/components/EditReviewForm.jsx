@@ -86,11 +86,12 @@ export default function EditReviewForm({
         width: "100%",
         paddingTop: 20,
         paddingBottom: 20,
+        position: "relative",
       }}
     >
       <Button
         variant="text"
-        sx={{ position: "absolut", top: 0, right: 1 }}
+        sx={{ position: "absolut", top: 0, float: "right" }}
         onClick={handleClose}
       >
         X

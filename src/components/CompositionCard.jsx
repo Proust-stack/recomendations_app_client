@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import StarsIcon from "@mui/icons-material/Stars";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import styled from "@mui/material/styles/styled";
 

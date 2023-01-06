@@ -56,6 +56,11 @@ const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
   "&:hover": {
     height: 300,
   },
+  [theme.breakpoints.down("md")]: {
+    "&:hover": {
+      height: 200,
+    },
+  },
 }));
 
 export default function ReviewCard({
@@ -105,7 +110,7 @@ export default function ReviewCard({
 
   return (
     <StyledCard id="review">
-      {currentUser && (user === currentUser._id || currentUser.isAdmin) ? (
+      {currentUser && (user._id === currentUser._id || currentUser.isAdmin) ? (
         <Fab
           color="secondary"
           sx={{

@@ -159,12 +159,15 @@ function EnhancedTableToolbar(props) {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  const { numSelected, selected } = props;
+  const { numSelected, selected, setOpenAlertOnDelete, setSelected } = props;
 
   const handleDelete = (reviewIds) => {
     dispatch(deleteReviews(reviewIds)).then(() =>
       dispatch(getAllReviewsByUser(params.id))
     );
+    setSelected([]);
+    setOpenAlertOnDelete(true);
+    navigate(`/mypage/${params.id}`);
   };
 
   const handleOpen = (data) => {
@@ -307,6 +310,8 @@ export default function ReviewsTable(props) {
         <EnhancedTableToolbar
           numSelected={selected.length}
           selected={selected}
+          setOpenAlertOnDelete={props.setOpenAlertOnDelete}
+          setSelected={setSelected}
         />
         <TableContainer>
           <Table

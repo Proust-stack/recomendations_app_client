@@ -103,10 +103,19 @@ const setError = (state, action) => {
   state.error = action.payload;
 };
 
+const initState = {
+  _id: "63923e27c4db72d5c2440423",
+  name: "Andre Bal",
+  email: "balandrey69@gmail.com",
+  isAdmin: true,
+  blocked: false,
+  img: "https://lh3.googleusercontent.com/a/ALm5wu1rS-FVw4QkDVzkDCHBTeSMarFRR5…",
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    currentUser: null,
+    currentUser: initState,
     allUsers: null,
     rated: false,
   },

@@ -96,8 +96,9 @@ export default function ProfileMenu() {
           </Avatar>
         </IconButton>
         <Typography color={"text.primary"} sx={{ mr: 1 }}>
-          {reviews &&
-            reviews.map((rewiew) => rewiew.likes.length).length + "❤️"}
+          {reviews && currentUser
+            ? reviews.map((rewiew) => rewiew.likes.length).length + "❤️"
+            : null}
         </Typography>
         <Typography
           sx={{ display: { xs: "none", md: "flex" } }}

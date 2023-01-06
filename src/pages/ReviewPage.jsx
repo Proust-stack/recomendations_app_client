@@ -44,7 +44,6 @@ export default function Reviewpage() {
           spacing={2}
           sx={{ padding: 2 }}
           direction={matches ? "column" : "row"}
-          id="review"
         >
           <Grid item xs={2}>
             {currentComposition && (

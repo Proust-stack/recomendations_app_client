@@ -101,7 +101,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
     >
       <Button
         variant="text"
-        sx={{ position: "absolut", top: 0, right: 1 }}
+        sx={{ position: "absolut", top: 0, float: "right" }}
         onClick={handleClose}
       >
         X

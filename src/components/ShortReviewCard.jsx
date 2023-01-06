@@ -40,7 +40,7 @@ export default function ShortReviewCard({
   composition,
   noFoto,
 }) {
-  const [liked, setLiked] = React.useState(false);
+  //const [liked, setLiked] = React.useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -48,11 +48,11 @@ export default function ShortReviewCard({
 
   const shortText = markdown.slice(0, 200) + "...";
 
-  useEffect(() => {
-    if (currentUser) {
-      setLiked(likes.includes(currentUser._id));
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     setLiked(likes.includes(currentUser._id));
+  //   }
+  // }, [currentUser]);
 
   const handleClick = () => {
     navigate(`/review/${_id}`);
@@ -117,13 +117,13 @@ export default function ShortReviewCard({
           <ReactMarkdown>{shortText}</ReactMarkdown>
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         {currentUser ? (
           <IconButton aria-label="add to favorites">
             {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
           </IconButton>
         ) : null}
-      </CardActions>
+      </CardActions> */}
     </StyledCard>
   );
 }
