@@ -167,7 +167,6 @@ function EnhancedTableToolbar(props) {
     );
     setSelected([]);
     setOpenAlertOnDelete(true);
-    navigate(`/mypage/${params.id}`);
   };
 
   const handleOpen = (data) => {

@@ -34,6 +34,9 @@
     "new_review_tags": "ტეგები",
     "new_review_images": "სურათები",
     "new_review_tags_label": "აირჩიეთ ტეგები",
+    "new_review_created": "მიმოხილვა შექმნილია!",
+    "new_review_deleted": "მიმოხილვა წაშლილია!",
+    "new_review_updated": "მიმოხილვა განახლებულია!",
 
     "new_review_btn": "შექმენით მიმოხილვა",
     "edit_review_btn": "ცვლილებების წარდგენა",

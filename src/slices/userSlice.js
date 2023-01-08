@@ -132,6 +132,7 @@ export const userSlice = createSlice({
     [signInGoogle.rejected]: setError,
     [getAllUsers.rejected]: setError,
     [blockUser.rejected]: setError,
+    [unBlockUser.rejected]: setError,
     [changeRole.rejected]: setError,
   },
 });

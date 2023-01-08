@@ -24,6 +24,4 @@ export const uploadFile = async (files) => {
     imgUrls.push(imgUrl);
   }
   return imgUrls;
-  // setImg(imgUrls);
-  // setUploaded(true);
 };

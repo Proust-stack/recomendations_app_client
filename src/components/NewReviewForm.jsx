@@ -14,17 +14,20 @@ import * as yup from "yup";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
 import CardMedia from "@mui/material/CardMedia";
+import { useParams } from "react-router-dom";
+
 import { getAllByGroup } from "../slices/compositionSlice";
 import { getAllTags } from "../slices/tagSlice";
 import { useTranslation } from "react-i18next";
 import { getAllGroups } from "../slices/groupSlice";
-import { addReview } from "../slices/reviewSlice";
+import { addReview, getAllReviewsByUser } from "../slices/reviewSlice";
 import { uploadFile } from "../utils/uploadFile";
 import SendButton from "./ui/SendButton";
 
 export default function NewReviewForm({ handleClose, setOpenAlert }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  let { id } = useParams();
   const [files, setFiles] = useState([]);
   const [tagsValue, setTagsValue] = useState([]);
 
@@ -80,7 +83,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
       img: images,
       tags: tagsValue,
     };
-    dispatch(addReview(fullData));
+    dispatch(addReview(fullData)).then(() => dispatch(getAllReviewsByUser(id)));
     setOpenAlert(true);
     handleClose();
   };
@@ -101,7 +104,7 @@ export default function NewReviewForm({ handleClose, setOpenAlert }) {
     >
       <Button
         variant="text"
-        sx={{ position: "absolut", top: 0, float: "right" }}
+        sx={{ position: "absolute", top: 3, right: 0 }}
         onClick={handleClose}
       >
         X

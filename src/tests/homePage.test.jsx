@@ -62,22 +62,4 @@ describe("HomePage", () => {
     const textElement = screen.queryByText(/strange/i);
     expect(textElement).toBeInTheDocument();
   });
-  // it("render reviews", () => {
-  //   const view = render(<HomePage />);
-  //   mockedUseSelector.mockReturnValue({ reviewsAll });
-  //   mockedUseSelector.mockReturnValue({ selectedTags });
-  //   const dispatch = jest.fn();
-  //   mockedDispatch.mockReturnValue(dispatch);
-
-  //   const textElement = screen.getByText(/Dark Souls/i);
-  //   expect(textElement).toBeInTheDocument();
-  // });
-  // it("reviews dispatch to have been called", () => {
-  //   const view = render(<HomePage />);
-  //   mockedUseSelector.mockReturnValue({ reviewsAll });
-  //   mockedUseSelector.mockReturnValue({ selectedTags });
-  //   const dispatch = jest.fn();
-  //   mockedDispatch.mockReturnValue(dispatch);
-  //   expect(dispatch).toHaveBeenCalled();
-  // });
 });

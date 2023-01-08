@@ -33,6 +33,9 @@
     "new_review_tags": "Tags",
     "new_review_images": "Images",
     "new_review_tags_label": "Choose tags",
+    "new_review_created": "Review created!",
+    "new_review_deleted": "Review deleted!",
+    "new_review_updated": "Review updated!",
 
     "new_review_btn": "Create review",
     "edit_review_btn": "Submit changes",

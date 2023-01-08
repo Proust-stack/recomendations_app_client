@@ -29,6 +29,7 @@ import {
   changeRole,
   deleteUser,
   getAllUsers,
+  unBlockUser,
 } from "../../slices/userSlice";
 
 function descendingComparator(a, b, orderBy) {
@@ -133,7 +134,7 @@ function EnhancedTableToolbar(props) {
     setData((prev) => !prev);
   };
   const handleUnblock = async () => {
-    dispatch(blockUser(selected[0]));
+    dispatch(unBlockUser(selected[0]));
     setData((prev) => !prev);
   };
 

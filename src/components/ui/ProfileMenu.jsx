@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -16,6 +16,7 @@ import { logout, setUser } from "../../slices/userSlice";
 import { signInGoogle } from "../../slices/userSlice";
 import { auth, githubProvider, googleProvider } from "../../utils/firebase";
 import { getAllReviewsByUser } from "../../slices/reviewSlice";
+import { getTotalLikes } from "../../utils/getTotalLikes";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,6 +32,7 @@ export default function ProfileMenu() {
   };
   const { currentUser } = useSelector((state) => state.user);
   const { reviews } = useSelector((state) => state.review);
+  const { reviewsAll } = useSelector((state) => state.review);
   const { locale } = useSelector((state) => state.locale);
   const dispatch = useDispatch();
 
@@ -48,7 +50,7 @@ export default function ProfileMenu() {
     if (currentUser?._id) {
       dispatch(getAllReviewsByUser(currentUser._id));
     }
-  }, [currentUser]);
+  }, [currentUser, reviewsAll]);
 
   const signInWithGoogle = () => {
     auth.languageCode = locale;
@@ -96,9 +98,7 @@ export default function ProfileMenu() {
           </Avatar>
         </IconButton>
         <Typography color={"text.primary"} sx={{ mr: 1 }}>
-          {reviews && currentUser
-            ? reviews.map((rewiew) => rewiew.likes.length).length + "❤️"
-            : null}
+          {reviews && currentUser ? getTotalLikes(reviews) : null}
         </Typography>
         <Typography
           sx={{ display: { xs: "none", md: "flex" } }}

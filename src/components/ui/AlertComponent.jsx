@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@mui/material/styles/styled";
+import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: "30%",
@@ -14,6 +15,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function AlertComponent({ openAlert, setOpenAlert, text }) {
+  const { t } = useTranslation();
   return (
     <StyledBox>
       <Collapse in={openAlert}>
@@ -32,7 +34,7 @@ export default function AlertComponent({ openAlert, setOpenAlert, text }) {
           }
           sx={{ mb: 2 }}
         >
-          {text}
+          {t(text)}
         </Alert>
       </Collapse>
     </StyledBox>

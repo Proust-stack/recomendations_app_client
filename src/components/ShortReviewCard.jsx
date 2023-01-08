@@ -3,16 +3,12 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
-import { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import ReactMarkdown from "react-markdown";
 import styled from "@mui/material/styles/styled";
@@ -25,6 +21,12 @@ const StyledCard = styled(Card)(({ theme }) => ({
   cursor: "pointer",
   backgroundColor: "grey[100]",
   maxWidth: 500,
+  [theme.breakpoints.up("lg")]: {
+    minWidth: 500,
+  },
+  [theme.breakpoints.down("lg")]: {
+    minWidth: "100%",
+  },
 }));
 
 export default function ShortReviewCard({
@@ -40,19 +42,11 @@ export default function ShortReviewCard({
   composition,
   noFoto,
 }) {
-  //const [liked, setLiked] = React.useState(false);
-  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { locale } = useSelector((state) => state.locale);
 
   const shortText = markdown.slice(0, 200) + "...";
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     setLiked(likes.includes(currentUser._id));
-  //   }
-  // }, [currentUser]);
 
   const handleClick = () => {
     navigate(`/review/${_id}`);
@@ -117,13 +111,6 @@ export default function ShortReviewCard({
           <ReactMarkdown>{shortText}</ReactMarkdown>
         </Typography>
       </CardContent>
-      {/* <CardActions disableSpacing>
-        {currentUser ? (
-          <IconButton aria-label="add to favorites">
-            {liked ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteIcon />}
-          </IconButton>
-        ) : null}
-      </CardActions> */}
     </StyledCard>
   );
 }

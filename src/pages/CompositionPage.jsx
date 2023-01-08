@@ -50,7 +50,7 @@ export default function CompositionPage() {
           <Grid container item xs={10} direction="row" spacing={2}>
             {reviewsByComposition && reviewsByComposition.length ? (
               reviewsByComposition.map((review) => (
-                <Grid item key={review._id}>
+                <Grid item container key={review._id} direction="column">
                   <ShortReviewCard {...review} key={review._id} />
                 </Grid>
               ))

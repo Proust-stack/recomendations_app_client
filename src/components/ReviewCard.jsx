@@ -222,7 +222,7 @@ export default function ReviewCard({
       <AlertComponent
         openAlert={openAlert}
         setOpenAlert={setOpenAlert}
-        text="Review changed!"
+        text="new_review_updated"
       />
     </StyledCard>
   );

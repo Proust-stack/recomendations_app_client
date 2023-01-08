@@ -73,12 +73,12 @@ export default function PersonalPage() {
         <AlertComponent
           openAlert={openAlert}
           setOpenAlert={setOpenAlert}
-          text="Review created!"
+          text="new_review_created"
         />
         <AlertComponent
           openAlert={openAlertOnDelete}
           setOpenAlert={setOpenAlertOnDelete}
-          text="Review deleted!"
+          text="new_review_deleted"
         />
       </Suspense>
     </ErrorBoundary>

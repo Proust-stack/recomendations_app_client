@@ -91,7 +91,7 @@ export default function EditReviewForm({
     >
       <Button
         variant="text"
-        sx={{ position: "absolut", top: 0, float: "right" }}
+        sx={{ position: "absolute", top: 3, right: 0 }}
         onClick={handleClose}
       >
         X
@@ -152,7 +152,7 @@ export default function EditReviewForm({
               height="50"
               sx={{ width: "auto", borderRadius: 1 }}
               image={URL.createObjectURL(file)}
-              alt="picture"
+              alt="review"
               key={file.name}
             />
           ))}
