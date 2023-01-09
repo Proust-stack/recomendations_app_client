@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllTags,
-  getAllTagsByGroup,
-  setSelectedTags,
-} from "../slices/tagSlice";
+import { getAllTags, setSelectedTags } from "../slices/tagSlice";
 import { Box } from "@mui/material";
 import Chip from "@mui/material/Chip";
 

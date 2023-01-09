@@ -127,25 +127,21 @@ function EnhancedTableHead(props) {
 function EnhancedTableToolbar(props) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { numSelected, selected, setData, user } = props;
+  const { numSelected, selected, user } = props;
 
   const handleBlock = async () => {
-    dispatch(blockUser(selected[0]));
-    setData((prev) => !prev);
+    dispatch(blockUser(selected[0])).then(() => dispatch(getAllUsers()));
   };
   const handleUnblock = async () => {
-    dispatch(unBlockUser(selected[0]));
-    setData((prev) => !prev);
+    dispatch(unBlockUser(selected[0])).then(() => dispatch(getAllUsers()));
   };
 
   const handleDelete = async () => {
     dispatch(deleteUser(selected[0]));
-    setData((prev) => !prev);
   };
 
   const handleChangeRole = async () => {
-    dispatch(changeRole(selected[0]));
-    setData((prev) => !prev);
+    dispatch(changeRole(selected[0])).then(() => dispatch(getAllUsers()));
   };
 
   return (
@@ -193,7 +189,7 @@ function EnhancedTableToolbar(props) {
               </Tooltip>
             </IconButton>
 
-            <IconButton onClick={handleDelete}>
+            <IconButton onClick={handleDelete} disabled>
               <Tooltip title="Delete">
                 <DeleteIcon color="error" />
               </Tooltip>
@@ -228,7 +224,6 @@ const UsersWideTable = () => {
   const { allUsers } = useSelector((state) => state.user);
   const [selected, setSelected] = useState([]);
   const [list, setList] = useState([]);
-  const [data, setData] = useState(true);
   const [order, setOrder] = React.useState("");
   const [orderBy, setOrderBy] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -240,7 +235,7 @@ const UsersWideTable = () => {
 
   useEffect(() => {
     dispatch(getAllUsers());
-  }, [data]);
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -296,7 +291,6 @@ const UsersWideTable = () => {
         <EnhancedTableToolbar
           numSelected={selected.length}
           selected={selected}
-          setData={setData}
           user={list?.find((item) => item._id === selected[0])}
         />
         <TableContainer>

@@ -65,7 +65,6 @@ export default function EditReviewForm({
       img: images,
       tags: tagsValue,
       user: currentReview.user._id,
-      //composition: currentComposition._id,
     };
 
     const objectForDispatch = {
